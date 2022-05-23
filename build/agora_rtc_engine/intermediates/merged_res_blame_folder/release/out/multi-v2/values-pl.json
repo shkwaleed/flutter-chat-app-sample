@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/incremental/mergeReleaseResources/merged.dir/values-pl/values-pl.xml",
+            "map": [
+                {
+                    "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/values-pl/values-pl.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/values-pl/values-pl.xml",
+            "map": [
+                {
+                    "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/values-pl/values-pl.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        }
+    ]
+}
