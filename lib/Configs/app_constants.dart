@@ -57,13 +57,13 @@ const Admob_RewardedAdUnitID_Ios =
 
 //*--Agora Configurations---
 const Agora_APP_IDD =
-    'PASTE_AGORA_APP_ID_HERE'; // Grab it from: https://www.agora.io/en/
+    '1254bcf3b84340acb5cf149bde9ecf14'; // Grab it from: https://www.agora.io/en/
 const dynamic Agora_TOKEN =
     null; // not required until you have planned to setup high level of authentication of users in Agora.
 
 //*--Giphy Configurations---
 const GiphyAPIKey =
-    'PASTE_GIPHY_API_KEY_HERE'; // Grab it from: https://developers.giphy.com/
+    'XFlZ6AxjEcfnbPoJUnS246mfm2RIQQaG'; // Grab it from: https://developers.giphy.com/
 
 //*--App Configurations---
 const Appname =

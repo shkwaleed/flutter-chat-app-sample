@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "874446708509",
+    "firebase_url": "https://fiberchat-c09de-default-rtdb.firebaseio.com",
+    "project_id": "fiberchat-c09de",
+    "storage_bucket": "fiberchat-c09de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874446708509:android:9c41d95ccbeac035e9cbf4",
+        "android_client_info": {
+          "package_name": "com.waleed.fiberchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874446708509-5k11438lbi09uidp3scu2v7611f42lgs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.waleed.fiberchat",
+            "certificate_hash": "d66d0e7dca90a235e0b35d562e82111778381aa9"
+          }
+        },
+        {
+          "client_id": "874446708509-90ln6u16ldeoqrsj1i08vnk4pk4fvi74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxvxsNi6iUIVi_pS7WPey642jutKnFMW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874446708509-90ln6u16ldeoqrsj1i08vnk4pk4fvi74.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
