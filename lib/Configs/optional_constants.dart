@@ -2,6 +2,8 @@
 
 const IsCallFeatureTotallyHide =
     false; // This is just the initial default value.  Once the database is written, It can only be changed from Admin App OR directly inside Firestore database - appsettings/userapp document.
+/*const IsStatusFeatureTotallyHide =
+    true;*/ // This is just the initial default value.  Once the database is written, It can only be changed from Admin App OR directly inside Firestore database - appsettings/userapp document.
 const Is24hrsTimeformat =
     true; // This is just the initial default value.  Once the database is written, It can only be changed from Admin App OR directly inside Firestore database - appsettings/userapp document.
 const int GroupMemberslimit =

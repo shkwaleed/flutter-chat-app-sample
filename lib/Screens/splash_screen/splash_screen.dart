@@ -17,10 +17,23 @@ class Splashscreen extends StatelessWidget {
         : Scaffold(
             backgroundColor: SplashBackgroundSolidColor,
             body: Center(
-                child: Image.asset(
-              '$SplashPath',
-              width: double.infinity,
-              fit: BoxFit.cover,
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  '$SplashPath',
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 5),
+                  child: Text(
+                    "SecureChat",
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
             )),
           );
   }

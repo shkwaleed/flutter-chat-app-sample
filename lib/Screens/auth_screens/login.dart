@@ -700,7 +700,7 @@ class LoginScreenState extends State<LoginScreen>
                           spacing: 0.3,
                           height: 57,
                           buttoncolor: DESIGN_TYPE == Themetype.whatsapp
-                              ? fiberchatLightGreen
+                              ? fiberchatBlack
                               : fiberchatLightGreen,
                           buttontext: getTranslated(this.context, 'sendverf'),
                           onpressed: widget.isblocknewlogins == true
@@ -1002,7 +1002,7 @@ class LoginScreenState extends State<LoginScreen>
                   child: MySimpleButton(
                     height: 57,
                     buttoncolor: DESIGN_TYPE == Themetype.whatsapp
-                        ? fiberchatLightGreen
+                        ? fiberchatBlack
                         : fiberchatLightGreen,
                     buttontext: getTranslated(this.context, 'verify_otp'),
                     onpressed: () {

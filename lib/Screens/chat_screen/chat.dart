@@ -5790,16 +5790,16 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                   new Container(
                                     decoration: new BoxDecoration(
                                       color: DESIGN_TYPE == Themetype.whatsapp
-                                          ? fiberchatChatbackground
+                                          ? fiberchatBlack
                                           : fiberchatWhite,
-                                      image: new DecorationImage(
+                                      /*image: new DecorationImage(
                                           image: peer![Dbkeys.wallpaper] == null
                                               ? AssetImage(
                                                   "assets/images/background.png")
                                               : Image.file(File(
                                                       peer![Dbkeys.wallpaper]))
                                                   .image,
-                                          fit: BoxFit.cover),
+                                          fit: BoxFit.cover),*/
                                     ),
                                   ),
                                   PageView(

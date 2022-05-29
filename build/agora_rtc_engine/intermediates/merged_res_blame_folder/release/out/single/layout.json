@@ -1,26 +1,26 @@
 [
     {
-        "merged": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/layout/notification_template_icon_group.xml",
-        "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/layout/notification_template_icon_group.xml"
+        "merged": "D:\\Android Project\\FiberChat-main\\build\\agora_rtc_engine\\intermediates\\merged_res\\release\\layout\\notification_action.xml",
+        "source": "C:\\Users\\musa.ahmed\\.gradle\\caches\\transforms-3\\2f2eb105313b956370fcc98b1972f22b\\transformed\\core-1.6.0\\res\\layout\\notification_action.xml"
     },
     {
-        "merged": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/layout/notification_template_part_time.xml",
-        "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/layout/notification_template_part_time.xml"
+        "merged": "D:\\Android Project\\FiberChat-main\\build\\agora_rtc_engine\\intermediates\\merged_res\\release\\layout\\notification_template_part_chronometer.xml",
+        "source": "C:\\Users\\musa.ahmed\\.gradle\\caches\\transforms-3\\2f2eb105313b956370fcc98b1972f22b\\transformed\\core-1.6.0\\res\\layout\\notification_template_part_chronometer.xml"
     },
     {
-        "merged": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/layout/notification_action.xml",
-        "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/layout/notification_action.xml"
+        "merged": "D:\\Android Project\\FiberChat-main\\build\\agora_rtc_engine\\intermediates\\merged_res\\release\\layout\\notification_template_part_time.xml",
+        "source": "C:\\Users\\musa.ahmed\\.gradle\\caches\\transforms-3\\2f2eb105313b956370fcc98b1972f22b\\transformed\\core-1.6.0\\res\\layout\\notification_template_part_time.xml"
     },
     {
-        "merged": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/layout/custom_dialog.xml",
-        "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/layout/custom_dialog.xml"
+        "merged": "D:\\Android Project\\FiberChat-main\\build\\agora_rtc_engine\\intermediates\\merged_res\\release\\layout\\notification_action_tombstone.xml",
+        "source": "C:\\Users\\musa.ahmed\\.gradle\\caches\\transforms-3\\2f2eb105313b956370fcc98b1972f22b\\transformed\\core-1.6.0\\res\\layout\\notification_action_tombstone.xml"
     },
     {
-        "merged": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/layout/notification_template_part_chronometer.xml",
-        "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/layout/notification_template_part_chronometer.xml"
+        "merged": "D:\\Android Project\\FiberChat-main\\build\\agora_rtc_engine\\intermediates\\merged_res\\release\\layout\\notification_template_icon_group.xml",
+        "source": "C:\\Users\\musa.ahmed\\.gradle\\caches\\transforms-3\\2f2eb105313b956370fcc98b1972f22b\\transformed\\core-1.6.0\\res\\layout\\notification_template_icon_group.xml"
     },
     {
-        "merged": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/layout/notification_action_tombstone.xml",
-        "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/layout/notification_action_tombstone.xml"
+        "merged": "D:\\Android Project\\FiberChat-main\\build\\agora_rtc_engine\\intermediates\\merged_res\\release\\layout\\custom_dialog.xml",
+        "source": "C:\\Users\\musa.ahmed\\.gradle\\caches\\transforms-3\\2f2eb105313b956370fcc98b1972f22b\\transformed\\core-1.6.0\\res\\layout\\custom_dialog.xml"
     }
 ]

@@ -45,6 +45,7 @@ class RecentChats extends StatefulWidget {
   final String? currentUserNo;
   final SharedPreferences prefs;
   final bool isSecuritySetupDone;
+
   @override
   State createState() =>
       new RecentChatsState(currentUserNo: this.currentUserNo);
@@ -1040,7 +1041,7 @@ class RecentChatsState extends State<RecentChats> {
                     : 0),
             child: FloatingActionButton(
                 heroTag: "dfsf4e8t4yaddweqewt834",
-                backgroundColor: fiberchatLightGreen,
+                backgroundColor: fiberchatBlack,
                 child: Icon(
                   Icons.chat,
                   size: 30.0,

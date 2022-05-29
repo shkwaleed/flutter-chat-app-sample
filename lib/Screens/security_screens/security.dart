@@ -77,7 +77,7 @@ class _SecurityState extends State<Security> {
             child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: myElevatedButton(
-                  color: fiberchatLightGreen,
+                  color: fiberchatBlack,
                   child: Text(
                     getTranslated(this.context, 'done'),
                     style: TextStyle(color: Colors.white),
@@ -163,7 +163,7 @@ class _SecurityState extends State<Security> {
                                   : fiberchatLightGreen,
                               size: 35),
                           title: myElevatedButton(
-                            color: fiberchatgreen,
+                            color: fiberchatBlack,
                             child: Text(
                               getTranslated(this.context, 'setpass'),
                               style: TextStyle(

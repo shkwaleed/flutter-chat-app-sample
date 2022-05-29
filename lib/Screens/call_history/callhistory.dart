@@ -27,7 +27,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CallHistory extends StatefulWidget {
   final String? userphone;
   final SharedPreferences prefs;
+
   CallHistory({required this.userphone, required this.prefs});
+
   @override
   _CallHistoryState createState() => _CallHistoryState();
 }
@@ -58,6 +60,7 @@ class _CallHistoryState extends State<CallHistory> {
     listener: BannerAdListener(),
   );
   AdWidget? adWidget;
+
   @override
   void initState() {
     super.initState();
@@ -109,7 +112,7 @@ class _CallHistoryState extends State<CallHistory> {
                             : 0),
                 child: FloatingActionButton(
                     heroTag: "dfsf4e8t4yt834",
-                    backgroundColor: fiberchatWhite,
+                    backgroundColor: fiberchatBlack,
                     child: Icon(
                       Icons.delete,
                       size: 30.0,

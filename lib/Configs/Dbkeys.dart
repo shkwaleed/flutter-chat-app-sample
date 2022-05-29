@@ -59,6 +59,7 @@ class Dbkeys {
   static final String adminsidesetupdone = 'adminsidesetupdone';
 //-added in update-
   static final String isCallFeatureTotallyHide = 'isCallFeatureTotallyHide';
+  static final String isStatusFeatureTotallyHide = 'isStatusFeatureTotallyHide';
   static final String maxFileSizeAllowedInMB = 'maxFileSizeAllowedInMB';
   static final String is24hrsTimeformat = 'is24hrsTimeformat';
   static final String isPercentProgressShowWhileUploading =

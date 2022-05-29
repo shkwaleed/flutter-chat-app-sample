@@ -4906,12 +4906,12 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
                             new Container(
                               decoration: new BoxDecoration(
                                 color: DESIGN_TYPE == Themetype.whatsapp
-                                    ? fiberchatChatbackground
+                                    ? fiberchatBlack
                                     : fiberchatWhite,
-                                image: new DecorationImage(
+                                /*image: new DecorationImage(
                                     image: AssetImage(
                                         "assets/images/background.png"),
-                                    fit: BoxFit.cover),
+                                    fit: BoxFit.cover),*/
                               ),
                             ),
                             PageView(children: <Widget>[

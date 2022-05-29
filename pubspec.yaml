@@ -106,12 +106,12 @@ dev_dependencies:
   flutter_driver:
     sdk: flutter
   test: ^1.16.8
-
   flutter_launcher_icons: ^0.9.2
+
 flutter_icons:
-  android: "ic_launcher"
+  android: true
   ios: true
-  image_path: "assets/appicon/appicon.jpg"
+  image_path: "assets/images/ic_launcher_c.png"
 
 flutter:
   uses-material-design: true

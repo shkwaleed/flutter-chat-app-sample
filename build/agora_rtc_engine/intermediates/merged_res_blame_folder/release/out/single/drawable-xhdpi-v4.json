@@ -1,22 +1,22 @@
 [
     {
-        "merged": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/drawable-xhdpi-v4/notification_bg_low_pressed.9.png",
-        "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/drawable-xhdpi-v4/notification_bg_low_pressed.9.png"
+        "merged": "D:\\Android Project\\FiberChat-main\\build\\agora_rtc_engine\\intermediates\\merged_res\\release\\drawable-xhdpi-v4\\notify_panel_notification_icon_bg.png",
+        "source": "C:\\Users\\musa.ahmed\\.gradle\\caches\\transforms-3\\2f2eb105313b956370fcc98b1972f22b\\transformed\\core-1.6.0\\res\\drawable-xhdpi-v4\\notify_panel_notification_icon_bg.png"
     },
     {
-        "merged": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png",
-        "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png"
+        "merged": "D:\\Android Project\\FiberChat-main\\build\\agora_rtc_engine\\intermediates\\merged_res\\release\\drawable-xhdpi-v4\\notification_bg_low_pressed.9.png",
+        "source": "C:\\Users\\musa.ahmed\\.gradle\\caches\\transforms-3\\2f2eb105313b956370fcc98b1972f22b\\transformed\\core-1.6.0\\res\\drawable-xhdpi-v4\\notification_bg_low_pressed.9.png"
     },
     {
-        "merged": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/drawable-xhdpi-v4/notification_bg_normal_pressed.9.png",
-        "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/drawable-xhdpi-v4/notification_bg_normal_pressed.9.png"
+        "merged": "D:\\Android Project\\FiberChat-main\\build\\agora_rtc_engine\\intermediates\\merged_res\\release\\drawable-xhdpi-v4\\notification_bg_normal.9.png",
+        "source": "C:\\Users\\musa.ahmed\\.gradle\\caches\\transforms-3\\2f2eb105313b956370fcc98b1972f22b\\transformed\\core-1.6.0\\res\\drawable-xhdpi-v4\\notification_bg_normal.9.png"
     },
     {
-        "merged": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/drawable-xhdpi-v4/notification_bg_normal.9.png",
-        "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/drawable-xhdpi-v4/notification_bg_normal.9.png"
+        "merged": "D:\\Android Project\\FiberChat-main\\build\\agora_rtc_engine\\intermediates\\merged_res\\release\\drawable-xhdpi-v4\\notification_bg_normal_pressed.9.png",
+        "source": "C:\\Users\\musa.ahmed\\.gradle\\caches\\transforms-3\\2f2eb105313b956370fcc98b1972f22b\\transformed\\core-1.6.0\\res\\drawable-xhdpi-v4\\notification_bg_normal_pressed.9.png"
     },
     {
-        "merged": "/Users/waleed.haroon/Desktop/waleed/fiberchat-1044/codecanyon-30776444-whatsapp-clone-full-app-flutter-chat-app-android-ios/fiberchat_userapp_v1.0.44_codecanyon_edition/SourceCode/whatsapp_theme_sourcecode/fiberchat/build/agora_rtc_engine/intermediates/merged_res/release/drawable-xhdpi-v4/notification_bg_low_normal.9.png",
-        "source": "/Users/waleed.haroon/.gradle/caches/transforms-3/2f2eb105313b956370fcc98b1972f22b/transformed/core-1.6.0/res/drawable-xhdpi-v4/notification_bg_low_normal.9.png"
+        "merged": "D:\\Android Project\\FiberChat-main\\build\\agora_rtc_engine\\intermediates\\merged_res\\release\\drawable-xhdpi-v4\\notification_bg_low_normal.9.png",
+        "source": "C:\\Users\\musa.ahmed\\.gradle\\caches\\transforms-3\\2f2eb105313b956370fcc98b1972f22b\\transformed\\core-1.6.0\\res\\drawable-xhdpi-v4\\notification_bg_low_normal.9.png"
     }
 ]

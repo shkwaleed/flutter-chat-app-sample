@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 
 String underconstructionmessage =
     'App under maintainance & will be right back.';
+
 Future<bool> batchwrite() async {
   WriteBatch writeBatch = FirebaseFirestore.instance.batch();
 
@@ -28,9 +29,11 @@ Future<bool> batchwrite() async {
         Dbkeys.isadmobshow: true,
         Dbkeys.isemulatorallowed: true,
         Dbkeys.privacypolicyTYPE: Dbkeys.url,
-        Dbkeys.privacypolicy: null, //--- Privacy Policy URL-
+        Dbkeys.privacypolicy: null,
+        //--- Privacy Policy URL-
         Dbkeys.tncTYPE: Dbkeys.url,
-        Dbkeys.tnc: null, //---Terms & Conditions Url-
+        Dbkeys.tnc: null,
+        //---Terms & Conditions Url-
         Dbkeys.latestappversionandroid: '1.0.0',
         Dbkeys.newapplinkandroid: 'https://www.google.com/',
         Dbkeys.latestappversionios: '1.0.0',
@@ -43,7 +46,8 @@ Future<bool> batchwrite() async {
         Dbkeys.isblocknewlogins: false,
         Dbkeys.isaccountapprovalbyadminneeded: false,
         Dbkeys.accountapprovalmessage:
-            'Your account is created successfully ! You can start using the account once the admin approves it.', //----
+            'Your account is created successfully ! You can start using the account once the admin approves it.',
+        //----
         Dbkeys.isshowerrorlog: false,
         Dbkeys.maintainancemessage: underconstructionmessage,
         //---------
@@ -54,6 +58,7 @@ Future<bool> batchwrite() async {
         Dbkeys.isPercentProgressShowWhileUploading:
             IsPercentProgressShowWhileUploading,
         Dbkeys.isCallFeatureTotallyHide: IsCallFeatureTotallyHide,
+        // Dbkeys.isStatusFeatureTotallyHide: IsStatusFeatureTotallyHide,
         Dbkeys.groupMemberslimit: GroupMemberslimit,
         Dbkeys.broadcastMemberslimit: BroadcastMemberslimit,
         Dbkeys.statusDeleteAfterInHours: StatusDeleteAfterInHours,

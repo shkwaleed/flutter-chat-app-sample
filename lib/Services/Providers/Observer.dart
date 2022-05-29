@@ -18,6 +18,7 @@ class Observer with ChangeNotifier {
   String? androidapplink;
   String? iosapplink;
   bool isCallFeatureTotallyHide = IsCallFeatureTotallyHide;
+  // bool isStatusFeatureTotallyHide = IsCallFeatureTotallyHide;
   bool is24hrsTimeformat = Is24hrsTimeformat;
   int groupMemberslimit = GroupMemberslimit;
   int broadcastMemberslimit = BroadcastMemberslimit;
@@ -30,12 +31,14 @@ class Observer with ChangeNotifier {
   bool isPercentProgressShowWhileUploading =
       IsPercentProgressShowWhileUploading;
   int maxFileSizeAllowedInMB = MaxFileSizeAllowedInMB;
+
   //--
   int maxNoOfFilesInMultiSharing = MaxNoOfFilesInMultiSharing;
   int maxNoOfContactsSelectForForward = MaxNoOfContactsSelectForForward;
   String appShareMessageStringAndroid = '';
   String appShareMessageStringiOS = '';
   bool isCustomAppShareLink = false;
+
   setObserver({
     bool? getisshowerrorlog,
     bool? getisblocknewlogins,
@@ -57,6 +60,7 @@ class Observer with ChangeNotifier {
     String? getfeedbackEmail,
     bool? getisLogoutButtonShowInSettingsPage,
     bool? getisCallFeatureTotallyHide,
+    // bool? getisStatusFeatureTotallyHide,
     bool? getisAllowCreatingGroups,
     bool? getisAllowCreatingBroadcasts,
     bool? getisAllowCreatingStatus,
@@ -97,6 +101,8 @@ class Observer with ChangeNotifier {
             this.isLogoutButtonShowInSettingsPage;
     this.isCallFeatureTotallyHide =
         getisCallFeatureTotallyHide ?? this.isCallFeatureTotallyHide;
+    /*this.isStatusFeatureTotallyHide =
+        getisStatusFeatureTotallyHide ?? this.isStatusFeatureTotallyHide;*/
     this.isAllowCreatingGroups =
         getisAllowCreatingGroups ?? this.isAllowCreatingGroups;
     this.isAllowCreatingBroadcasts =

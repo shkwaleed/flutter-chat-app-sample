@@ -7,7 +7,7 @@
     </queries>
     
    <application
-        android:label="Fiberchat"
+        android:label="SecureChat"
             android:name=".Application"
         android:icon="@mipmap/ic_launcher"
            android:allowBackup="false"

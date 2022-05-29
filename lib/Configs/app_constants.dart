@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 //-**********---------- WHATSAPP Color Theme: -------------------------
 final fiberchatBlack = new Color(0xFF1E1E1E);
 final fiberchatBlue = new Color(0xFF02ac88);
-final fiberchatDeepGreen = new Color(0xFF01826b);
+final fiberchatDeepGreen = new Color(0xFF1E1E1E); //new Color(0xFF01826b);
 final fiberchatLightGreen = new Color(0xFF02ac88);
 final fiberchatgreen = new Color(0xFF098b74);
 final fiberchatteagreen = new Color(0xFFe9fedf);
@@ -17,7 +17,7 @@ final fiberchatChatbackground = new Color(0xffe8ded5);
 const DESIGN_TYPE = Themetype.whatsapp;
 const IsSplashOnlySolidColor = false;
 const SplashBackgroundSolidColor = Color(
-    0xFF086c5b); //applies this colors if "IsSplashOnlySolidColor" is set to true. Color Code: 0xFF005f56 for Whatsapp theme & 0xFFFFFFFF for messenger theme.
+    0xFF1E1E1E); //applies this colors if "IsSplashOnlySolidColor" is set to true. Color Code: 0xFF005f56 for Whatsapp theme & 0xFFFFFFFF for messenger theme.
 
 //-*********---------- MESSENGER Color Theme: ---------------// Remove below comments for Messenger theme //------------
 // final fiberchatBlack = new Color(0xFF353f58);
@@ -67,14 +67,14 @@ const GiphyAPIKey =
 
 //*--App Configurations---
 const Appname =
-    'Fiberchat'; //app name shown evrywhere with the app where required
+    'SecureChat'; //app name shown evrywhere with the app where required
 const DEFAULT_COUNTTRYCODE_ISO =
-    'US'; //default country ISO 2 letter for login screen
+    'PK'; //default country ISO 2 letter for login screen
 const DEFAULT_COUNTTRYCODE_NUMBER =
-    '+1'; //default country code number for login screen
+    '+92'; //default country code number for login screen
 const FONTFAMILY_NAME =
     null; // make sure you have registered the font in pubspec.yaml
 
 //--WARNING----- PLEASE DONT EDIT THE BELOW LINES UNLESS YOU ARE A DEVELOPER -------
-const SplashPath = 'assets/images/splash.jpeg';
-const AppLogoPath = 'assets/images/applogo.png';
+const SplashPath = 'assets/images/splash_new.png';
+const AppLogoPath = 'assets/images/splash_new.png';

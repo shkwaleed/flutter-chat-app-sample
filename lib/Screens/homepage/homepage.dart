@@ -65,6 +65,7 @@ class Homepage extends StatefulWidget {
   final String? currentUserNo;
   final bool isSecuritySetupDone;
   final SharedPreferences prefs;
+
   @override
   State createState() => new HomepageState(currentUserNo: this.currentUserNo);
 }
@@ -79,16 +80,19 @@ class HomepageState extends State<Homepage>
       _userQuery.add(_filter.text.isEmpty ? '' : _filter.text);
     });
   }
+
   TabController? controllerIfcallallowed;
   TabController? controllerIfcallNotallowed;
   late StreamSubscription _intentDataStreamSubscription;
   List<SharedMediaFile>? _sharedFiles = [];
   String? _sharedText;
+
   @override
   bool get wantKeepAlive => true;
 
   bool isFetching = true;
   List phoneNumberVariants = [];
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed)
@@ -804,6 +808,8 @@ class HomepageState extends State<Homepage>
                         doc[Dbkeys.isPercentProgressShowWhileUploading],
                     getisCallFeatureTotallyHide:
                         doc[Dbkeys.isCallFeatureTotallyHide],
+                    /*getisStatusFeatureTotallyHide:
+                        doc[Dbkeys.isStatusFeatureTotallyHide],*/
                     getgroupMemberslimit: doc[Dbkeys.groupMemberslimit],
                     getbroadcastMemberslimit: doc[Dbkeys.broadcastMemberslimit],
                     getstatusDeleteAfterInHours:
@@ -1075,6 +1081,7 @@ class HomepageState extends State<Homepage>
   }
 
   DateTime? currentBackPressTime = DateTime.now();
+
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
     if (now.difference(currentBackPressTime!) > Duration(seconds: 3)) {
@@ -1496,11 +1503,12 @@ class HomepageState extends State<Homepage>
                                           ? fiberchatWhite
                                           : fiberchatgreen,
                                   controller:
-                                      observer.isCallFeatureTotallyHide == false
+                                      observer.isCallFeatureTotallyHide ==
+                                              true
                                           ? controllerIfcallallowed
                                           : controllerIfcallNotallowed,
                                   tabs: observer.isCallFeatureTotallyHide ==
-                                          false
+                                          true
                                       ? <Widget>[
                                           Tab(
                                             icon: Icon(
@@ -1542,7 +1550,7 @@ class HomepageState extends State<Homepage>
                                           ),
                                           Tab(
                                             child: Text(
-                                              getTranslated(context, 'status'),
+                                              getTranslated(context, 'calls'),
                                               textAlign: TextAlign.center,
                                             ),
                                           ),
@@ -1550,11 +1558,11 @@ class HomepageState extends State<Homepage>
                                 )),
                             body: TabBarView(
                               controller:
-                                  observer.isCallFeatureTotallyHide == false
+                                  observer.isCallFeatureTotallyHide == true
                                       ? controllerIfcallallowed
                                       : controllerIfcallNotallowed,
                               children: observer.isCallFeatureTotallyHide ==
-                                      false
+                                      true
                                   ? <Widget>[
                                       SearchChats(
                                           prefs: widget.prefs,
@@ -1576,9 +1584,8 @@ class HomepageState extends State<Homepage>
                                           biometricEnabled: biometricEnabled,
                                           prefs: widget.prefs),
                                       CallHistory(
-                                        userphone: widget.currentUserNo,
-                                        prefs: widget.prefs,
-                                      ),
+                                          userphone: widget.currentUserNo,
+                                          prefs: widget.prefs),
                                     ]
                                   : <Widget>[
                                       SearchChats(
@@ -1591,14 +1598,8 @@ class HomepageState extends State<Homepage>
                                           currentUserNo: widget.currentUserNo,
                                           isSecuritySetupDone:
                                               widget.isSecuritySetupDone),
-                                      Status(
-                                          currentUserFullname: userFullname,
-                                          currentUserPhotourl: userPhotourl,
-                                          phoneNumberVariants:
-                                              this.phoneNumberVariants,
-                                          currentUserNo: currentUserNo,
-                                          model: _cachedModel,
-                                          biometricEnabled: biometricEnabled,
+                                      CallHistory(
+                                          userphone: widget.currentUserNo,
                                           prefs: widget.prefs),
                                     ],
                             )),
@@ -1667,6 +1668,7 @@ Future<dynamic> myBackgroundMessageHandlerAndroid(RemoteMessage message) async {
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
+
 Future _showNotificationWithDefaultSound(String? title, String? message,
     String? titleMultilang, String? bodyMultilang) async {
   if (Platform.isAndroid) {
