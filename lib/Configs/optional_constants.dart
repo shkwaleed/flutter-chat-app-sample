@@ -2,6 +2,8 @@
 
 const IsCallFeatureTotallyHide =
     false; // This is just the initial default value.  Once the database is written, It can only be changed from Admin App OR directly inside Firestore database - appsettings/userapp document.
+const IsVideoCallFeatureTotallyHide =
+    true; // This is just the initial default value.  Once the database is written, It can only be changed from Admin App OR directly inside Firestore database - appsettings/userapp document.
 /*const IsStatusFeatureTotallyHide =
     true;*/ // This is just the initial default value.  Once the database is written, It can only be changed from Admin App OR directly inside Firestore database - appsettings/userapp document.
 const Is24hrsTimeformat =
@@ -58,7 +60,7 @@ const int timeOutSeconds = 50; // Default phone Auth Code auto retrival timeout
 const IsShowNativeTimDate =
     true; // Show Date Time in the user selected langauge
 const IsShowDeleteChatOption =
-    false; // Show Delete Chat Button in the All Chats Screens.
+    true; // Show Delete Chat Button in the All Chats Screens.
 const IsLazyLoadingChat = false; //## under development yet
 const IsApplyBtoomNavBar = false; //## under development yet
 const IsRemovePhoneNumberFromCallingPageWhenOnCall =

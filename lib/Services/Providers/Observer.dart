@@ -18,6 +18,7 @@ class Observer with ChangeNotifier {
   String? androidapplink;
   String? iosapplink;
   bool isCallFeatureTotallyHide = IsCallFeatureTotallyHide;
+  bool isVideoCallFeatureTotallyHide = IsVideoCallFeatureTotallyHide;
   // bool isStatusFeatureTotallyHide = IsCallFeatureTotallyHide;
   bool is24hrsTimeformat = Is24hrsTimeformat;
   int groupMemberslimit = GroupMemberslimit;

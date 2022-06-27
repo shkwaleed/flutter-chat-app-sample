@@ -174,7 +174,7 @@ class _PreChatState extends State<PreChat> {
           ? Container(
               child: Center(
                 child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue)),
+                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack)),
               ),
               color: fiberchatBlack.withOpacity(0.8),
             )
@@ -213,7 +213,7 @@ class _PreChatState extends State<PreChat> {
       body: isLoading == true
           ? Center(
               child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue),
+              valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack),
             ))
           : Stack(children: <Widget>[
               Container(

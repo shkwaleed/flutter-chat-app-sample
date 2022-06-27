@@ -7,8 +7,8 @@
     "sendsmscode": "Send an SMS Code to verify your number",
     "sendverf": "Send Verification Code",
     "welcometo": "Welcome to ",
-    "enter_verfcode": "Enter SMS Code sent to ",
-    "sending_code": "Sending SMS Code to ",
+    "enter_verfcode": "Enter Verification Code provide by Admin",
+    "sending_code": "Generating Code..",
     "back": "Back",
     "verify_otp": "Verify Code",
     "auth_needed": "Authentication needed to unlock the Settings",
@@ -353,7 +353,9 @@
     "suredelete": "Chat Conversations will be completely deleted from sender and reciever device",
     "chatdeleted": "Chat Conversations are deleted by peer",
     "contacts": "Contacts",
-    "nosavedcontacts": "There are no saved contacts available to add"
+    "nosavedcontacts": "There are no saved contacts available to add",
+    "duration": "Duration",
+    "selectduration": "Select Duration"
 
     ,
     "backup": "Chat Backup",

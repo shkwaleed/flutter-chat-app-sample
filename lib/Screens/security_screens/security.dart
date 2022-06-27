@@ -226,7 +226,7 @@ class _SecurityState extends State<Security> {
             ? Container(
                 child: Center(
                   child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue)),
+                      valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack)),
                 ),
                 color: DESIGN_TYPE == Themetype.whatsapp
                     ? fiberchatBlack.withOpacity(0.8)

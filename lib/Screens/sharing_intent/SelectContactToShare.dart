@@ -91,7 +91,7 @@ class _SelectContactToShareState extends State<SelectContactToShare>
       Container(
         child: Center(
             child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue),
+          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack),
         )),
       )
     ]);

@@ -67,7 +67,7 @@ class _AddContactsToGroupState extends State<AddContactsToGroup>
         color: Colors.white,
         child: Center(
             child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue),
+          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack),
         )),
       )
     ]);
@@ -770,7 +770,7 @@ class _AddContactsToGroupState extends State<AddContactsToGroup>
                                                                       CircularProgressIndicator(
                                                                     valueColor:
                                                                         AlwaysStoppedAnimation<Color>(
-                                                                            fiberchatBlue),
+                                                                            fiberchatBlack),
                                                                   )),
                                                             )),
                                               ListView.builder(
@@ -844,7 +844,7 @@ class _AddContactsToGroupState extends State<AddContactsToGroup>
                                                             //           CircularProgressIndicator(
                                                             //         valueColor:
                                                             //             AlwaysStoppedAnimation<Color>(
-                                                            //                 fiberchatBlue),
+                                                            //                 fiberchatBlack),
                                                             //       ),
                                                             //     ),
                                                             //   );

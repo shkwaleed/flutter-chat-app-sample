@@ -186,7 +186,7 @@ class _MultiPlaybackState extends State<MultiPlayback> {
                         child: CircularProgressIndicator(
                           strokeWidth: 1.7,
                           valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.green),
+                              AlwaysStoppedAnimation<Color>(fiberchatBlack),
                         ),
                       ),
                     ),

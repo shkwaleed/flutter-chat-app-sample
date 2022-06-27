@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 
 //*--App Colors : Replace with your own colours---
 //-**********---------- WHATSAPP Color Theme: -------------------------
-final fiberchatBlack = new Color(0xFF1E1E1E);
-final fiberchatBlue = new Color(0xFF02ac88);
-final fiberchatDeepGreen = new Color(0xFF1E1E1E); //new Color(0xFF01826b);
-final fiberchatLightGreen = new Color(0xFF02ac88);
-final fiberchatgreen = new Color(0xFF098b74);
-final fiberchatteagreen = new Color(0xFFe9fedf);
+final fiberchatBlack = Color(0xFF006AFF);
+final fiberchatBlue = Color(0xFF02ac88);
+final fiberchatDeepGreen = Color(0xFF006AFF); //new Color(0xFF01826b);
+final fiberchatLightGreen = Color(0xFF02ac88);
+final fiberchatgreen = Color(0xFF098b74);
+final fiberchatteagreen = Color(0xFFe9fedf);
 final fiberchatWhite = Colors.white;
 final fiberchatGrey = Color(0xff85959f);
 final fiberchatChatbackground = new Color(0xffe8ded5);
 const DESIGN_TYPE = Themetype.whatsapp;
 const IsSplashOnlySolidColor = false;
 const SplashBackgroundSolidColor = Color(
-    0xFF1E1E1E); //applies this colors if "IsSplashOnlySolidColor" is set to true. Color Code: 0xFF005f56 for Whatsapp theme & 0xFFFFFFFF for messenger theme.
+    0xFF006AFF); //applies this colors if "IsSplashOnlySolidColor" is set to true. Color Code: 0xFF005f56 for Whatsapp theme & 0xFFFFFFFF for messenger theme.
 
 //-*********---------- MESSENGER Color Theme: ---------------// Remove below comments for Messenger theme //------------
 // final fiberchatBlack = new Color(0xFF353f58);

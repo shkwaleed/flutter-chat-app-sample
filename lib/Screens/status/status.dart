@@ -66,7 +66,7 @@ class _StatusState extends State<Status> with AutomaticKeepAliveClientMixin {
       Container(
         child: Center(
             child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue),
+          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack),
         )),
       )
     ]);
@@ -1005,7 +1005,7 @@ class _StatusState extends State<Status> with AutomaticKeepAliveClientMixin {
                                                         valueColor:
                                                             AlwaysStoppedAnimation<
                                                                     Color>(
-                                                                fiberchatBlue)),
+                                                                fiberchatBlack)),
                                                   ),
                                                 ),
                                                 color: Colors.transparent)
@@ -1371,7 +1371,7 @@ class _StatusState extends State<Status> with AutomaticKeepAliveClientMixin {
                                         child: CircularProgressIndicator(
                                             valueColor:
                                                 AlwaysStoppedAnimation<Color>(
-                                                    fiberchatBlue)),
+                                                    fiberchatBlack)),
                                       ),
                                       color: DESIGN_TYPE == Themetype.whatsapp
                                           ? fiberchatBlack.withOpacity(0.2)

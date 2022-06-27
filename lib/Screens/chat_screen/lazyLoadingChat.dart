@@ -2164,10 +2164,10 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
         }
       }
     } on FormatException {
-      Fiberchat.toast(getTranslated(this.context, 'msgnotload'));
+      // Fiberchat.toast(getTranslated(this.context, 'msgnotload'));
       return '';
     }
-    Fiberchat.toast(getTranslated(this.context, 'msgnotload'));
+    // Fiberchat.toast(getTranslated(this.context, 'msgnotload'));
     return '';
   }
 
@@ -2255,7 +2255,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
           ? Container(
               child: Center(
                 child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue)),
+                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack)),
               ),
               color: DESIGN_TYPE == Themetype.whatsapp
                   ? fiberchatBlack.withOpacity(0.6)
@@ -2638,7 +2638,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
                   placeholder: (context, url) => Container(
                     child: CircularProgressIndicator(
                       valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.blueGrey[400]!),
+                          AlwaysStoppedAnimation<Color>(fiberchatBlack),
                     ),
                     width: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
                     height: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
@@ -2748,7 +2748,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
                   placeholder: (context, url) => Container(
                     child: CircularProgressIndicator(
                       valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.blueGrey[400]!),
+                          AlwaysStoppedAnimation<Color>(fiberchatBlack),
                     ),
                     width: 197,
                     height: 197,
@@ -3122,7 +3122,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
                                 placeholder: (context, url) => Container(
                                   child: CircularProgressIndicator(
                                     valueColor: AlwaysStoppedAnimation<Color>(
-                                        fiberchatBlue),
+                                        fiberchatBlack),
                                   ),
                                   width: doc[Dbkeys.content].contains('giphy')
                                       ? 60
@@ -3188,7 +3188,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
                                                     CircularProgressIndicator(
                                                   valueColor:
                                                       AlwaysStoppedAnimation<
-                                                          Color>(fiberchatBlue),
+                                                          Color>(fiberchatBlack),
                                                 ),
                                                 width: 74,
                                                 height: 74,
@@ -3436,7 +3436,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
                                 placeholder: (context, url) => Container(
                                   child: CircularProgressIndicator(
                                     valueColor: AlwaysStoppedAnimation<Color>(
-                                        fiberchatBlue),
+                                        fiberchatBlack),
                                   ),
                                   width: replyDoc![Dbkeys.content]
                                           .contains('giphy')
@@ -3504,7 +3504,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
                                                     CircularProgressIndicator(
                                                   valueColor:
                                                       AlwaysStoppedAnimation<
-                                                          Color>(fiberchatBlue),
+                                                          Color>(fiberchatBlack),
                                                 ),
                                                 width: 84,
                                                 height: 84,
@@ -3699,7 +3699,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
           ? Container(
               child: Center(
                 child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue)),
+                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack)),
               ),
               color: DESIGN_TYPE == Themetype.whatsapp
                   ? fiberchatBlack.withOpacity(0.6)

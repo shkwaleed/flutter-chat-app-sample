@@ -1289,7 +1289,7 @@ class _BroadcastChatPageState extends State<BroadcastChatPage>
                 placeholder: (context, url) => Container(
                   child: CircularProgressIndicator(
                     valueColor:
-                        AlwaysStoppedAnimation<Color>(Colors.blueGrey[400]!),
+                        AlwaysStoppedAnimation<Color>(fiberchatBlack),
                   ),
                   width: 230.0,
                   height: 230.0,
@@ -1561,7 +1561,7 @@ class _BroadcastChatPageState extends State<BroadcastChatPage>
                 placeholder: (context, url) => Container(
                   child: CircularProgressIndicator(
                     valueColor:
-                        AlwaysStoppedAnimation<Color>(Colors.blueGrey[400]!),
+                        AlwaysStoppedAnimation<Color>(fiberchatBlack),
                   ),
                   width: doc[Dbkeys.content].contains('giphy') ? 140 : 230.0,
                   height: doc[Dbkeys.content].contains('giphy') ? 140 : 230.0,
@@ -1671,7 +1671,7 @@ class _BroadcastChatPageState extends State<BroadcastChatPage>
           ? Container(
               child: Center(
                 child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue)),
+                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack)),
               ),
               color: DESIGN_TYPE == Themetype.whatsapp
                   ? fiberchatBlack.withOpacity(0.2)

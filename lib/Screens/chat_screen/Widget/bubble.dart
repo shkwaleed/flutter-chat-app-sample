@@ -22,6 +22,7 @@ class Bubble extends StatelessWidget {
     required this.is24hrsFormat,
     required this.mssgDoc,
   });
+
   final dynamic isURLtext;
   final dynamic messagetype;
   final int? timestamp;
@@ -44,15 +45,13 @@ class Bubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool seen = getSeenStatus(SeenProvider.of(context).value);
-    final bg = isMe ? fiberchatteagreen : fiberchatWhite;
+    final bg = isMe ? fiberchatBlack : Color(0xFFd3d3d3);
     final align = isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
     dynamic icon = delivered is bool && delivered
         ? (seen ? Icons.done_all : Icons.done)
         : Icons.access_time;
-    final color = isMe
-        ? fiberchatBlack.withOpacity(0.5)
-        : fiberchatBlack.withOpacity(0.5);
-    icon = Icon(icon, size: 14.0, color: seen ? Colors.lightBlue : color);
+    final color = isMe ? fiberchatWhite : Colors.black;
+    icon = Icon(icon, size: 14.0, color: seen ? color : color);
     if (delivered is Future) {
       icon = FutureBuilder(
           future: delivered,
@@ -60,13 +59,13 @@ class Bubble extends StatelessWidget {
             switch (res.connectionState) {
               case ConnectionState.done:
                 return Icon((seen ? Icons.done_all : Icons.done),
-                    size: 13.0, color: seen ? Colors.lightBlue : color);
+                    size: 13.0, color: seen ? color : color);
               case ConnectionState.none:
               case ConnectionState.active:
               case ConnectionState.waiting:
               default:
                 return Icon(Icons.access_time,
-                    size: 13.0, color: seen ? Colors.lightBlue : color);
+                    size: 13.0, color: seen ? color : color);
             }
           });
     }
@@ -201,32 +200,35 @@ class Bubble extends StatelessWidget {
       ],
     ));
   }
-}
 
-Widget deletedMessageWidget(bool isMe, bool? isBroadcastMssg,
-    BuildContext context, bool is24hrsFormat) {
-  return Padding(
-    padding: EdgeInsets.only(
-        right: isMe
-            ? isBroadcastMssg == null || isBroadcastMssg == false
-                ? is24hrsFormat
-                    ? 48
-                    : 60
-                : is24hrsFormat
-                    ? 73
-                    : 81
-            : isBroadcastMssg == null || isBroadcastMssg == false
-                ? is24hrsFormat
-                    ? 38
-                    : 55
-                : is24hrsFormat
-                    ? 48
-                    : 50),
-    child: Text(
-      getTranslated(context, 'msgdeleted'),
-      textAlign: isMe ? TextAlign.right : TextAlign.left,
-      style: TextStyle(
-          fontSize: 15.0, fontStyle: FontStyle.italic, color: Colors.black45),
-    ),
-  );
+  Widget deletedMessageWidget(bool isMe, bool? isBroadcastMssg,
+      BuildContext context, bool is24hrsFormat) {
+    return Padding(
+      padding: EdgeInsets.only(
+          right: isMe
+              ? isBroadcastMssg == null || isBroadcastMssg == false
+                  ? is24hrsFormat
+                      ? 48
+                      : 60
+                  : is24hrsFormat
+                      ? 73
+                      : 81
+              : isBroadcastMssg == null || isBroadcastMssg == false
+                  ? is24hrsFormat
+                      ? 38
+                      : 55
+                  : is24hrsFormat
+                      ? 48
+                      : 50),
+      child: Text(
+        getTranslated(context, 'msgdeleted'),
+        textAlign: isMe ? TextAlign.right : TextAlign.left,
+        style: TextStyle(
+          fontSize: 15.0,
+          fontStyle: FontStyle.italic,
+          color: isMe ? fiberchatWhite : Colors.black,
+        ),
+      ),
+    );
+  }
 }

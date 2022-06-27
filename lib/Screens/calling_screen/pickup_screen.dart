@@ -30,7 +30,9 @@ class PickupScreen extends StatelessWidget {
     required this.call,
     required this.currentuseruid,
   });
+
   ClientRole _role = ClientRole.Broadcaster;
+
   @override
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
@@ -48,13 +50,11 @@ class PickupScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
+                        margin: EdgeInsets.only(top: 40),
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).padding.top),
                         color: DESIGN_TYPE == Themetype.messenger
                             ? fiberchatDeepGreen
                             : fiberchatDeepGreen,
-                        height: h / 4,
                         width: w,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,8 +72,8 @@ class PickupScreen extends StatelessWidget {
                                       : Icons.mic_rounded,
                                   size: 40,
                                   color: DESIGN_TYPE == Themetype.whatsapp
-                                      ? fiberchatLightGreen
-                                      : Colors.white.withOpacity(0.5),
+                                      ? fiberchatWhite
+                                      : fiberchatWhite,
                                 ),
                                 SizedBox(
                                   width: 7,
@@ -85,8 +85,8 @@ class PickupScreen extends StatelessWidget {
                                   style: TextStyle(
                                       fontSize: 18.0,
                                       color: DESIGN_TYPE == Themetype.whatsapp
-                                          ? fiberchatLightGreen
-                                          : Colors.white.withOpacity(0.5),
+                                          ? fiberchatWhite
+                                          : fiberchatWhite,
                                       fontWeight: FontWeight.w400),
                                 ),
                               ],
@@ -120,8 +120,8 @@ class PickupScreen extends StatelessWidget {
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       color: DESIGN_TYPE == Themetype.whatsapp
-                                          ? fiberchatWhite.withOpacity(0.34)
-                                          : fiberchatWhite.withOpacity(0.34),
+                                          ? fiberchatWhite
+                                          : fiberchatWhite,
                                       fontSize: 15,
                                     ),
                                   ),
@@ -138,21 +138,21 @@ class PickupScreen extends StatelessWidget {
                       ),
                       call.callerPic == null || call.callerPic == ''
                           ? Container(
-                              height: w + (w / 140),
                               width: w,
-                              color: Colors.white12,
+                              padding: EdgeInsets.only(top: 90, bottom: 90),
+                              color: fiberchatWhite,
                               child: Icon(
                                 Icons.person,
                                 size: 140,
-                                color: fiberchatDeepGreen,
+                                color: fiberchatLightGreen,
                               ),
                             )
                           : Stack(
                               children: [
                                 Container(
-                                    height: w + (w / 140),
                                     width: w,
-                                    color: Colors.white12,
+                                    padding: EdgeInsets.only(top: 90, bottom: 90),
+                                    color: fiberchatWhite,
                                     child: CachedNetworkImage(
                                       imageUrl: call.callerPic!,
                                       fit: BoxFit.cover,
@@ -166,7 +166,7 @@ class PickupScreen extends StatelessWidget {
                                         child: Icon(
                                           Icons.person,
                                           size: 140,
-                                          color: fiberchatDeepGreen,
+                                          color: fiberchatLightGreen,
                                         ),
                                       )),
                                       errorWidget: (context, url, error) =>
@@ -177,105 +177,115 @@ class PickupScreen extends StatelessWidget {
                                         child: Icon(
                                           Icons.person,
                                           size: 140,
-                                          color: fiberchatDeepGreen,
+                                          color: fiberchatLightGreen,
                                         ),
                                       ),
                                     )),
                                 Container(
-                                  height: w + (w / 140),
                                   width: w,
-                                  color: Colors.black.withOpacity(0.18),
+                                  padding: EdgeInsets.only(top: 90, bottom: 90),
+                                  color: fiberchatWhite,
                                 ),
                               ],
                             ),
-                      Container(
-                        height: h / 6,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            RawMaterialButton(
-                              onPressed: () async {
-                                flutterLocalNotificationsPlugin.cancelAll();
-                                await callMethods.endCall(call: call);
-                                FirebaseFirestore.instance
-                                    .collection(DbPaths.collectionusers)
-                                    .doc(call.callerId)
-                                    .collection(DbPaths.collectioncallhistory)
-                                    .doc(call.timeepoch.toString())
-                                    .set({
-                                  'STATUS': 'rejected',
-                                  'ENDED': DateTime.now(),
-                                }, SetOptions(merge: true));
-                                FirebaseFirestore.instance
-                                    .collection(DbPaths.collectionusers)
-                                    .doc(call.receiverId)
-                                    .collection(DbPaths.collectioncallhistory)
-                                    .doc(call.timeepoch.toString())
-                                    .set({
-                                  'STATUS': 'rejected',
-                                  'ENDED': DateTime.now(),
-                                }, SetOptions(merge: true));
-                                //----------
-                                await FirebaseFirestore.instance
-                                    .collection(DbPaths.collectionusers)
-                                    .doc(call.receiverId)
-                                    .collection('recent')
-                                    .doc('callended')
-                                    .set({
-                                  'id': call.receiverId,
-                                  'ENDED': DateTime.now().millisecondsSinceEpoch
-                                }, SetOptions(merge: true));
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.only(top: 30 , bottom: 30),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              RawMaterialButton(
+                                onPressed: () async {
+                                  flutterLocalNotificationsPlugin.cancelAll();
+                                  await callMethods.endCall(call: call);
+                                  FirebaseFirestore.instance
+                                      .collection(DbPaths.collectionusers)
+                                      .doc(call.callerId)
+                                      .collection(DbPaths.collectioncallhistory)
+                                      .doc(call.timeepoch.toString())
+                                      .set({
+                                    'STATUS': 'rejected',
+                                    'ENDED': DateTime.now(),
+                                  }, SetOptions(merge: true));
+                                  FirebaseFirestore.instance
+                                      .collection(DbPaths.collectionusers)
+                                      .doc(call.receiverId)
+                                      .collection(DbPaths.collectioncallhistory)
+                                      .doc(call.timeepoch.toString())
+                                      .set({
+                                    'STATUS': 'rejected',
+                                    'ENDED': DateTime.now(),
+                                  }, SetOptions(merge: true));
+                                  //----------
+                                  await FirebaseFirestore.instance
+                                      .collection(DbPaths.collectionusers)
+                                      .doc(call.receiverId)
+                                      .collection('recent')
+                                      .doc('callended')
+                                      .set({
+                                    'id': call.receiverId,
+                                    'ENDED': DateTime.now().millisecondsSinceEpoch
+                                  }, SetOptions(merge: true));
 
-                                firestoreDataProviderCALLHISTORY.fetchNextData(
-                                    'CALLHISTORY',
-                                    FirebaseFirestore.instance
-                                        .collection(DbPaths.collectionusers)
-                                        .doc(call.receiverId)
-                                        .collection(
-                                            DbPaths.collectioncallhistory)
-                                        .orderBy('TIME', descending: true)
-                                        .limit(14),
-                                    true);
-                              },
-                              child: Icon(
-                                Icons.call_end,
-                                color: Colors.white,
-                                size: 35.0,
+                                  firestoreDataProviderCALLHISTORY.fetchNextData(
+                                      'CALLHISTORY',
+                                      FirebaseFirestore.instance
+                                          .collection(DbPaths.collectionusers)
+                                          .doc(call.receiverId)
+                                          .collection(
+                                              DbPaths.collectioncallhistory)
+                                          .orderBy('TIME', descending: true)
+                                          .limit(14),
+                                      true);
+                                },
+                                child: Icon(
+                                  Icons.call_end,
+                                  color: Colors.white,
+                                  size: 35.0,
+                                ),
+                                shape: CircleBorder(),
+                                elevation: 2.0,
+                                fillColor: Colors.redAccent,
+                                padding: const EdgeInsets.all(15.0),
                               ),
-                              shape: CircleBorder(),
-                              elevation: 2.0,
-                              fillColor: Colors.redAccent,
-                              padding: const EdgeInsets.all(15.0),
-                            ),
-                            SizedBox(width: 45),
-                            RawMaterialButton(
-                              onPressed: () async {
-                                flutterLocalNotificationsPlugin.cancelAll();
-                                await Permissions
-                                        .cameraAndMicrophonePermissionsGranted()
-                                    .then((isgranted) async {
-                                  if (isgranted == true) {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => call
-                                                    .isvideocall ==
-                                                true
-                                            ? VideoCall(
-                                                currentuseruid: currentuseruid,
-                                                call: call,
-                                                channelName: call.channelId,
-                                                role: _role,
-                                              )
-                                            : AudioCall(
-                                                currentuseruid: currentuseruid,
-                                                call: call,
-                                                channelName: call.channelId,
-                                                role: _role,
-                                              ),
-                                      ),
-                                    );
-                                  } else {
+                              SizedBox(width: 45),
+                              RawMaterialButton(
+                                onPressed: () async {
+                                  flutterLocalNotificationsPlugin.cancelAll();
+                                  await Permissions
+                                          .cameraAndMicrophonePermissionsGranted()
+                                      .then((isgranted) async {
+                                    if (isgranted == true) {
+                                      await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => call
+                                                      .isvideocall ==
+                                                  true
+                                              ? VideoCall(
+                                                  currentuseruid: currentuseruid,
+                                                  call: call,
+                                                  channelName: call.channelId,
+                                                  role: _role,
+                                                )
+                                              : AudioCall(
+                                                  currentuseruid: currentuseruid,
+                                                  call: call,
+                                                  channelName: call.channelId,
+                                                  role: _role,
+                                                ),
+                                        ),
+                                      );
+                                    } else {
+                                      Fiberchat.showRationale(
+                                          getTranslated(context, 'pmc'));
+                                      Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                              builder: (context) =>
+                                                  OpenSettings()));
+                                    }
+                                  }).catchError((onError) {
                                     Fiberchat.showRationale(
                                         getTranslated(context, 'pmc'));
                                     Navigator.push(
@@ -283,28 +293,20 @@ class PickupScreen extends StatelessWidget {
                                         new MaterialPageRoute(
                                             builder: (context) =>
                                                 OpenSettings()));
-                                  }
-                                }).catchError((onError) {
-                                  Fiberchat.showRationale(
-                                      getTranslated(context, 'pmc'));
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (context) =>
-                                              OpenSettings()));
-                                });
-                              },
-                              child: Icon(
-                                Icons.call,
-                                color: Colors.white,
-                                size: 35.0,
-                              ),
-                              shape: CircleBorder(),
-                              elevation: 2.0,
-                              fillColor: Colors.green[400],
-                              padding: const EdgeInsets.all(15.0),
-                            )
-                          ],
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.call,
+                                  color: Colors.white,
+                                  size: 35.0,
+                                ),
+                                shape: CircleBorder(),
+                                elevation: 2.0,
+                                fillColor: Colors.green[400],
+                                padding: const EdgeInsets.all(15.0),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -331,8 +333,8 @@ class PickupScreen extends StatelessWidget {
                                     : Icons.mic,
                                 size: 80,
                                 color: DESIGN_TYPE == Themetype.whatsapp
-                                    ? fiberchatWhite.withOpacity(0.3)
-                                    : fiberchatBlack.withOpacity(0.3),
+                                    ? fiberchatWhite
+                                    : fiberchatBlack,
                               ),
                         w > h
                             ? SizedBox(
@@ -348,8 +350,8 @@ class PickupScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 19,
                             color: DESIGN_TYPE == Themetype.whatsapp
-                                ? fiberchatWhite.withOpacity(0.54)
-                                : fiberchatBlack.withOpacity(0.54),
+                                ? fiberchatWhite
+                                : fiberchatBlack,
                           ),
                         ),
                         SizedBox(height: w > h ? 16 : 50),

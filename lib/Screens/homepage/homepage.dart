@@ -6,6 +6,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info/device_info.dart';
+import 'package:fiberchat/API/controller/auth_controller.dart';
+import 'package:fiberchat/API/model/sign_up_body_model.dart';
 import 'package:fiberchat/Configs/Dbkeys.dart';
 import 'package:fiberchat/Configs/Dbpaths.dart';
 import 'package:fiberchat/Configs/Enum.dart';
@@ -18,6 +20,8 @@ import 'package:fiberchat/Screens/SettingsOption/settingsOption.dart';
 import 'package:fiberchat/Screens/auth_screens/login.dart';
 import 'package:fiberchat/Screens/call_history/callhistory.dart';
 import 'package:fiberchat/Screens/calling_screen/pickup_layout.dart';
+import 'package:fiberchat/Screens/error_screens/error_400.dart';
+import 'package:fiberchat/Screens/error_screens/error_401.dart';
 import 'package:fiberchat/Screens/homepage/Setupdata.dart';
 import 'package:fiberchat/Screens/notifications/AllNotifications.dart';
 import 'package:fiberchat/Screens/profile_settings/profileSettings.dart';
@@ -47,6 +51,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     as local;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:package_info/package_info.dart';
@@ -86,6 +91,8 @@ class HomepageState extends State<Homepage>
   late StreamSubscription _intentDataStreamSubscription;
   List<SharedMediaFile>? _sharedFiles = [];
   String? _sharedText;
+
+  final authController = Get.find<AuthController>();
 
   @override
   bool get wantKeepAlive => true;
@@ -851,45 +858,75 @@ class HomepageState extends State<Homepage>
                                       widget.isSecuritySetupDone,
                                 ))));
                   } else {
-                    await FirebaseFirestore.instance
-                        .collection(DbPaths.collectionusers)
-                        .doc(widget.currentUserNo ?? currentUserNo)
-                        .get()
-                        .then((userDoc) async {
-                      if (deviceid != userDoc[Dbkeys.currentDeviceID] ||
-                          !userDoc
-                              .data()!
-                              .containsKey(Dbkeys.currentDeviceID)) {
-                        if (ConnectWithAdminApp == true) {
-                          await unsubscribeToNotification(widget.currentUserNo);
-                        }
-                        await logout(context);
-                      } else {
-                        if (!userDoc
-                            .data()!
-                            .containsKey(Dbkeys.accountstatus)) {
-                          await logout(context);
-                        } else if (userDoc[Dbkeys.accountstatus] !=
-                            Dbkeys.sTATUSallowed) {
-                          setState(() {
-                            accountstatus = userDoc[Dbkeys.accountstatus];
-                            accountactionmessage =
-                                userDoc[Dbkeys.actionmessage];
-                          });
-                        } else {
-                          setState(() {
-                            userFullname = userDoc[Dbkeys.nickname];
-                            userPhotourl = userDoc[Dbkeys.photoUrl];
-                            phoneNumberVariants = phoneNumberVariantsList(
-                                countrycode: userDoc[Dbkeys.countryCode],
-                                phonenumber: userDoc[Dbkeys.phoneRaw]);
-                            isFetching = false;
-                          });
-                          getuid(context);
-                          setIsActive();
 
-                          incrementSessionCount(userDoc[Dbkeys.phone]);
-                        }
+                    var phoneNo = widget.prefs.getString(Dbkeys.phone);
+
+                    SignUpBody signUpBody = SignUpBody(
+                      contactNumber: phoneNo!,
+                      deviceID: deviceid!,
+                      secretCode: widget.prefs.getString(Dbkeys.secretCode)!,
+                      deviceMAC: mapDeviceInfo['Os ID'],
+                      deviceType: mapDeviceInfo['OS type'],
+                      deviceName: mapDeviceInfo['Model'],
+                    );
+
+                    authController.register(signUpBody).then((value) async {
+                      if (value.code == 1) {
+
+                        await FirebaseFirestore.instance
+                            .collection(DbPaths.collectionusers)
+                            .doc(widget.currentUserNo ?? currentUserNo)
+                            .get()
+                            .then((userDoc) async {
+                          if (deviceid != userDoc[Dbkeys.currentDeviceID] ||
+                              !userDoc
+                                  .data()!
+                                  .containsKey(Dbkeys.currentDeviceID)) {
+                            if (ConnectWithAdminApp == true) {
+                              await unsubscribeToNotification(widget.currentUserNo);
+                            }
+                            await logout(context);
+                          } else {
+                            if (!userDoc
+                                .data()!
+                                .containsKey(Dbkeys.accountstatus)) {
+                              await logout(context);
+                            } else if (userDoc[Dbkeys.accountstatus] !=
+                                Dbkeys.sTATUSallowed) {
+                              setState(() {
+                                accountstatus = userDoc[Dbkeys.accountstatus];
+                                accountactionmessage =
+                                userDoc[Dbkeys.actionmessage];
+                              });
+                            } else {
+                              setState(() {
+                                userFullname = userDoc[Dbkeys.nickname];
+                                userPhotourl = userDoc[Dbkeys.photoUrl];
+                                phoneNumberVariants = phoneNumberVariantsList(
+                                    countrycode: userDoc[Dbkeys.countryCode],
+                                    phonenumber: userDoc[Dbkeys.phoneRaw]);
+                                isFetching = false;
+                              });
+                              getuid(context);
+                              setIsActive();
+
+                              incrementSessionCount(userDoc[Dbkeys.phone]);
+                            }
+                          }
+                        });
+
+                      } else if (value.code == 2) {
+                        unawaited(Navigator.pushReplacement(
+                            this.context,
+                            MaterialPageRoute(
+                              builder: (newContext) => Error400(),
+                            )));
+                      } else if (value.code == 3) {
+                        unawaited(Navigator.pushReplacement(
+                            this.context,
+                            MaterialPageRoute(
+                              builder: (newContext) => Error401(),
+                            )));
                       }
                     });
                   }
@@ -1005,33 +1042,63 @@ class HomepageState extends State<Homepage>
                             issecutitysetupdone: widget.isSecuritySetupDone,
                           ))));
             else {
-              await FirebaseFirestore.instance
-                  .collection(DbPaths.collectionusers)
-                  .doc(currentUserNo)
-                  .get()
-                  .then((userDoc) async {
-                // ignore: unnecessary_null_comparison
-                if (userDoc != null) {
-                  if (deviceid != userDoc[Dbkeys.currentDeviceID] ||
-                      !userDoc.data()!.containsKey(Dbkeys.currentDeviceID)) {
-                    await logout(context);
-                  } else {
-                    getuid(context);
-                    setIsActive();
-                    String? fcmToken =
-                        await FirebaseMessaging.instance.getToken();
 
-                    await FirebaseFirestore.instance
-                        .collection(DbPaths.collectionusers)
-                        .doc(currentUserNo)
-                        .set({
-                      Dbkeys.notificationTokens: [fcmToken],
-                      Dbkeys.deviceDetails: mapDeviceInfo,
-                      Dbkeys.currentDeviceID: deviceid,
-                    }, SetOptions(merge: true));
-                    unawaited(
-                        widget.prefs.setBool(Dbkeys.isTokenGenerated, true));
-                  }
+              var phoneNo = widget.prefs.getString(Dbkeys.phone);
+
+              SignUpBody signUpBody = SignUpBody(
+                contactNumber: phoneNo!,
+                deviceID: deviceid!,
+                secretCode: "232299",
+                deviceMAC: mapDeviceInfo['Os ID'],
+                deviceType: mapDeviceInfo['OS type'],
+                deviceName: mapDeviceInfo['Model'],
+              );
+
+              authController.register(signUpBody).then((value) async {
+                if (value.code == 1) {
+                  await FirebaseFirestore.instance
+                      .collection(DbPaths.collectionusers)
+                      .doc(currentUserNo)
+                      .get()
+                      .then((userDoc) async {
+                    // ignore: unnecessary_null_comparison
+                    if (userDoc != null) {
+                      if (deviceid != userDoc[Dbkeys.currentDeviceID] ||
+                          !userDoc
+                              .data()!
+                              .containsKey(Dbkeys.currentDeviceID)) {
+                        await logout(context);
+                      } else {
+                        getuid(context);
+                        setIsActive();
+                        String? fcmToken =
+                            await FirebaseMessaging.instance.getToken();
+
+                        await FirebaseFirestore.instance
+                            .collection(DbPaths.collectionusers)
+                            .doc(currentUserNo)
+                            .set({
+                          Dbkeys.notificationTokens: [fcmToken],
+                          Dbkeys.deviceDetails: mapDeviceInfo,
+                          Dbkeys.currentDeviceID: deviceid,
+                        }, SetOptions(merge: true));
+                        unawaited(widget.prefs
+                            .setBool(Dbkeys.isTokenGenerated, true));
+                      }
+                    }
+                  });
+                } else if (value.code == 2) {
+                  unawaited(Navigator.pushReplacement(
+                      this.context,
+                      MaterialPageRoute(
+                        builder: (newContext) => Error400(),
+                      )));
+                } else if (value.code == 3) {
+                  unawaited(Navigator.pushReplacement(
+                      this.context,
+                      MaterialPageRoute(
+                        builder: (newContext) => Error401(),
+                      )));
                 }
               });
             }
@@ -1059,6 +1126,7 @@ class HomepageState extends State<Homepage>
 
   StreamController<String> _userQuery =
       new StreamController<String>.broadcast();
+
   void _changeLanguage(Language language) async {
     Locale _locale = await setLocale(language.languageCode);
     FiberchatWrapper.setLocale(context, _locale);
@@ -1503,8 +1571,7 @@ class HomepageState extends State<Homepage>
                                           ? fiberchatWhite
                                           : fiberchatgreen,
                                   controller:
-                                      observer.isCallFeatureTotallyHide ==
-                                              true
+                                      observer.isCallFeatureTotallyHide == true
                                           ? controllerIfcallallowed
                                           : controllerIfcallNotallowed,
                                   tabs: observer.isCallFeatureTotallyHide ==

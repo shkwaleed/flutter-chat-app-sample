@@ -128,7 +128,7 @@ class _InfiniteCOLLECTIONListViewWidgetState
                             child: CircularProgressIndicator(
                               strokeWidth: 1.8,
                               valueColor:
-                                  AlwaysStoppedAnimation<Color>(fiberchatBlue),
+                                  AlwaysStoppedAnimation<Color>(fiberchatBlack),
                             ),
                           ),
                         ),
@@ -198,7 +198,7 @@ class _InfiniteCOLLECTIONListViewWidgetState
                                 child: CircularProgressIndicator(
                                   strokeWidth: 1.8,
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                      fiberchatBlue),
+                                      fiberchatBlack),
                                 ),
                               ),
                             ),
@@ -263,7 +263,7 @@ class _InfiniteCOLLECTIONListViewWidgetState
                                 child: CircularProgressIndicator(
                                   strokeWidth: 1.8,
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                      fiberchatBlue),
+                                      fiberchatBlack),
                                 ),
                               ),
                             ),

@@ -101,7 +101,7 @@ class PhotoViewWrapper extends StatelessWidget {
                         alignment: Alignment.center,
                         child: CircularProgressIndicator(
                           valueColor:
-                              AlwaysStoppedAnimation<Color>(fiberchatBlue),
+                              AlwaysStoppedAnimation<Color>(fiberchatBlack),
                         ),
                       ),
                     );

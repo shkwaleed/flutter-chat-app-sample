@@ -194,7 +194,7 @@ class _AudioRecordState extends State<AudioRecord> {
       return Center(
         child: isLoading == true
             ? CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(fiberchatLightGreen))
+                valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack))
             : Column(
                 children: [
                   SizedBox(

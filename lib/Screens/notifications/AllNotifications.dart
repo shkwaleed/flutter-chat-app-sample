@@ -99,7 +99,7 @@ class _AllNotificationsState extends State<AllNotifications> {
                     ? Center(
                         child: CircularProgressIndicator(
                         valueColor:
-                            AlwaysStoppedAnimation<Color>(fiberchatBlue),
+                            AlwaysStoppedAnimation<Color>(fiberchatBlack),
                       ))
                     : notificationList.length < 1
                         ? Center(

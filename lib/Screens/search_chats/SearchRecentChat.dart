@@ -130,7 +130,7 @@ class SearchChatsState extends State<SearchChats> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: fiberchatBlack,
+                          color: Colors.black,
                           fontSize: 16,
                         ),
                       ),

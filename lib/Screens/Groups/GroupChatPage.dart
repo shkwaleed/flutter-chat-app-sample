@@ -1746,7 +1746,7 @@ class _GroupChatPageState extends State<GroupChatPage>
                                 placeholder: (context, url) => Container(
                                   child: CircularProgressIndicator(
                                     valueColor: AlwaysStoppedAnimation<Color>(
-                                        fiberchatBlue),
+                                        fiberchatBlack),
                                   ),
                                   width: replyDoc![Dbkeys.content]
                                           .contains('giphy')
@@ -1814,7 +1814,7 @@ class _GroupChatPageState extends State<GroupChatPage>
                                                     CircularProgressIndicator(
                                                   valueColor:
                                                       AlwaysStoppedAnimation<
-                                                          Color>(fiberchatBlue),
+                                                          Color>(fiberchatBlack),
                                                 ),
                                                 width: 84,
                                                 height: 84,
@@ -2598,7 +2598,7 @@ class _GroupChatPageState extends State<GroupChatPage>
                       child: Center(
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.blueGrey[400]!),
+                              fiberchatBlack),
                         ),
                       ),
                       width: 245,
@@ -3107,7 +3107,7 @@ class _GroupChatPageState extends State<GroupChatPage>
                           width: 60.0,
                           child: CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.blueGrey[400]!),
+                                fiberchatBlack),
                           ),
                         ),
                       ),
@@ -3312,7 +3312,7 @@ class _GroupChatPageState extends State<GroupChatPage>
                                           child: CircularProgressIndicator(
                                             valueColor:
                                                 AlwaysStoppedAnimation<Color>(
-                                                    fiberchatBlue),
+                                                    fiberchatBlack),
                                           ),
                                           width: doc[Dbkeys.content]
                                                   .contains('giphy')
@@ -3386,7 +3386,7 @@ class _GroupChatPageState extends State<GroupChatPage>
                                                           valueColor:
                                                               AlwaysStoppedAnimation<
                                                                       Color>(
-                                                                  fiberchatBlue),
+                                                                  fiberchatBlack),
                                                         ),
                                                         width: 74,
                                                         height: 74,
@@ -3592,7 +3592,7 @@ class _GroupChatPageState extends State<GroupChatPage>
           ? Container(
               child: Center(
                 child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue)),
+                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack)),
               ),
               color: DESIGN_TYPE == Themetype.whatsapp
                   ? fiberchatBlack.withOpacity(0.2)

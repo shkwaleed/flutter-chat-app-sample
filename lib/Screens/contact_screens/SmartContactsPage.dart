@@ -185,7 +185,7 @@ class _SmartContactsPageState extends State<SmartContactsPage> {
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     fontSize: 18,
-                                                    color: fiberchatBlack,
+                                                    color: Colors.black,
                                                   )),
                                             ))
                                       ])
@@ -311,7 +311,7 @@ class _SmartContactsPageState extends State<SmartContactsPage> {
                                                                         .nickname],
                                                                 style: TextStyle(
                                                                     color:
-                                                                        fiberchatBlack)),
+                                                                        Colors.black)),
                                                             subtitle: Text(
                                                                 phone,
                                                                 style: TextStyle(
@@ -415,7 +415,7 @@ class _SmartContactsPageState extends State<SmartContactsPage> {
                                                           title: Text(name,
                                                               style: TextStyle(
                                                                   color:
-                                                                      fiberchatBlack)),
+                                                                      Colors.black)),
                                                           subtitle: Text(phone,
                                                               style: TextStyle(
                                                                   color:
@@ -571,7 +571,7 @@ class _SmartContactsPageState extends State<SmartContactsPage> {
                                                               user.value,
                                                               style: TextStyle(
                                                                   color:
-                                                                      fiberchatBlack)),
+                                                                      Colors.black)),
                                                           subtitle: Text(phone,
                                                               style: TextStyle(
                                                                   color:
@@ -627,7 +627,7 @@ class _SmartContactsPageState extends State<SmartContactsPage> {
                 //     crossAxisAlignment: CrossAxisAlignment.center,
                 //     children: [Icon(Icons.search, size: 30)])
                 CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue),
+          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack),
         )),
       )
     ]);

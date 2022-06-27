@@ -116,7 +116,7 @@ class _CallHistoryState extends State<CallHistory> {
                     child: Icon(
                       Icons.delete,
                       size: 30.0,
-                      color: Colors.red,
+                      color: Colors.white,
                     ),
                     onPressed: () {
                       showDialog(

@@ -662,6 +662,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "get",
+      "rootUri": "file:///D:/flutter/.pub-cache/hosted/pub.dartlang.org/get-4.6.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "get_storage",
+      "rootUri": "file:///D:/flutter/.pub-cache/hosted/pub.dartlang.org/get_storage-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "giphy_get",
       "rootUri": "file:///D:/flutter/.pub-cache/hosted/pub.dartlang.org/giphy_get-3.0.1",
       "packageUri": "lib/",
@@ -1496,7 +1508,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-05-29T13:31:36.518590Z",
+  "generated": "2022-06-26T20:27:23.157822Z",
   "generator": "pub",
   "generatorVersion": "2.16.2"
 }

@@ -133,10 +133,10 @@ class _AddunsavedNumberState extends State<AddunsavedNumber> {
               ? Center(
                   child: CircularProgressIndicator(
                       valueColor:
-                          AlwaysStoppedAnimation<Color>(fiberchatLightGreen)),
+                          AlwaysStoppedAnimation<Color>(fiberchatBlack)),
                 )
               : MySimpleButton(
-                  buttoncolor: fiberchatLightGreen.withOpacity(0.99),
+                  buttoncolor: fiberchatBlack.withOpacity(0.99),
                   buttontext: getTranslated(context, 'searchuser'),
                   onpressed: () {
                     RegExp e164 = new RegExp(r'^\+[1-9]\d{1,14}$');

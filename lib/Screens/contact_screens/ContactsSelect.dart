@@ -57,7 +57,7 @@ class _ContactsSelectState extends State<ContactsSelect>
       Container(
         child: Center(
             child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue),
+          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack),
         )),
       )
     ]);

@@ -384,7 +384,7 @@ class _MultiDocumentPickerState extends State<MultiDocumentPicker> {
                         child: Center(
                           child: CircularProgressIndicator(
                               valueColor:
-                                  AlwaysStoppedAnimation<Color>(fiberchatBlue)),
+                                  AlwaysStoppedAnimation<Color>(fiberchatBlack)),
                         ),
                         color: DESIGN_TYPE == Themetype.whatsapp
                             ? fiberchatBlack.withOpacity(0.8)

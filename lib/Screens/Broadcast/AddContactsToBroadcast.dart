@@ -70,7 +70,7 @@ class _AddContactsToBroadcastState extends State<AddContactsToBroadcast>
       Container(
         child: Center(
             child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue),
+          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack),
         )),
       )
     ]);
@@ -715,7 +715,7 @@ class _AddContactsToBroadcastState extends State<AddContactsToBroadcast>
                                                                       CircularProgressIndicator(
                                                                     valueColor:
                                                                         AlwaysStoppedAnimation<Color>(
-                                                                            fiberchatBlue),
+                                                                            fiberchatBlack),
                                                                   )),
                                                             )),
                                               ListView.builder(

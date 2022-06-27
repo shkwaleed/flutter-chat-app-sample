@@ -26,6 +26,7 @@ class AudioCall extends StatefulWidget {
   final Call call;
   final String? currentuseruid;
   final ClientRole? role;
+
   const AudioCall(
       {Key? key,
       required this.call,
@@ -60,6 +61,7 @@ class _AudioCallState extends State<AudioCall> {
   }
 
   Stream<DocumentSnapshot>? stream;
+
   @override
   void initState() {
     super.initState();
@@ -78,6 +80,7 @@ class _AudioCallState extends State<AudioCall> {
   String? mp3Uri;
   late audioPlayers.AudioPlayer player;
   AudioCache audioCache = AudioCache();
+
   Future<Null> _playCallingTone() async {
     player = await audioCache.loop('sounds/callingtone.mp3', volume: 6);
 
@@ -89,6 +92,7 @@ class _AudioCallState extends State<AudioCall> {
   }
 
   bool isspeaker = false;
+
   Future<void> initialize() async {
     if (Agora_APP_IDD.isEmpty) {
       setState(() {
@@ -117,6 +121,7 @@ class _AudioCallState extends State<AudioCall> {
   }
 
   bool isalreadyendedcall = false;
+
   void _addAgoraEventHandlers() {
     _engine.setEventHandler(RtcEngineEventHandler(error: (code) {
       setState(() {
@@ -389,17 +394,18 @@ class _AudioCallState extends State<AudioCall> {
     }
     return Container(
       alignment: Alignment.center,
+      color:
+          DESIGN_TYPE == Themetype.messenger ? fiberchatBlack : fiberchatBlack,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
+            margin: EdgeInsets.only(top: 40, bottom: 20),
             alignment: Alignment.center,
-            margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             color: DESIGN_TYPE == Themetype.messenger
-                ? fiberchatDeepGreen
-                : fiberchatDeepGreen,
-            height: h / 4,
+                ? fiberchatBlack
+                : fiberchatBlack,
             width: w,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -411,7 +417,7 @@ class _AudioCallState extends State<AudioCall> {
                     Icon(
                       Icons.lock_rounded,
                       size: 17,
-                      color: Colors.white38,
+                      color: fiberchatWhite,
                     ),
                     SizedBox(
                       width: 6,
@@ -419,7 +425,7 @@ class _AudioCallState extends State<AudioCall> {
                     Text(
                       getTranslated(context, 'endtoendencryption'),
                       style: TextStyle(
-                          color: Colors.white38, fontWeight: FontWeight.w400),
+                          color: fiberchatWhite, fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
@@ -458,8 +464,8 @@ class _AudioCallState extends State<AudioCall> {
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           color: DESIGN_TYPE == Themetype.whatsapp
-                              ? fiberchatWhite.withOpacity(0.34)
-                              : fiberchatWhite.withOpacity(0.34),
+                              ? fiberchatWhite
+                              : fiberchatWhite,
                           fontSize: 15,
                         ),
                       ),
@@ -504,9 +510,9 @@ class _AudioCallState extends State<AudioCall> {
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: status == 'pickedup'
-                              ? fiberchatLightGreen
+                              ? fiberchatWhite
                               : DESIGN_TYPE == Themetype.whatsapp
-                                  ? fiberchatWhite.withOpacity(0.5)
+                                  ? fiberchatWhite
                                   : fiberchatWhite,
                           fontSize: 18,
                         ),
@@ -515,202 +521,214 @@ class _AudioCallState extends State<AudioCall> {
               ],
             ),
           ),
-          Stack(
-            children: [
-              widget.call.callerId == widget.currentuseruid
-                  ? widget.call.receiverPic == null ||
-                          widget.call.receiverPic == '' ||
-                          status == 'ended' ||
-                          status == 'rejected'
-                      ? Container(
-                          height: w + (w / 11),
-                          width: w,
-                          color: Colors.white12,
-                          child: Icon(
-                            status == 'ended'
-                                ? Icons.person_off
-                                : status == 'rejected'
-                                    ? Icons.call_end_rounded
-                                    : Icons.person,
-                            size: 140,
-                            color: fiberchatDeepGreen,
-                          ),
-                        )
-                      : Stack(
-                          children: [
-                            Container(
-                                height: w + (w / 11),
-                                width: w,
-                                color: Colors.white12,
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.call.callerId ==
-                                          widget.currentuseruid
-                                      ? widget.call.receiverPic!
-                                      : widget.call.callerPic!,
-                                  fit: BoxFit.cover,
-                                  height: w + (w / 11),
+          Container(
+            color: DESIGN_TYPE == Themetype.messenger
+                ? fiberchatWhite
+                : fiberchatWhite,
+            child: Stack(
+              children: [
+                widget.call.callerId == widget.currentuseruid
+                    ? widget.call.receiverPic == null ||
+                            widget.call.receiverPic == '' ||
+                            status == 'ended' ||
+                            status == 'rejected'
+                        ? Container(
+                            width: w,
+                            padding: EdgeInsets.only(top: 90, bottom: 90),
+                            color: Colors.white12,
+                            child: Icon(
+                              status == 'ended'
+                                  ? Icons.person_off
+                                  : status == 'rejected'
+                                      ? Icons.call_end_rounded
+                                      : Icons.person,
+                              size: 140,
+                              color: fiberchatLightGreen,
+                            ),
+                          )
+                        : Stack(
+                            children: [
+                              Container(
                                   width: w,
-                                  placeholder: (context, url) => Center(
-                                      child: Container(
+                                  padding: EdgeInsets.only(top: 90, bottom: 90),
+                                  color: Colors.white12,
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.call.callerId ==
+                                            widget.currentuseruid
+                                        ? widget.call.receiverPic!
+                                        : widget.call.callerPic!,
+                                    fit: BoxFit.cover,
                                     height: w + (w / 11),
                                     width: w,
-                                    color: Colors.white12,
-                                    child: Icon(
-                                      status == 'ended'
-                                          ? Icons.person_off
-                                          : status == 'rejected'
-                                              ? Icons.call_end_rounded
-                                              : Icons.person,
-                                      size: 140,
-                                      color: fiberchatDeepGreen,
+                                    placeholder: (context, url) => Center(
+                                        child: Container(
+                                      height: w + (w / 11),
+                                      width: w,
+                                      color: Colors.white12,
+                                      child: Icon(
+                                        status == 'ended'
+                                            ? Icons.person_off
+                                            : status == 'rejected'
+                                                ? Icons.call_end_rounded
+                                                : Icons.person,
+                                        size: 140,
+                                        color: fiberchatLightGreen,
+                                      ),
+                                    )),
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                      height: w + (w / 11),
+                                      width: w,
+                                      color: Colors.white12,
+                                      child: Icon(
+                                        status == 'ended'
+                                            ? Icons.person_off
+                                            : status == 'rejected'
+                                                ? Icons.call_end_rounded
+                                                : Icons.person,
+                                        size: 140,
+                                        color: fiberchatLightGreen,
+                                      ),
                                     ),
                                   )),
-                                  errorWidget: (context, url, error) =>
-                                      Container(
-                                    height: w + (w / 11),
-                                    width: w,
-                                    color: Colors.white12,
-                                    child: Icon(
-                                      status == 'ended'
-                                          ? Icons.person_off
-                                          : status == 'rejected'
-                                              ? Icons.call_end_rounded
-                                              : Icons.person,
-                                      size: 140,
-                                      color: fiberchatDeepGreen,
-                                    ),
-                                  ),
-                                )),
-                            Container(
-                              height: w + (w / 11),
-                              width: w,
-                              color: Colors.black.withOpacity(0.18),
-                            ),
-                          ],
-                        )
-                  : widget.call.callerPic == null ||
-                          widget.call.callerPic == '' ||
-                          status == 'ended' ||
-                          status == 'rejected'
-                      ? Container(
-                          height: w + (w / 11),
-                          width: w,
-                          color: Colors.white12,
-                          child: Icon(
-                            status == 'ended'
-                                ? Icons.person_off
-                                : status == 'rejected'
-                                    ? Icons.call_end_rounded
-                                    : Icons.person,
-                            size: 140,
-                            color: fiberchatDeepGreen,
-                          ),
-                        )
-                      : Stack(
-                          children: [
-                            Container(
-                                height: w + (w / 11),
+                              Container(
                                 width: w,
-                                color: DESIGN_TYPE == Themetype.messenger
-                                    ? fiberchatgreen.withOpacity(0.6)
-                                    : Colors.white12,
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.call.callerId ==
-                                          widget.currentuseruid
-                                      ? widget.call.receiverPic!
-                                      : widget.call.callerPic!,
-                                  fit: BoxFit.cover,
-                                  height: w + (w / 11),
+                                padding: EdgeInsets.only(top: 90, bottom: 90),
+                                color: Colors.black.withOpacity(0.18),
+                              ),
+                            ],
+                          )
+                    : widget.call.callerPic == null ||
+                            widget.call.callerPic == '' ||
+                            status == 'ended' ||
+                            status == 'rejected'
+                        ? Container(
+                            width: w,
+                            padding: EdgeInsets.only(top: 90, bottom: 90),
+                            color: Colors.white12,
+                            child: Icon(
+                              status == 'ended'
+                                  ? Icons.person_off
+                                  : status == 'rejected'
+                                      ? Icons.call_end_rounded
+                                      : Icons.person,
+                              size: 140,
+                              color: fiberchatLightGreen,
+                            ),
+                          )
+                        : Stack(
+                            children: [
+                              Container(
+                                  padding: EdgeInsets.only(top: 90, bottom: 90),
                                   width: w,
-                                  placeholder: (context, url) => Center(
-                                      child: Container(
+                                  color: DESIGN_TYPE == Themetype.messenger
+                                      ? fiberchatgreen.withOpacity(0.6)
+                                      : Colors.white12,
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.call.callerId ==
+                                            widget.currentuseruid
+                                        ? widget.call.receiverPic!
+                                        : widget.call.callerPic!,
+                                    fit: BoxFit.cover,
                                     height: w + (w / 11),
                                     width: w,
-                                    color: Colors.white12,
-                                    child: Icon(
-                                      status == 'ended'
-                                          ? Icons.person_off
-                                          : status == 'rejected'
-                                              ? Icons.call_end_rounded
-                                              : Icons.person,
-                                      size: 140,
-                                      color: fiberchatDeepGreen,
+                                    placeholder: (context, url) => Center(
+                                        child: Container(
+                                      height: w + (w / 11),
+                                      width: w,
+                                      color: Colors.white12,
+                                      child: Icon(
+                                        status == 'ended'
+                                            ? Icons.person_off
+                                            : status == 'rejected'
+                                                ? Icons.call_end_rounded
+                                                : Icons.person,
+                                        size: 140,
+                                        color: fiberchatLightGreen,
+                                      ),
+                                    )),
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                      height: w + (w / 11),
+                                      width: w,
+                                      color: Colors.white12,
+                                      child: Icon(
+                                        status == 'ended'
+                                            ? Icons.person_off
+                                            : status == 'rejected'
+                                                ? Icons.call_end_rounded
+                                                : Icons.person,
+                                        size: 140,
+                                        color: fiberchatLightGreen,
+                                      ),
                                     ),
                                   )),
-                                  errorWidget: (context, url, error) =>
-                                      Container(
-                                    height: w + (w / 11),
-                                    width: w,
-                                    color: Colors.white12,
-                                    child: Icon(
-                                      status == 'ended'
-                                          ? Icons.person_off
-                                          : status == 'rejected'
-                                              ? Icons.call_end_rounded
-                                              : Icons.person,
-                                      size: 140,
-                                      color: fiberchatDeepGreen,
+                              Container(
+                                padding: EdgeInsets.only(top: 90, bottom: 90),
+                                width: w,
+                                color: Colors.black.withOpacity(0.18),
+                              ),
+                            ],
+                          ),
+                // widget.call.callerId == widget.currentuseruid
+                //     ? widget.call.receiverPic == null ||
+                //             widget.call.receiverPic == '' ||
+                //             status == 'ended' ||
+                //             status == 'rejected'
+                //         ? SizedBox()
+                //         : Container(
+                //             height: w + (w / 11),
+                //             width: w,
+                //             color: Colors.black.withOpacity(0.3),
+                //           )
+                //     : widget.call.callerPic == null ||
+                //             widget.call.callerPic == '' ||
+                //             status == 'ended' ||
+                //             status == 'rejected'
+                //         ? SizedBox()
+                //         : Container(
+                //             height: w + (w / 11),
+                //             width: w,
+                //             color: Colors.black.withOpacity(0.3),
+                //           ),
+                Positioned(
+                    bottom: 20,
+                    child: Container(
+                      width: w,
+                      height: 20,
+                      child: Center(
+                        child: status == 'pickedup'
+                            ? ispeermuted == true
+                                ? Text(
+                                    getTranslated(context, 'muted'),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: DESIGN_TYPE == Themetype.whatsapp
+                                          ? Colors.yellow
+                                          : Colors.yellow,
+                                      fontSize: 16,
                                     ),
-                                  ),
-                                )),
-                            Container(
-                              height: w + (w / 11),
-                              width: w,
-                              color: Colors.black.withOpacity(0.18),
-                            ),
-                          ],
-                        ),
-              // widget.call.callerId == widget.currentuseruid
-              //     ? widget.call.receiverPic == null ||
-              //             widget.call.receiverPic == '' ||
-              //             status == 'ended' ||
-              //             status == 'rejected'
-              //         ? SizedBox()
-              //         : Container(
-              //             height: w + (w / 11),
-              //             width: w,
-              //             color: Colors.black.withOpacity(0.3),
-              //           )
-              //     : widget.call.callerPic == null ||
-              //             widget.call.callerPic == '' ||
-              //             status == 'ended' ||
-              //             status == 'rejected'
-              //         ? SizedBox()
-              //         : Container(
-              //             height: w + (w / 11),
-              //             width: w,
-              //             color: Colors.black.withOpacity(0.3),
-              //           ),
-              Positioned(
-                  bottom: 20,
-                  child: Container(
-                    width: w,
-                    height: 20,
-                    child: Center(
-                      child: status == 'pickedup'
-                          ? ispeermuted == true
-                              ? Text(
-                                  getTranslated(context, 'muted'),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: DESIGN_TYPE == Themetype.whatsapp
-                                        ? Colors.yellow
-                                        : Colors.yellow,
-                                    fontSize: 16,
-                                  ),
-                                )
-                              : SizedBox(
-                                  height: 0,
-                                )
-                          : SizedBox(
-                              height: 0,
-                            ),
-                    ),
-                  )),
-            ],
+                                  )
+                                : SizedBox(
+                                    height: 0,
+                                  )
+                            : SizedBox(
+                                height: 0,
+                              ),
+                      ),
+                    )),
+              ],
+            ),
           ),
-          SizedBox(height: h / 6),
+          Container(
+            alignment: Alignment.center,
+            color: DESIGN_TYPE == Themetype.messenger
+                ? fiberchatBlack
+                : fiberchatBlack,
+            height: 50,
+            width: w,
+          )
         ],
       ),
     );
@@ -749,7 +767,7 @@ class _AudioCallState extends State<AudioCall> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: status == 'pickedup'
-                  ? fiberchatLightGreen
+                  ? Colors.white
                   : DESIGN_TYPE == Themetype.whatsapp
                       ? fiberchatWhite
                       : fiberchatBlack,
@@ -994,163 +1012,169 @@ class _AudioCallState extends State<AudioCall> {
   Widget build(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
-    return WillPopScope(
-      onWillPop: () => onWillPopNEw(context),
-      child: h > w && ((h / w) > 1.5)
-          ? Scaffold(
-              backgroundColor: DESIGN_TYPE == Themetype.whatsapp
-                  ? fiberchatDeepGreen
-                  : fiberchatDeepGreen,
-              body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                stream:
-                    stream as Stream<DocumentSnapshot<Map<String, dynamic>>>?,
-                builder: (BuildContext context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.data() == null ||
-                        snapshot.data == null) {
-                      return Center(
-                        child: Stack(
-                          children: <Widget>[
-                            audioscreenForPORTRAIT(
-                                context: context,
-                                status: 'calling',
-                                ispeermuted: false),
-                            _panel(),
-                            _toolbar(false, 'calling'),
-                          ],
-                        ),
-                      );
-                    } else {
+    return Expanded(
+      child: WillPopScope(
+        onWillPop: () => onWillPopNEw(context),
+        child: h > w && ((h / w) > 1.5)
+            ? Scaffold(
+                backgroundColor: DESIGN_TYPE == Themetype.whatsapp
+                    ? fiberchatLightGreen
+                    : fiberchatLightGreen,
+                body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                  stream:
+                      stream as Stream<DocumentSnapshot<Map<String, dynamic>>>?,
+                  builder: (BuildContext context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data!.data() == null ||
+                          snapshot.data == null) {
+                        return Center(
+                          child: Stack(
+                            children: <Widget>[
+                              audioscreenForPORTRAIT(
+                                  context: context,
+                                  status: 'calling',
+                                  ispeermuted: false),
+                              _panel(),
+                              _toolbar(false, 'calling'),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Center(
+                          child: Stack(
+                            children: <Widget>[
+                              // _viewRows(),
+                              audioscreenForPORTRAIT(
+                                  context: context,
+                                  status: snapshot.data!.data()!["STATUS"],
+                                  ispeermuted:
+                                      snapshot.data!.data()!["ISMUTED"]),
+
+                              _panel(),
+                              _toolbar(
+                                  snapshot.data!.data()!["STATUS"] == 'pickedup'
+                                      ? true
+                                      : false,
+                                  snapshot.data!.data()!["STATUS"]),
+                            ],
+                          ),
+                        );
+                      }
+                    } else if (!snapshot.hasData) {
                       return Center(
                         child: Stack(
                           children: <Widget>[
                             // _viewRows(),
                             audioscreenForPORTRAIT(
                                 context: context,
-                                status: snapshot.data!.data()!["STATUS"],
-                                ispeermuted: snapshot.data!.data()!["ISMUTED"]),
-
+                                status: 'nonetwork',
+                                ispeermuted: false),
                             _panel(),
-                            _toolbar(
-                                snapshot.data!.data()!["STATUS"] == 'pickedup'
-                                    ? true
-                                    : false,
-                                snapshot.data!.data()!["STATUS"]),
+                            _toolbar(false, 'nonetwork'),
                           ],
                         ),
                       );
                     }
-                  } else if (!snapshot.hasData) {
+
                     return Center(
                       child: Stack(
                         children: <Widget>[
                           // _viewRows(),
                           audioscreenForPORTRAIT(
                               context: context,
-                              status: 'nonetwork',
+                              status: 'calling',
                               ispeermuted: false),
                           _panel(),
-                          _toolbar(false, 'nonetwork'),
+                          _toolbar(false, 'calling'),
                         ],
                       ),
                     );
-                  }
-
-                  return Center(
-                    child: Stack(
-                      children: <Widget>[
-                        // _viewRows(),
-                        audioscreenForPORTRAIT(
-                            context: context,
-                            status: 'calling',
-                            ispeermuted: false),
-                        _panel(),
-                        _toolbar(false, 'calling'),
-                      ],
-                    ),
-                  );
-                },
-              ))
-          : Scaffold(
-              backgroundColor: DESIGN_TYPE == Themetype.whatsapp
-                  ? fiberchatDeepGreen
-                  : fiberchatWhite,
-              body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                stream:
-                    stream as Stream<DocumentSnapshot<Map<String, dynamic>>>?,
-                builder: (BuildContext context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.data() == null ||
-                        snapshot.data == null) {
-                      return Center(
-                        child: Stack(
-                          children: <Widget>[
-                            audioscreenForLANDSCAPE(
-                                context: context,
-                                status: 'calling',
-                                ispeermuted: false),
-                            _panel(),
-                            _toolbar(false, 'calling'),
-                          ],
-                        ),
-                      );
-                    } else {
+                  },
+                ))
+            : Scaffold(
+                backgroundColor: DESIGN_TYPE == Themetype.whatsapp
+                    ? fiberchatBlack
+                    : fiberchatWhite,
+                body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                  stream:
+                      stream as Stream<DocumentSnapshot<Map<String, dynamic>>>?,
+                  builder: (BuildContext context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data!.data() == null ||
+                          snapshot.data == null) {
+                        return Center(
+                          child: Stack(
+                            children: <Widget>[
+                              audioscreenForLANDSCAPE(
+                                  context: context,
+                                  status: 'calling',
+                                  ispeermuted: false),
+                              _panel(),
+                              _toolbar(false, 'calling'),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Center(
+                          child: Stack(
+                            children: <Widget>[
+                              // _viewRows(),
+                              audioscreenForLANDSCAPE(
+                                  context: context,
+                                  status: snapshot.data!.data()!["STATUS"],
+                                  ispeermuted:
+                                      snapshot.data!.data()!["ISMUTED"]),
+                              _panel(),
+                              _toolbar(
+                                  snapshot.data!.data()!["STATUS"] == 'pickedup'
+                                      ? true
+                                      : false,
+                                  snapshot.data!.data()!["STATUS"]),
+                            ],
+                          ),
+                        );
+                      }
+                    } else if (!snapshot.hasData) {
                       return Center(
                         child: Stack(
                           children: <Widget>[
                             // _viewRows(),
                             audioscreenForLANDSCAPE(
                                 context: context,
-                                status: snapshot.data!.data()!["STATUS"],
-                                ispeermuted: snapshot.data!.data()!["ISMUTED"]),
+                                status: 'nonetwork',
+                                ispeermuted: false),
                             _panel(),
-                            _toolbar(
-                                snapshot.data!.data()!["STATUS"] == 'pickedup'
-                                    ? true
-                                    : false,
-                                snapshot.data!.data()!["STATUS"]),
+                            _toolbar(false, 'nonetwork'),
                           ],
                         ),
                       );
                     }
-                  } else if (!snapshot.hasData) {
                     return Center(
                       child: Stack(
                         children: <Widget>[
                           // _viewRows(),
                           audioscreenForLANDSCAPE(
                               context: context,
-                              status: 'nonetwork',
+                              status: 'calling',
                               ispeermuted: false),
                           _panel(),
-                          _toolbar(false, 'nonetwork'),
+                          _toolbar(false, 'calling'),
                         ],
                       ),
                     );
-                  }
-                  return Center(
-                    child: Stack(
-                      children: <Widget>[
-                        // _viewRows(),
-                        audioscreenForLANDSCAPE(
-                            context: context,
-                            status: 'calling',
-                            ispeermuted: false),
-                        _panel(),
-                        _toolbar(false, 'calling'),
-                      ],
-                    ),
-                  );
-                },
-              )),
+                  },
+                )),
+      ),
     );
   }
 
   //------ Timer Widget Section Below:
   bool flag = true;
   Stream<int>? timerStream;
+
   // ignore: cancel_subscriptions
   StreamSubscription<int>? timerSubscription;
+
   // ignore: close_sinks
   StreamController<int>? streamController;
   String hoursStr = '00';
@@ -1208,5 +1232,5 @@ class _AudioCallState extends State<AudioCall> {
     });
   }
 
-  //------
+//------
 }

@@ -64,7 +64,7 @@ class _SettingsOptionState extends State<SettingsOption> {
             size: 24,
             color: DESIGN_TYPE == Themetype.whatsapp
                 ? fiberchatWhite
-                : fiberchatBlack,
+                : Colors.black,
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -78,7 +78,7 @@ class _SettingsOptionState extends State<SettingsOption> {
           style: TextStyle(
               color: DESIGN_TYPE == Themetype.whatsapp
                   ? fiberchatWhite
-                  : fiberchatBlack,
+                  : Colors.black,
               fontSize: 18.5),
         ),
       ),
@@ -100,7 +100,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                           myDoc[Dbkeys.nickname] ?? widget.currentUserNo,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 16, color: fiberchatBlack),
+                          style: TextStyle(fontSize: 16, color: Colors.black),
                         ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 7),
@@ -113,7 +113,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: 14,
-                                color: fiberchatBlack.withOpacity(0.56)),
+                                color: Colors.black.withOpacity(0.56)),
                           ),
                         ),
                         trailing: IconButton(
@@ -131,7 +131,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                         widget.currentUserNo,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 16, color: fiberchatBlack),
+                        style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 7),
@@ -141,7 +141,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 14,
-                              color: fiberchatBlack.withOpacity(0.56)),
+                              color: Colors.black.withOpacity(0.56)),
                         ),
                       ),
                       trailing: IconButton(
@@ -172,7 +172,7 @@ class _SettingsOptionState extends State<SettingsOption> {
               getTranslated(context, 'editprofile'),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16, color: fiberchatBlack),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 4),
@@ -181,7 +181,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 14, color: fiberchatBlack.withOpacity(0.56)),
+                    fontSize: 14, color: Colors.black.withOpacity(0.56)),
               ),
             ),
           ),
@@ -202,7 +202,7 @@ class _SettingsOptionState extends State<SettingsOption> {
               getTranslated(context, 'feedback'),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16, color: fiberchatBlack),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 4),
@@ -211,7 +211,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 14, color: fiberchatBlack.withOpacity(0.56)),
+                    fontSize: 14, color: Colors.black.withOpacity(0.56)),
               ),
             ),
           ),
@@ -232,7 +232,7 @@ class _SettingsOptionState extends State<SettingsOption> {
               getTranslated(context, 'rate'),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16, color: fiberchatBlack),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 4),
@@ -241,7 +241,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 14, color: fiberchatBlack.withOpacity(0.56)),
+                    fontSize: 14, color: Colors.black.withOpacity(0.56)),
               ),
             ),
           ),
@@ -292,7 +292,7 @@ class _SettingsOptionState extends State<SettingsOption> {
               getTranslated(context, 'backup'),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16, color: fiberchatBlack),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 4),
@@ -301,7 +301,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 14, color: fiberchatBlack.withOpacity(0.56)),
+                    fontSize: 14, color: Colors.black.withOpacity(0.56)),
               ),
             ),
           ),
@@ -325,7 +325,7 @@ class _SettingsOptionState extends State<SettingsOption> {
               getTranslated(context, 'allnotifications'),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16, color: fiberchatBlack),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 4),
@@ -334,7 +334,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 14, color: fiberchatBlack.withOpacity(0.56)),
+                    fontSize: 14, color: Colors.black.withOpacity(0.56)),
               ),
             ),
           ),
@@ -377,7 +377,7 @@ class _SettingsOptionState extends State<SettingsOption> {
               getTranslated(context, 'tnc'),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16, color: fiberchatBlack),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 4),
@@ -386,7 +386,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 14, color: fiberchatBlack.withOpacity(0.56)),
+                    fontSize: 14, color: Colors.black.withOpacity(0.56)),
               ),
             ),
           ),
@@ -429,7 +429,7 @@ class _SettingsOptionState extends State<SettingsOption> {
               getTranslated(context, 'pp'),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16, color: fiberchatBlack),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 4),
@@ -438,7 +438,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 14, color: fiberchatBlack.withOpacity(0.56)),
+                    fontSize: 14, color: Colors.black.withOpacity(0.56)),
               ),
             ),
           ),
@@ -456,7 +456,7 @@ class _SettingsOptionState extends State<SettingsOption> {
               getTranslated(context, 'share'),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16, color: fiberchatBlack),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
           ),
           observer.isLogoutButtonShowInSettingsPage == true
@@ -479,7 +479,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontSize: 16,
-                        color: fiberchatBlack,
+                        color: Colors.red,
                         fontWeight: FontWeight.w600),
                   ),
                 )
@@ -552,7 +552,7 @@ class _SettingsOptionState extends State<SettingsOption> {
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
               Center(
                   child: myElevatedButton(
-                      color: fiberchatgreen,
+                      color: fiberchatBlack,
                       child: Text(
                         getTranslated(context, 'rate'),
                         style: TextStyle(color: Colors.white),

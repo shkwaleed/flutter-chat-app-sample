@@ -234,7 +234,7 @@ class ProfileSettingState extends State<ProfileSetting> {
                                                           valueColor:
                                                               AlwaysStoppedAnimation<
                                                                       Color>(
-                                                                  fiberchatLightGreen),
+                                                                  fiberchatBlack),
                                                         )),
                                                     width: 150.0,
                                                     height: 150.0),
@@ -385,7 +385,7 @@ class ProfileSettingState extends State<ProfileSetting> {
                           child: Center(
                             child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                    fiberchatBlue)),
+                                    fiberchatBlack)),
                           ),
                           color: DESIGN_TYPE == Themetype.whatsapp
                               ? fiberchatBlack.withOpacity(0.8)

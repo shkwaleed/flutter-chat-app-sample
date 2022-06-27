@@ -28,6 +28,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fiberchat/API/dependencies.dart' as dep;
 
 void main() async {
   if (DESIGN_TYPE == Themetype.messenger) {
@@ -44,9 +45,13 @@ void main() async {
     MobileAds.instance.initialize();
   }
 
+  await dep.init();
+
+/*
   final WidgetsBinding binding = WidgetsFlutterBinding.ensureInitialized();
 
   binding.renderView.automaticSystemUiAdjustment = false;
+*/
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -56,6 +61,7 @@ void main() async {
 
 class FiberchatWrapper extends StatefulWidget {
   const FiberchatWrapper({Key? key}) : super(key: key);
+
   static void setLocale(BuildContext context, Locale newLocale) {
     _FiberchatWrapperState state =
         context.findAncestorStateOfType<_FiberchatWrapperState>()!;
@@ -68,6 +74,7 @@ class FiberchatWrapper extends StatefulWidget {
 
 class _FiberchatWrapperState extends State<FiberchatWrapper> {
   Locale? _locale;
+
   setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -75,6 +82,7 @@ class _FiberchatWrapperState extends State<FiberchatWrapper> {
   }
 
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   @override
   void didChangeDependencies() {
     getLocale().then((locale) {

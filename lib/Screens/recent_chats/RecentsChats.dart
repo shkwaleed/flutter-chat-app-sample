@@ -519,7 +519,7 @@ class RecentChatsState extends State<RecentChats> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: fiberchatBlack,
+                          color: Colors.black,
                           fontSize: 16,
                         ),
                       ),

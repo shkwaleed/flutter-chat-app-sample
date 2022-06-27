@@ -146,6 +146,7 @@ class LoginScreenState extends State<LoginScreen>
           'Authentication failed -ERROR: ${authException.message}. Try again later.');
 
       Fiberchat.toast('Authentication failed - ${authException.message}');
+      _code = "";
     };
 
     final PhoneCodeSent codeSent =
@@ -177,6 +178,7 @@ class LoginScreenState extends State<LoginScreen>
       });
 
       Fiberchat.toast('Authentication failed Timeout. please try again.');
+      _code = "";
     };
     print('Verify phone triggered');
     // try {
@@ -243,6 +245,9 @@ class LoginScreenState extends State<LoginScreen>
     try {
       AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId!, smsCode: _code);
+
+      await widget.prefs
+          .setString(Dbkeys.secretCode, _code);
 
       UserCredential firebaseUser =
           await firebaseAuth.signInWithCredential(credential);
@@ -504,7 +509,7 @@ class LoginScreenState extends State<LoginScreen>
               end: Alignment.bottomCenter,
               colors: DESIGN_TYPE == Themetype.whatsapp
                   ? [
-                      fiberchatgreen,
+                      fiberchatWhite,
                       fiberchatDeepGreen,
                     ]
                   : [
@@ -523,7 +528,7 @@ class LoginScreenState extends State<LoginScreen>
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Language.languageList().length < 2
-                      ? SizedBox(height: 40)
+                      ? SizedBox(height: 20)
                       : Container(
                           alignment: Alignment.centerRight,
                           margin: EdgeInsets.only(top: 4, right: 10),
@@ -685,13 +690,17 @@ class LoginScreenState extends State<LoginScreen>
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(17),
-                        child: Text(
-                          getTranslated(this.context, 'sendsmscode'),
-                          // 'Send a SMS Code to verify your number',
-                          textAlign: TextAlign.center,
-                          // style: TextStyle(color: Mycolors.black),
+                      Visibility(
+                        visible: false,
+                        maintainSize: false,
+                        child: Padding(
+                          padding: EdgeInsets.all(17),
+                          child: Text(
+                            getTranslated(this.context, 'sendsmscode'),
+                            // 'Send a SMS Code to verify your number',
+                            textAlign: TextAlign.center,
+                            // style: TextStyle(color: Mycolors.black),
+                          ),
                         ),
                       ),
                       Padding(
@@ -785,7 +794,7 @@ class LoginScreenState extends State<LoginScreen>
                             text: getTranslated(this.context, 'tnc'),
                             style: TextStyle(
                                 height: 1.7,
-                                color: fiberchatLightGreen,
+                                color: fiberchatWhite,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 14.8),
                             recognizer: TapGestureRecognizer()
@@ -822,15 +831,15 @@ class LoginScreenState extends State<LoginScreen>
                             style: TextStyle(
                                 height: 1.7,
                                 color: DESIGN_TYPE == Themetype.whatsapp
-                                    ? fiberchatWhite.withOpacity(0.79)
-                                    : fiberchatBlack.withOpacity(0.79),
+                                    ? fiberchatWhite
+                                    : fiberchatBlack,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 11.8)),
                         TextSpan(
                             text: getTranslated(this.context, 'pp'),
                             style: TextStyle(
                                 height: 1.7,
-                                color: fiberchatLightGreen,
+                                color: fiberchatWhite,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 14.8),
                             recognizer: TapGestureRecognizer()
@@ -893,8 +902,8 @@ class LoginScreenState extends State<LoginScreen>
           Padding(
             padding: EdgeInsets.all(17),
             child: Text(
-              getTranslated(this.context, 'sending_code') +
-                  ' $phoneCode-${_phoneNo.text}',
+              getTranslated(this.context, 'sending_code'),
+              // + ' $phoneCode-${_phoneNo.text}',
               textAlign: TextAlign.center,
               style: TextStyle(height: 1.5),
             ),
@@ -904,7 +913,7 @@ class LoginScreenState extends State<LoginScreen>
           ),
           Center(
             child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(fiberchatLightGreen)),
+                valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack)),
           ),
           SizedBox(
             height: 48,
@@ -949,7 +958,7 @@ class LoginScreenState extends State<LoginScreen>
                       FixedColorBuilder(fiberchatGrey.withOpacity(0.1)),
                   textStyle: TextStyle(
                       fontSize: 22,
-                      color: fiberchatBlack,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold),
                   colorBuilder:
                       FixedColorBuilder(fiberchatGrey.withOpacity(0.1)),
@@ -970,7 +979,6 @@ class LoginScreenState extends State<LoginScreen>
                 },
                 onCodeChanged: (code) {
                   if (code!.length == 6) {
-                    FocusScope.of(this.context).requestFocus(FocusNode());
                     setState(() {
                       _code = code;
                     });
@@ -983,8 +991,8 @@ class LoginScreenState extends State<LoginScreen>
           Padding(
             padding: EdgeInsets.all(17),
             child: Text(
-              getTranslated(this.context, 'enter_verfcode') +
-                  ' $phoneCode-${_phoneNo.text}',
+              getTranslated(this.context, 'enter_verfcode'),
+              // + ' $phoneCode-${_phoneNo.text}',
               textAlign: TextAlign.center,
               style: TextStyle(height: 1.5),
 
@@ -995,7 +1003,7 @@ class LoginScreenState extends State<LoginScreen>
               ? Center(
                   child: CircularProgressIndicator(
                       valueColor:
-                          AlwaysStoppedAnimation<Color>(fiberchatLightGreen)),
+                          AlwaysStoppedAnimation<Color>(fiberchatBlack)),
                 )
               : Padding(
                   padding: EdgeInsets.fromLTRB(17, 22, 17, 5),
@@ -1233,7 +1241,7 @@ class LoginScreenState extends State<LoginScreen>
           //     ?
           Center(
             child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(fiberchatLightGreen)),
+                valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack)),
           ),
           // : Padding(
           //     padding: EdgeInsets.fromLTRB(17, 22, 17, 5),

@@ -82,7 +82,7 @@ class _ContactsState extends State<Contacts>
       Container(
         child: Center(
             child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue),
+          valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack),
         )),
       )
     ]);
@@ -373,7 +373,7 @@ class _ContactsState extends State<Contacts>
                                                                     .nickname],
                                                                 style: TextStyle(
                                                                     color:
-                                                                        fiberchatBlack)),
+                                                                        Colors.black)),
                                                             subtitle: Text(
                                                                 phone,
                                                                 style: TextStyle(
@@ -485,7 +485,7 @@ class _ContactsState extends State<Contacts>
                                                               user.value,
                                                               style: TextStyle(
                                                                   color:
-                                                                      fiberchatBlack)),
+                                                                      Colors.black)),
                                                           subtitle: Text(phone,
                                                               style: TextStyle(
                                                                   color:

@@ -93,6 +93,7 @@ class ChatScreen extends StatefulWidget {
   final MessageType? sharedFilestype;
   final bool isSharingIntentForwarded;
   final String? sharedText;
+
   ChatScreen({
     Key? key,
     required this.currentUserNo,
@@ -120,7 +121,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   Map<String, dynamic>? peer, currentUser;
   int? chatStatus, unread;
   GlobalKey<State> _keyLoader =
-      new GlobalKey<State>(debugLabel: 'qqqeqeqsseaadsqeqe');
+  new GlobalKey<State>(debugLabel: 'qqqeqeqsseaadsqeqe');
 
   String? chatId;
   bool isMessageLoading = true;
@@ -134,7 +135,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   SeenState? seenState;
   List<Message> messages = new List.from(<Message>[]);
   List<Map<String, dynamic>> _savedMessageDocs =
-      new List.from(<Map<String, dynamic>>[]);
+  new List.from(<Map<String, dynamic>>[]);
   bool isDeletedDoc = false;
   int? uploadTimestamp;
 
@@ -144,9 +145,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
       chatStatusSubscriptionForPeer;
 
   final TextEditingController textEditingController =
-      new TextEditingController();
+  new TextEditingController();
   final TextEditingController reportEditingController =
-      new TextEditingController();
+  new TextEditingController();
   final ScrollController realtime = new ScrollController();
   final ScrollController saved = new ScrollController();
   late DataModel _cachedModel;
@@ -161,15 +162,23 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   PlayerState playerState = PlayerState.stopped;
 
   get isPlaying => playerState == PlayerState.playing;
+
   get isPaused => playerState == PlayerState.paused;
 
   get durationText =>
-      duration != null ? duration.toString().split('.').first : '';
+      duration != null ? duration
+          .toString()
+          .split('.')
+          .first : '';
 
   get positionText =>
-      position != null ? position.toString().split('.').first : '';
+      position != null ? position
+          .toString()
+          .split('.')
+          .first : '';
 
   bool isMuted = false;
+
   void setStateIfMounted(f) {
     if (mounted) setState(f);
   }
@@ -178,6 +187,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   int _numInterstitialLoadAttempts = 0;
   RewardedAd? _rewardedAd;
   int _numRewardedLoadAttempts = 0;
+
   @override
   void initState() {
     super.initState();
@@ -194,7 +204,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       final observer = Provider.of<Observer>(this.context, listen: false);
       var currentpeer =
-          Provider.of<CurrentChatPeer>(this.context, listen: false);
+      Provider.of<CurrentChatPeer>(this.context, listen: false);
       currentpeer.setpeer(newpeerid: widget.peerNo);
       seenState = new SeenState(false);
       WidgetsBinding.instance!.addObserver(this);
@@ -218,6 +228,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   }
 
   bool hasPeerBlockedMe = false;
+
   listenToBlock() {
     chatStatusSubscriptionForPeer = FirebaseFirestore.instance
         .collection(DbPaths.collectionusers)
@@ -375,7 +386,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             .collection(DbPaths.collectionmessages)
             .doc(chatId)
             .update(
-          {'$currentUserNo': DateTime.now().millisecondsSinceEpoch},
+          {'$currentUserNo': DateTime
+              .now()
+              .millisecondsSinceEpoch},
         );
       }
     }
@@ -383,7 +396,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
 
   dynamic encryptWithCRC(String input) {
     try {
-      String encrypted = cryptor.encrypt(input, iv: iv).base64;
+      String encrypted = cryptor
+          .encrypt(input, iv: iv)
+          .base64;
       int crc = CRC32.compute(input);
       return '$encrypted${Dbkeys.crcSeperator}$crc';
     } catch (e) {
@@ -408,10 +423,10 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         }
       }
     } on FormatException {
-      Fiberchat.toast(getTranslated(this.context, 'msgnotload'));
+      //Fiberchat.toast(getTranslated(this.context, 'msgnotload'));
       return '';
     }
-    Fiberchat.toast(getTranslated(this.context, 'msgnotload'));
+    //Fiberchat.toast(getTranslated(this.context, 'msgnotload'));
     return '';
   }
 
@@ -436,14 +451,12 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   late encrypt.Encrypter cryptor;
   final iv = encrypt.IV.fromLength(8);
 
-  readLocal(
-    BuildContext context,
-  ) async {
+  readLocal(BuildContext context,) async {
     try {
       privateKey = await storage.read(key: Dbkeys.privateKey);
       sharedSecret = (await e2ee.X25519().calculateSharedSecret(
-              e2ee.Key.fromBase64(privateKey!, false),
-              e2ee.Key.fromBase64(peer![Dbkeys.publicKey], true)))
+          e2ee.Key.fromBase64(privateKey!, false),
+          e2ee.Key.fromBase64(peer![Dbkeys.publicKey], true)))
           .toBase64();
       final key = encrypt.Key.fromBase64(sharedSecret!);
       cryptor = new encrypt.Encrypter(encrypt.Salsa20(key));
@@ -509,6 +522,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   }
 
   int? thumnailtimestamp;
+
   getFileData(File image, {int? timestamp, int? totalFiles}) {
     final observer = Provider.of<Observer>(this.context, listen: false);
 
@@ -518,16 +532,16 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
 
     return observer.isPercentProgressShowWhileUploading
         ? (totalFiles == null
-            ? uploadFileWithProgressIndicator(
-                false,
-                timestamp: timestamp,
-              )
-            : totalFiles == 1
-                ? uploadFileWithProgressIndicator(
-                    false,
-                    timestamp: timestamp,
-                  )
-                : uploadFile(false, timestamp: timestamp))
+        ? uploadFileWithProgressIndicator(
+      false,
+      timestamp: timestamp,
+    )
+        : totalFiles == 1
+        ? uploadFileWithProgressIndicator(
+      false,
+      timestamp: timestamp,
+    )
+        : uploadFile(false, timestamp: timestamp))
         : uploadFile(false, timestamp: timestamp);
   }
 
@@ -564,15 +578,18 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   }
 
   String? videometadata;
+
   Future uploadFile(bool isthumbnail, {int? timestamp}) async {
-    uploadTimestamp = timestamp ?? DateTime.now().millisecondsSinceEpoch;
+    uploadTimestamp = timestamp ?? DateTime
+        .now()
+        .millisecondsSinceEpoch;
     String fileName = getFileName(
         currentUserNo,
         isthumbnail == false
             ? '$uploadTimestamp'
             : '${thumnailtimestamp}Thumbnail');
     Reference reference =
-        FirebaseStorage.instance.ref("+00_CHAT_MEDIA/$chatId/").child(fileName);
+    FirebaseStorage.instance.ref("+00_CHAT_MEDIA/$chatId/").child(fileName);
     TaskSnapshot uploading = await reference
         .putFile(isthumbnail == true ? thumbnailFile : pickedFile!);
     if (isthumbnail == false) {
@@ -622,11 +639,12 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     return uploading.ref.getDownloadURL();
   }
 
-  Future uploadFileWithProgressIndicator(
-    bool isthumbnail, {
+  Future uploadFileWithProgressIndicator(bool isthumbnail, {
     int? timestamp,
   }) async {
-    uploadTimestamp = timestamp ?? DateTime.now().millisecondsSinceEpoch;
+    uploadTimestamp = timestamp ?? DateTime
+        .now()
+        .millisecondsSinceEpoch;
     File fileToCompress;
     File? compressedImage;
     String fileName = getFileName(
@@ -635,13 +653,13 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             ? '$uploadTimestamp'
             : '${thumnailtimestamp}Thumbnail');
     Reference reference =
-        FirebaseStorage.instance.ref("+00_CHAT_MEDIA/$chatId/").child(fileName);
+    FirebaseStorage.instance.ref("+00_CHAT_MEDIA/$chatId/").child(fileName);
     if (isthumbnail == false && isVideo(pickedFile!.path) == true) {
       fileToCompress = File(pickedFile!.path);
       await compress.VideoCompress.setLogLevel(0);
 
       final compress.MediaInfo? info =
-          await compress.VideoCompress.compressVideo(
+      await compress.VideoCompress.compressVideo(
         fileToCompress.path,
         quality: IsVideoQualityCompress == true
             ? compress.VideoQuality.MediumQuality
@@ -652,7 +670,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
       pickedFile = File(info!.path!);
     } else if (isthumbnail == false && isImage(pickedFile!.path) == true) {
       final targetPath = pickedFile!.absolute.path
-              .replaceAll(basename(pickedFile!.absolute.path), "") +
+          .replaceAll(basename(pickedFile!.absolute.path), "") +
           "temp.jpg";
 
       compressedImage = await FlutterImageCompress.compressAndGetFile(
@@ -666,8 +684,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     UploadTask uploading = reference.putFile(isthumbnail == true
         ? thumbnailFile
         : isImage(pickedFile!.path) == true
-            ? compressedImage!
-            : pickedFile!);
+        ? compressedImage!
+        : pickedFile!);
 
     showDialog<void>(
         context: this.context,
@@ -695,10 +713,13 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 percent: bytesTransferred(snap) / 100,
                                 title: isthumbnail == true
                                     ? getTranslated(
-                                        context, 'generatingthumbnail')
+                                    context, 'generatingthumbnail')
                                     : getTranslated(context, 'sending'),
                                 subtitle:
-                                    "${((((snap.bytesTransferred / 1024) / 1000) * 100).roundToDouble()) / 100}/${((((snap.totalBytes / 1024) / 1000) * 100).roundToDouble()) / 100} MB",
+                                "${((((snap.bytesTransferred / 1024) / 1000) *
+                                    100).roundToDouble()) / 100}/${((((snap
+                                    .totalBytes / 1024) / 1000) * 100)
+                                    .roundToDouble()) / 100} MB",
                               );
                             } else {
                               return openUploadDialog(
@@ -706,7 +727,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 percent: 0.0,
                                 title: isthumbnail == true
                                     ? getTranslated(
-                                        context, 'generatingthumbnail')
+                                    context, 'generatingthumbnail')
                                     : getTranslated(context, 'sending'),
                                 subtitle: '',
                               );
@@ -814,8 +835,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     return await Geolocator.getCurrentPosition();
   }
 
-  void onSendMessage(
-      BuildContext context, String content, MessageType type, int? timestamp,
+  void onSendMessage(BuildContext context, String content, MessageType type,
+      int? timestamp,
       {bool isForward = false}) async {
     final observer = Provider.of<Observer>(this.context, listen: false);
     if (content.trim() != '') {
@@ -868,34 +889,35 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 buildTempMessage(
                     context, type, content, timestamp, messaging, tempDoc),
                 onTap: (tempDoc[Dbkeys.from] == widget.currentUserNo &&
-                            tempDoc[Dbkeys.hasSenderDeleted] == true) ==
-                        true
+                    tempDoc[Dbkeys.hasSenderDeleted] == true) ==
+                    true
                     ? () {}
                     : type == MessageType.image
-                        ? () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PhotoViewWrapper(
-                                    message: content,
-                                    tag: timestamp.toString(),
-                                    imageProvider:
-                                        CachedNetworkImageProvider(content),
-                                  ),
-                                ));
-                          }
-                        : null,
+                    ? () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            PhotoViewWrapper(
+                              message: content,
+                              tag: timestamp.toString(),
+                              imageProvider:
+                              CachedNetworkImageProvider(content),
+                            ),
+                      ));
+                }
+                    : null,
                 onDismiss: tempDoc[Dbkeys.content] == '' ||
-                        tempDoc[Dbkeys.content] == null
+                    tempDoc[Dbkeys.content] == null
                     ? () {}
                     : () {
-                        setStateIfMounted(() {
-                          isReplyKeyboard = true;
-                          replyDoc = tempDoc;
-                        });
-                        HapticFeedback.heavyImpact();
-                        keyboardFocusNode.requestFocus();
-                      },
+                  setStateIfMounted(() {
+                    isReplyKeyboard = true;
+                    replyDoc = tempDoc;
+                  });
+                  HapticFeedback.heavyImpact();
+                  keyboardFocusNode.requestFocus();
+                },
                 onDoubleTap: () {
                   // save(tempDoc);
                 },
@@ -903,7 +925,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                   if (tempDoc.containsKey(Dbkeys.hasRecipientDeleted) &&
                       tempDoc.containsKey(Dbkeys.hasSenderDeleted)) {
                     if ((tempDoc[Dbkeys.from] == widget.currentUserNo &&
-                            tempDoc[Dbkeys.hasSenderDeleted] == true) ==
+                        tempDoc[Dbkeys.hasSenderDeleted] == true) ==
                         false) {
                       //--Show Menu only if message is not deleted by current user already
                       contextMenuNew(this.context, tempDoc, true);
@@ -992,10 +1014,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     });
   }
 
-  contextMenuForSavedMessage(
-    BuildContext context,
-    Map<String, dynamic> doc,
-  ) {
+  contextMenuForSavedMessage(BuildContext context,
+      Map<String, dynamic> doc,) {
     List<Widget> tiles = List.from(<Widget>[]);
     tiles.add(ListTile(
         dense: true,
@@ -1007,7 +1027,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         onTap: () async {
           Save.deleteMessage(peerNo, doc);
           _savedMessageDocs.removeWhere(
-              (msg) => msg[Dbkeys.timestamp] == doc[Dbkeys.timestamp]);
+                  (msg) => msg[Dbkeys.timestamp] == doc[Dbkeys.timestamp]);
           setStateIfMounted(() {
             _savedMessageDocs = List.from(_savedMessageDocs);
           });
@@ -1026,7 +1046,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     List<Widget> tiles = List.from(<Widget>[]);
     //####################----------------------- Delete Msgs for SENDER ---------------------------------------------------
     if ((mssgDoc[Dbkeys.from] == currentUserNo &&
-            mssgDoc[Dbkeys.hasSenderDeleted] == false) &&
+        mssgDoc[Dbkeys.hasSenderDeleted] == false) &&
         saved == false) {
       tiles.add(ListTile(
           dense: true,
@@ -1050,8 +1070,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 Map<String, dynamic> realtimeDoc = chatDoc.data()!;
                 if (realtimeDoc[Dbkeys.hasRecipientDeleted] == true) {
                   if ((mssgDoc.containsKey(Dbkeys.isbroadcast) == true
-                          ? mssgDoc[Dbkeys.isbroadcast]
-                          : false) ==
+                      ? mssgDoc[Dbkeys.isbroadcast]
+                      : false) ==
                       true) {
                     // -------Delete broadcast message completely as recipient has already deleted
                     await FirebaseFirestore.instance
@@ -1063,7 +1083,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     delete(realtimeDoc[Dbkeys.timestamp]);
                     Save.deleteMessage(peerNo, realtimeDoc);
                     _savedMessageDocs.removeWhere((msg) =>
-                        msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
+                    msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
                     setStateIfMounted(() {
                       _savedMessageDocs = List.from(_savedMessageDocs);
                     });
@@ -1094,7 +1114,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                         delete(realtimeDoc[Dbkeys.timestamp]);
                         Save.deleteMessage(peerNo, realtimeDoc);
                         _savedMessageDocs.removeWhere((msg) =>
-                            msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
+                        msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
                         setStateIfMounted(() {
                           _savedMessageDocs = List.from(_savedMessageDocs);
                         });
@@ -1118,11 +1138,11 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                       .collection(chatId!)
                       .doc('${realtimeDoc[Dbkeys.timestamp]}')
                       .set({Dbkeys.hasSenderDeleted: true},
-                          SetOptions(merge: true));
+                      SetOptions(merge: true));
 
                   Save.deleteMessage(peerNo, mssgDoc);
                   _savedMessageDocs.removeWhere((msg) =>
-                      msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
+                  msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
                   setStateIfMounted(() {
                     _savedMessageDocs = List.from(_savedMessageDocs);
                   });
@@ -1155,8 +1175,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
           ),
           onTap: () async {
             if ((mssgDoc.containsKey(Dbkeys.isbroadcast) == true
-                    ? mssgDoc[Dbkeys.isbroadcast]
-                    : false) ==
+                ? mssgDoc[Dbkeys.isbroadcast]
+                : false) ==
                 true) {
               // -------Delete broadcast message completely for everyone
               await FirebaseFirestore.instance
@@ -1168,7 +1188,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
               delete(mssgDoc[Dbkeys.timestamp]);
               Save.deleteMessage(peerNo, mssgDoc);
               _savedMessageDocs.removeWhere(
-                  (msg) => msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
+                      (msg) =>
+                  msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
               setStateIfMounted(() {
                 _savedMessageDocs = List.from(_savedMessageDocs);
               });
@@ -1197,7 +1218,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                   delete(mssgDoc[Dbkeys.timestamp]);
                   Save.deleteMessage(peerNo, mssgDoc);
                   _savedMessageDocs.removeWhere((msg) =>
-                      msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
+                  msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
                   setStateIfMounted(() {
                     _savedMessageDocs = List.from(_savedMessageDocs);
                   });
@@ -1215,7 +1236,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     }
     //####################-------------------- Delete Msgs for RECIPIENTS---------------------------------------------------
     if ((mssgDoc[Dbkeys.to] == currentUserNo &&
-            mssgDoc[Dbkeys.hasRecipientDeleted] == false) &&
+        mssgDoc[Dbkeys.hasRecipientDeleted] == false) &&
         saved == false) {
       tiles.add(ListTile(
           dense: true,
@@ -1241,8 +1262,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 Map<String, dynamic> realtimeDoc = chatDoc.data()!;
                 if (realtimeDoc[Dbkeys.hasSenderDeleted] == true) {
                   if ((mssgDoc.containsKey(Dbkeys.isbroadcast) == true
-                          ? mssgDoc[Dbkeys.isbroadcast]
-                          : false) ==
+                      ? mssgDoc[Dbkeys.isbroadcast]
+                      : false) ==
                       true) {
                     // -------Delete broadcast message completely as sender has already deleted
                     await FirebaseFirestore.instance
@@ -1254,7 +1275,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     delete(realtimeDoc[Dbkeys.timestamp]);
                     Save.deleteMessage(peerNo, realtimeDoc);
                     _savedMessageDocs.removeWhere((msg) =>
-                        msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
+                    msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
                     setStateIfMounted(() {
                       _savedMessageDocs = List.from(_savedMessageDocs);
                     });
@@ -1281,7 +1302,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                         delete(realtimeDoc[Dbkeys.timestamp]);
                         Save.deleteMessage(peerNo, realtimeDoc);
                         _savedMessageDocs.removeWhere((msg) =>
-                            msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
+                        msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
                         setStateIfMounted(() {
                           _savedMessageDocs = List.from(_savedMessageDocs);
                         });
@@ -1303,11 +1324,11 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                       .collection(chatId!)
                       .doc('${realtimeDoc[Dbkeys.timestamp]}')
                       .set({Dbkeys.hasRecipientDeleted: true},
-                          SetOptions(merge: true));
+                      SetOptions(merge: true));
 
                   Save.deleteMessage(peerNo, mssgDoc);
                   _savedMessageDocs.removeWhere((msg) =>
-                      msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
+                  msg[Dbkeys.timestamp] == mssgDoc[Dbkeys.timestamp]);
                   setStateIfMounted(() {
                     _savedMessageDocs = List.from(_savedMessageDocs);
                   });
@@ -1350,9 +1371,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                   .doc(mssgDoc[Dbkeys.broadcastID])
                   .update({
                 Dbkeys.broadcastMEMBERSLIST:
-                    FieldValue.arrayRemove([widget.currentUserNo]),
+                FieldValue.arrayRemove([widget.currentUserNo]),
                 Dbkeys.broadcastBLACKLISTED:
-                    FieldValue.arrayUnion([widget.currentUserNo]),
+                FieldValue.arrayUnion([widget.currentUserNo]),
               }).then((value) {
                 Navigator.pop(contextForDialog);
                 hidekeyboard(contextForDialog);
@@ -1406,9 +1427,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
           }));
     }
     if (((mssgDoc[Dbkeys.from] == currentUserNo &&
-                mssgDoc[Dbkeys.hasSenderDeleted] == false) ||
-            (mssgDoc[Dbkeys.to] == currentUserNo &&
-                mssgDoc[Dbkeys.hasRecipientDeleted] == false)) ==
+        mssgDoc[Dbkeys.hasSenderDeleted] == false) ||
+        (mssgDoc[Dbkeys.to] == currentUserNo &&
+            mssgDoc[Dbkeys.hasRecipientDeleted] == false)) ==
         true) {
       tiles.add(ListTile(
           dense: true,
@@ -1422,25 +1443,26 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             Navigator.push(
                 contextForDialog,
                 MaterialPageRoute(
-                    builder: (contextForDialog) => SelectContactsToForward(
-                        messageOwnerPhone: widget.peerNo!,
-                        currentUserNo: widget.currentUserNo,
-                        model: widget.model,
-                        prefs: widget.prefs,
-                        onSelect: (selectedlist) async {
-                          if (selectedlist.length > 0) {
-                            setStateIfMounted(() {
-                              isgeneratingSomethingLoader = true;
-                              tempSendIndex = 0;
-                            });
+                    builder: (contextForDialog) =>
+                        SelectContactsToForward(
+                            messageOwnerPhone: widget.peerNo!,
+                            currentUserNo: widget.currentUserNo,
+                            model: widget.model,
+                            prefs: widget.prefs,
+                            onSelect: (selectedlist) async {
+                              if (selectedlist.length > 0) {
+                                setStateIfMounted(() {
+                                  isgeneratingSomethingLoader = true;
+                                  tempSendIndex = 0;
+                                });
 
-                            String? privateKey =
+                                String? privateKey =
                                 await storage.read(key: Dbkeys.privateKey);
 
-                            sendForwardMessageEach(
-                                0, selectedlist, privateKey!, mssgDoc);
-                          }
-                        })));
+                                sendForwardMessageEach(
+                                    0, selectedlist, privateKey!, mssgDoc);
+                              }
+                            })));
           }));
     }
 
@@ -1465,7 +1487,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
       if (list[index].data()!.containsKey(Dbkeys.groupNAME)) {
         try {
           Map<dynamic, dynamic> groupDoc = list[tempSendIndex].data();
-          int timestamp = DateTime.now().millisecondsSinceEpoch;
+          int timestamp = DateTime
+              .now()
+              .millisecondsSinceEpoch;
 
           FirebaseFirestore.instance
               .collection(DbPaths.collectiongroups)
@@ -1521,21 +1545,23 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
       } else {
         try {
           String? sharedSecret = (await e2ee.X25519().calculateSharedSecret(
-                  e2ee.Key.fromBase64(privateKey, false),
-                  e2ee.Key.fromBase64(
-                      list[tempSendIndex][Dbkeys.publicKey], true)))
+              e2ee.Key.fromBase64(privateKey, false),
+              e2ee.Key.fromBase64(
+                  list[tempSendIndex][Dbkeys.publicKey], true)))
               .toBase64();
           final key = encrypt.Key.fromBase64(sharedSecret);
           cryptor = new encrypt.Encrypter(encrypt.Salsa20(key));
           String content = mssgDoc[Dbkeys.content];
           final encrypted = encryptWithCRC(content);
           if (encrypted is String) {
-            int timestamp2 = DateTime.now().millisecondsSinceEpoch;
+            int timestamp2 = DateTime
+                .now()
+                .millisecondsSinceEpoch;
             var chatId = Fiberchat.getChatId(
                 widget.currentUserNo, list[tempSendIndex][Dbkeys.phone]);
             if (content.trim() != '') {
               Map<String, dynamic>? targetPeer =
-                  widget.model.userData[list[tempSendIndex][Dbkeys.phone]];
+              widget.model.userData[list[tempSendIndex][Dbkeys.phone]];
               if (targetPeer == null) {
                 await ChatController.request(
                     currentUserNo,
@@ -1648,7 +1674,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 .update({Dbkeys.hasRecipientDeleted: true});
             Save.deleteMessage(peerNo, doc);
             _savedMessageDocs.removeWhere(
-                (msg) => msg[Dbkeys.timestamp] == doc[Dbkeys.timestamp]);
+                    (msg) => msg[Dbkeys.timestamp] == doc[Dbkeys.timestamp]);
             setStateIfMounted(() {
               _savedMessageDocs = List.from(_savedMessageDocs);
             });
@@ -1697,9 +1723,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                   .doc(doc[Dbkeys.broadcastID])
                   .update({
                 Dbkeys.broadcastMEMBERSLIST:
-                    FieldValue.arrayRemove([widget.currentUserNo]),
+                FieldValue.arrayRemove([widget.currentUserNo]),
                 Dbkeys.broadcastBLACKLISTED:
-                    FieldValue.arrayUnion([widget.currentUserNo]),
+                FieldValue.arrayUnion([widget.currentUserNo]),
               }).then((value) {
                 Fiberchat.toast(
                   getTranslated(this.context, 'blockedbroadcast'),
@@ -1733,9 +1759,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
       if (doc[Dbkeys.messageType] == MessageType.image.index) {
         content = doc[Dbkeys.content].toString().startsWith('http')
             ? await Save.getBase64FromImage(
-                imageUrl: doc[Dbkeys.content] as String?)
+            imageUrl: doc[Dbkeys.content] as String?)
             : doc[Dbkeys
-                .content]; // if not a url, it is a base64 from saved messages
+            .content]; // if not a url, it is a base64 from saved messages
       } else {
         // If text
         content = doc[Dbkeys.content];
@@ -1749,55 +1775,64 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     }
   }
 
-  Widget selectablelinkify(String? text, double? fontsize) {
-    bool _validURL = Uri.parse(text!).isAbsolute;
+  Widget selectablelinkify(String? text, double? fontsize, bool isMe) {
+    bool _validURL = Uri
+        .parse(text!)
+        .isAbsolute;
     return _validURL == false
         ? SelectableLinkify(
-            style: TextStyle(fontSize: fontsize, color: Colors.black87),
-            text: text,
-            onOpen: (link) async {
-              if (1 == 1) {
-                await launch(link.url);
-              } else {
-                throw 'Could not launch $link';
-              }
-            },
-          )
+      style: TextStyle(fontSize: fontsize, color: isMe == true
+          ? Colors.white
+          : Colors.black87),
+      text: text,
+      onOpen: (link) async {
+        if (1 == 1) {
+          await launch(link.url);
+        } else {
+          throw 'Could not launch $link';
+        }
+      },
+    )
         : LinkPreviewGenerator(
-            removeElevation: true,
-            graphicFit: BoxFit.contain,
-            borderRadius: 5,
-            showDomain: true,
-            titleStyle: TextStyle(
-                fontSize: 13, height: 1.4, fontWeight: FontWeight.bold),
-            showBody: true,
-            bodyStyle: TextStyle(fontSize: 11.6, color: Colors.black45),
-            placeholderWidget: SelectableLinkify(
-              style: TextStyle(fontSize: fontsize, color: Colors.black87),
-              text: text,
-              onOpen: (link) async {
-                if (1 == 1) {
-                  await launch(link.url);
-                } else {
-                  throw 'Could not launch $link';
-                }
-              },
-            ),
-            errorWidget: SelectableLinkify(
-              style: TextStyle(fontSize: fontsize, color: Colors.black87),
-              text: text,
-              onOpen: (link) async {
-                if (1 == 1) {
-                  await launch(link.url);
-                } else {
-                  throw 'Could not launch $link';
-                }
-              },
-            ),
-            link: text,
-            linkPreviewStyle: LinkPreviewStyle.large,
-          );
+      removeElevation: true,
+      graphicFit: BoxFit.contain,
+      borderRadius: 5,
+      showDomain: true,
+      titleStyle: TextStyle(
+          fontSize: 13, height: 1.4, fontWeight: FontWeight.bold),
+      showBody: true,
+      bodyStyle: TextStyle(fontSize: 11.6, color: Colors.black45),
+      placeholderWidget: SelectableLinkify(
+        style: TextStyle(fontSize: fontsize, color: isMe == true
+            ? Colors.white
+            : Colors.black87),
+        text: text,
+        onOpen: (link) async {
+          if (1 == 1) {
+            await launch(link.url);
+          } else {
+            throw 'Could not launch $link';
+          }
+        },
+      ),
+      errorWidget: SelectableLinkify(
+        style: TextStyle(fontSize: fontsize, color: isMe == true
+            ? Colors.white
+            : Colors.black87),
+        text: text,
+        onOpen: (link) async {
+          if (1 == 1) {
+            await launch(link.url);
+          } else {
+            throw 'Could not launch $link';
+          }
+        },
+      ),
+      link: text,
+      linkPreviewStyle: LinkPreviewStyle.large,
+    );
   }
+
   // Widget selectablelinkify(String? text, double? fontsize) {
   //   return SelectableLinkify(
   //     style: TextStyle(fontSize: fontsize, color: Colors.black87),
@@ -1815,123 +1850,121 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   Widget getTextMessage(bool isMe, Map<String, dynamic> doc, bool saved) {
     return doc.containsKey(Dbkeys.isReply) == true
         ? doc[Dbkeys.isReply] == true
-            ? Column(
-                crossAxisAlignment: isMe == true
-                    ? CrossAxisAlignment.end
-                    : CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ? Column(
+      crossAxisAlignment: isMe == true
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        replyAttachedWidget(this.context, doc[Dbkeys.replyToMsgDoc]),
+        SizedBox(
+          height: 10,
+        ),
+        selectablelinkify(doc[Dbkeys.content], 16, isMe),
+      ],
+    )
+        : doc.containsKey(Dbkeys.isForward) == true
+        ? doc[Dbkeys.isForward] == true
+        ? Column(
+      crossAxisAlignment: isMe
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+            child: Row(
+                mainAxisAlignment: isMe == true
+                    ? MainAxisAlignment.start
+                    : MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  replyAttachedWidget(this.context, doc[Dbkeys.replyToMsgDoc]),
-                  SizedBox(
-                    height: 10,
+                  Icon(
+                    FontAwesomeIcons.share,
+                    size: 12,
+                    color: fiberchatGrey.withOpacity(0.5),
                   ),
-                  selectablelinkify(doc[Dbkeys.content], 16),
-                ],
-              )
-            : doc.containsKey(Dbkeys.isForward) == true
-                ? doc[Dbkeys.isForward] == true
-                    ? Column(
-                        crossAxisAlignment: isMe
-                            ? CrossAxisAlignment.start
-                            : CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                              child: Row(
-                                  mainAxisAlignment: isMe == true
-                                      ? MainAxisAlignment.start
-                                      : MainAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                Icon(
-                                  FontAwesomeIcons.share,
-                                  size: 12,
-                                  color: fiberchatGrey.withOpacity(0.5),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(getTranslated(this.context, 'forwarded'),
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        color: fiberchatGrey.withOpacity(0.7),
-                                        fontStyle: FontStyle.italic,
-                                        overflow: TextOverflow.ellipsis,
-                                        fontSize: 13))
-                              ])),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          selectablelinkify(doc[Dbkeys.content], 16),
-                        ],
-                      )
-                    : selectablelinkify(doc[Dbkeys.content], 16)
-                : selectablelinkify(doc[Dbkeys.content], 16)
-        : selectablelinkify(doc[Dbkeys.content], 16);
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(getTranslated(this.context, 'forwarded'),
+                      maxLines: 1,
+                      style: TextStyle(
+                          color: fiberchatGrey.withOpacity(0.7),
+                          fontStyle: FontStyle.italic,
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: 13))
+                ])),
+        SizedBox(
+          height: 10,
+        ),
+        selectablelinkify(doc[Dbkeys.content], 16, isMe),
+      ],
+    )
+        : selectablelinkify(doc[Dbkeys.content], 16, isMe)
+        : selectablelinkify(doc[Dbkeys.content], 16, isMe)
+        : selectablelinkify(doc[Dbkeys.content], 16, isMe);
   }
 
-  Widget getTempTextMessage(
-    String message,
-    Map<String, dynamic> doc,
-  ) {
+  Widget getTempTextMessage(String message,
+      Map<String, dynamic> doc,) {
     final bool isMe = doc[Dbkeys.from] == currentUserNo;
     return doc.containsKey(Dbkeys.isReply) == true
         ? doc[Dbkeys.isReply] == true
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.end,
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        replyAttachedWidget(this.context, doc[Dbkeys.replyToMsgDoc]),
+        SizedBox(
+          height: 10,
+        ),
+        selectablelinkify(message, 16, isMe)
+      ],
+    )
+        : doc.containsKey(Dbkeys.isForward) == true
+        ? doc[Dbkeys.isForward] == true
+        ? Column(
+      crossAxisAlignment: isMe
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+            child: Row(
+                mainAxisAlignment: isMe == true
+                    ? MainAxisAlignment.start
+                    : MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  replyAttachedWidget(this.context, doc[Dbkeys.replyToMsgDoc]),
-                  SizedBox(
-                    height: 10,
+                  Icon(
+                    FontAwesomeIcons.share,
+                    size: 12,
+                    color: fiberchatGrey.withOpacity(0.5),
                   ),
-                  selectablelinkify(message, 16)
-                ],
-              )
-            : doc.containsKey(Dbkeys.isForward) == true
-                ? doc[Dbkeys.isForward] == true
-                    ? Column(
-                        crossAxisAlignment: isMe
-                            ? CrossAxisAlignment.end
-                            : CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                              child: Row(
-                                  mainAxisAlignment: isMe == true
-                                      ? MainAxisAlignment.start
-                                      : MainAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                Icon(
-                                  FontAwesomeIcons.share,
-                                  size: 12,
-                                  color: fiberchatGrey.withOpacity(0.5),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(getTranslated(this.context, 'forwarded'),
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        color: fiberchatGrey.withOpacity(0.7),
-                                        fontStyle: FontStyle.italic,
-                                        overflow: TextOverflow.ellipsis,
-                                        fontSize: 13))
-                              ])),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          selectablelinkify(message, 16)
-                        ],
-                      )
-                    : selectablelinkify(message, 16)
-                : selectablelinkify(message, 16)
-        : selectablelinkify(message, 16);
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(getTranslated(this.context, 'forwarded'),
+                      maxLines: 1,
+                      style: TextStyle(
+                          color: fiberchatGrey.withOpacity(0.7),
+                          fontStyle: FontStyle.italic,
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: 13))
+                ])),
+        SizedBox(
+          height: 10,
+        ),
+        selectablelinkify(message, 16, isMe)
+      ],
+    )
+        : selectablelinkify(message, 16, isMe)
+        : selectablelinkify(message, 16, isMe)
+        : selectablelinkify(message, 16, isMe);
   }
 
   Widget getLocationMessage(Map<String, dynamic> doc, String? message,
@@ -1943,54 +1976,54 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
       },
       child: doc.containsKey(Dbkeys.isForward) == true
           ? doc[Dbkeys.isForward] == true
-              ? Column(
-                  crossAxisAlignment:
-                      isMe ? CrossAxisAlignment.start : CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
+          ? Column(
+        crossAxisAlignment:
+        isMe ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+              child: Row(
+                  mainAxisAlignment: isMe == true
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
-                        child: Row(
-                            mainAxisAlignment: isMe == true
-                                ? MainAxisAlignment.start
-                                : MainAxisAlignment.end,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                          Icon(
-                            FontAwesomeIcons.share,
-                            size: 12,
-                            color: fiberchatGrey.withOpacity(0.5),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(getTranslated(this.context, 'forwarded'),
-                              maxLines: 1,
-                              style: TextStyle(
-                                  color: fiberchatGrey.withOpacity(0.7),
-                                  fontStyle: FontStyle.italic,
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 13))
-                        ])),
-                    SizedBox(
-                      height: 10,
+                    Icon(
+                      FontAwesomeIcons.share,
+                      size: 12,
+                      color: fiberchatGrey.withOpacity(0.5),
                     ),
-                    Image.asset(
-                      'assets/images/mapview.jpg',
-                    )
-                  ],
-                )
-              : Image.asset(
-                  'assets/images/mapview.jpg',
-                )
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(getTranslated(this.context, 'forwarded'),
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: fiberchatGrey.withOpacity(0.7),
+                            fontStyle: FontStyle.italic,
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 13))
+                  ])),
+          SizedBox(
+            height: 10,
+          ),
+          Image.asset(
+            'assets/images/mapview.jpg',
+          )
+        ],
+      )
           : Image.asset(
-              'assets/images/mapview.jpg',
-            ),
+        'assets/images/mapview.jpg',
+      )
+          : Image.asset(
+        'assets/images/mapview.jpg',
+      ),
     );
   }
 
-  Widget getAudiomessage(
-      BuildContext context, Map<String, dynamic> doc, String message,
+  Widget getAudiomessage(BuildContext context, Map<String, dynamic> doc,
+      String message,
       {bool saved = false, bool isMe = true}) {
     return Container(
       margin: EdgeInsets.only(bottom: 10),
@@ -1998,35 +2031,35 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
       // height: 116,
       child: Column(
         crossAxisAlignment:
-            isMe == true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        isMe == true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: [
           doc.containsKey(Dbkeys.isForward) == true
               ? doc[Dbkeys.isForward] == true
-                  ? Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Row(
-                          mainAxisAlignment: isMe == true
-                              ? MainAxisAlignment.start
-                              : MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.share,
-                              size: 12,
-                              color: fiberchatGrey.withOpacity(0.5),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(getTranslated(this.context, 'forwarded'),
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: fiberchatGrey.withOpacity(0.7),
-                                    fontStyle: FontStyle.italic,
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 13))
-                          ]))
-                  : SizedBox(height: 0, width: 0)
+              ? Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: Row(
+                  mainAxisAlignment: isMe == true
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.share,
+                      size: 12,
+                      color: fiberchatGrey.withOpacity(0.5),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(getTranslated(this.context, 'forwarded'),
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: fiberchatGrey.withOpacity(0.7),
+                            fontStyle: FontStyle.italic,
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 13))
+                  ]))
+              : SizedBox(height: 0, width: 0)
               : SizedBox(height: 0, width: 0),
           SizedBox(
             width: 200,
@@ -2035,18 +2068,18 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
               isMe: isMe,
               onTapDownloadFn: Platform.isIOS || Platform.isAndroid
                   ? () {
-                      launch(message.split('-BREAK-')[0]);
-                    }
+                launch(message.split('-BREAK-')[0]);
+              }
                   : () async {
-                      await downloadFile(
-                        context: _scaffold.currentContext!,
-                        fileName:
-                            'Recording_' + message.split('-BREAK-')[1] + '.mp3',
-                        isonlyview: false,
-                        keyloader: _keyLoader,
-                        uri: message.split('-BREAK-')[0],
-                      );
-                    },
+                await downloadFile(
+                  context: _scaffold.currentContext!,
+                  fileName:
+                  'Recording_' + message.split('-BREAK-')[1] + '.mp3',
+                  isonlyview: false,
+                  keyloader: _keyLoader,
+                  uri: message.split('-BREAK-')[0],
+                );
+              },
               url: message.split('-BREAK-')[0],
             ),
           )
@@ -2055,8 +2088,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget getDocmessage(
-      BuildContext context, Map<String, dynamic> doc, String message,
+  Widget getDocmessage(BuildContext context, Map<String, dynamic> doc,
+      String message,
       {bool saved = false}) {
     final bool isMe = doc[Dbkeys.from] == currentUserNo;
     return SizedBox(
@@ -2064,35 +2097,35 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
       height: 116,
       child: Column(
         crossAxisAlignment:
-            isMe == true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        isMe == true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: [
           doc.containsKey(Dbkeys.isForward) == true
               ? doc[Dbkeys.isForward] == true
-                  ? Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Row(
-                          mainAxisAlignment: isMe == true
-                              ? MainAxisAlignment.start
-                              : MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.share,
-                              size: 12,
-                              color: fiberchatGrey.withOpacity(0.5),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(getTranslated(this.context, 'forwarded'),
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: fiberchatGrey.withOpacity(0.7),
-                                    fontStyle: FontStyle.italic,
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 13))
-                          ]))
-                  : SizedBox(height: 0, width: 0)
+              ? Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: Row(
+                  mainAxisAlignment: isMe == true
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.share,
+                      size: 12,
+                      color: fiberchatGrey.withOpacity(0.5),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(getTranslated(this.context, 'forwarded'),
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: fiberchatGrey.withOpacity(0.7),
+                            fontStyle: FontStyle.italic,
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 13))
+                  ]))
+              : SizedBox(height: 0, width: 0)
               : SizedBox(height: 0, width: 0),
           ListTile(
             contentPadding: EdgeInsets.all(4),
@@ -2124,66 +2157,67 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
           ),
           message.split('-BREAK-')[1].endsWith('.pdf')
               ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // ignore: deprecated_member_use
-                    FlatButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<dynamic>(
-                              builder: (_) => PDFViewerCachedFromUrl(
-                                title: message.split('-BREAK-')[1],
-                                url: message.split('-BREAK-')[0],
-                                isregistered: true,
-                              ),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // ignore: deprecated_member_use
+              FlatButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<dynamic>(
+                        builder: (_) =>
+                            PDFViewerCachedFromUrl(
+                              title: message.split('-BREAK-')[1],
+                              url: message.split('-BREAK-')[0],
+                              isregistered: true,
                             ),
-                          );
-                        },
-                        child: Text(getTranslated(this.context, 'preview'),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Colors.blue[400]))),
-                    // ignore: deprecated_member_use
-                    FlatButton(
-                        onPressed: Platform.isIOS || Platform.isAndroid
-                            ? () {
-                                launch(message.split('-BREAK-')[0]);
-                              }
-                            : () async {
-                                await downloadFile(
-                                  context: _scaffold.currentContext!,
-                                  fileName: message.split('-BREAK-')[1],
-                                  isonlyview: false,
-                                  keyloader: _keyLoader,
-                                  uri: message.split('-BREAK-')[0],
-                                );
-                              },
-                        child: Text(getTranslated(this.context, 'download'),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Colors.blue[400]))),
-                  ],
-                )
-              //ignore: deprecated_member_use
-              : FlatButton(
+                      ),
+                    );
+                  },
+                  child: Text(getTranslated(this.context, 'preview'),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.blue[400]))),
+              // ignore: deprecated_member_use
+              FlatButton(
                   onPressed: Platform.isIOS || Platform.isAndroid
                       ? () {
-                          launch(message.split('-BREAK-')[0]);
-                        }
+                    launch(message.split('-BREAK-')[0]);
+                  }
                       : () async {
-                          await downloadFile(
-                            context: _scaffold.currentContext!,
-                            fileName: message.split('-BREAK-')[1],
-                            isonlyview: false,
-                            keyloader: _keyLoader,
-                            uri: message.split('-BREAK-')[0],
-                          );
-                        },
+                    await downloadFile(
+                      context: _scaffold.currentContext!,
+                      fileName: message.split('-BREAK-')[1],
+                      isonlyview: false,
+                      keyloader: _keyLoader,
+                      uri: message.split('-BREAK-')[0],
+                    );
+                  },
                   child: Text(getTranslated(this.context, 'download'),
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Colors.blue[400]))),
+            ],
+          )
+          //ignore: deprecated_member_use
+              : FlatButton(
+              onPressed: Platform.isIOS || Platform.isAndroid
+                  ? () {
+                launch(message.split('-BREAK-')[0]);
+              }
+                  : () async {
+                await downloadFile(
+                  context: _scaffold.currentContext!,
+                  fileName: message.split('-BREAK-')[1],
+                  isonlyview: false,
+                  keyloader: _keyLoader,
+                  uri: message.split('-BREAK-')[0],
+                );
+              },
+              child: Text(getTranslated(this.context, 'download'),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: Colors.blue[400]))),
         ],
       ),
     );
@@ -2194,90 +2228,93 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     return Container(
       child: Column(
         crossAxisAlignment:
-            isMe == true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        isMe == true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           doc.containsKey(Dbkeys.isForward) == true
               ? doc[Dbkeys.isForward] == true
-                  ? Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Row(
-                          mainAxisAlignment: isMe == true
-                              ? MainAxisAlignment.start
-                              : MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.share,
-                              size: 12,
-                              color: fiberchatGrey.withOpacity(0.5),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(getTranslated(this.context, 'forwarded'),
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: fiberchatGrey.withOpacity(0.7),
-                                    fontStyle: FontStyle.italic,
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 13))
-                          ]))
-                  : SizedBox(height: 0, width: 0)
+              ? Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: Row(
+                  mainAxisAlignment: isMe == true
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.share,
+                      size: 12,
+                      color: fiberchatGrey.withOpacity(0.5),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(getTranslated(this.context, 'forwarded'),
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: fiberchatGrey.withOpacity(0.7),
+                            fontStyle: FontStyle.italic,
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 13))
+                  ]))
+              : SizedBox(height: 0, width: 0)
               : SizedBox(height: 0, width: 0),
           saved
               ? Material(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: Save.getImageFromBase64(doc[Dbkeys.content])
-                              .image,
-                          fit: BoxFit.cover),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: Save
+                        .getImageFromBase64(doc[Dbkeys.content])
+                        .image,
+                    fit: BoxFit.cover),
+              ),
+              width: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
+              height: doc[Dbkeys.content].contains('giphy') ? 102 : 200.0,
+            ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(8.0),
+            ),
+            clipBehavior: Clip.hardEdge,
+          )
+              : CachedNetworkImage(
+            placeholder: (context, url) =>
+                Container(
+                  child: CircularProgressIndicator(
+                    valueColor:
+                    AlwaysStoppedAnimation<Color>(fiberchatBlack),
+                  ),
+                  width: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
+                  height: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
+                  padding: EdgeInsets.all(80.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
                     ),
-                    width: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
-                    height: doc[Dbkeys.content].contains('giphy') ? 102 : 200.0,
+                  ),
+                ),
+            errorWidget: (context, str, error) =>
+                Material(
+                  child: Image.asset(
+                    'assets/images/img_not_available.jpeg',
+                    width:
+                    doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
+                    height:
+                    doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
+                    fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.all(
                     Radius.circular(8.0),
                   ),
                   clipBehavior: Clip.hardEdge,
-                )
-              : CachedNetworkImage(
-                  placeholder: (context, url) => Container(
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.blueGrey[400]!),
-                    ),
-                    width: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
-                    height: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
-                    padding: EdgeInsets.all(80.0),
-                    decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8.0),
-                      ),
-                    ),
-                  ),
-                  errorWidget: (context, str, error) => Material(
-                    child: Image.asset(
-                      'assets/images/img_not_available.jpeg',
-                      width:
-                          doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
-                      height:
-                          doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8.0),
-                    ),
-                    clipBehavior: Clip.hardEdge,
-                  ),
-                  imageUrl: doc[Dbkeys.content],
-                  width: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
-                  height: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
-                  fit: BoxFit.cover,
                 ),
+            imageUrl: doc[Dbkeys.content],
+            width: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
+            height: doc[Dbkeys.content].contains('giphy') ? 120 : 200.0,
+            fit: BoxFit.cover,
+          ),
         ],
       ),
     );
@@ -2286,66 +2323,67 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   Widget getTempImageMessage({String? url}) {
     return url == null
         ? Container(
-            child: Image.file(
-              pickedFile!,
-              width: url!.contains('giphy') ? 120 : 200.0,
-              height: url.contains('giphy') ? 120 : 200.0,
-              fit: BoxFit.cover,
-            ),
-          )
+      child: Image.file(
+        pickedFile!,
+        width: url!.contains('giphy') ? 120 : 200.0,
+        height: url.contains('giphy') ? 120 : 200.0,
+        fit: BoxFit.cover,
+      ),
+    )
         : getImageMessage({Dbkeys.content: url});
   }
 
-  Widget getVideoMessage(
-      BuildContext context, Map<String, dynamic> doc, String message,
+  Widget getVideoMessage(BuildContext context, Map<String, dynamic> doc,
+      String message,
       {bool saved = false}) {
     Map<dynamic, dynamic>? meta =
-        jsonDecode((message.split('-BREAK-')[2]).toString());
+    jsonDecode((message.split('-BREAK-')[2]).toString());
     final bool isMe = doc[Dbkeys.from] == currentUserNo;
     return InkWell(
       onTap: () {
         Navigator.push(
             this.context,
             new MaterialPageRoute(
-                builder: (context) => new PreviewVideo(
-                      isdownloadallowed: true,
-                      filename: message.split('-BREAK-')[1],
-                      id: null,
-                      videourl: message.split('-BREAK-')[0],
-                      aspectratio: meta!["width"] / meta["height"],
-                    )));
+                builder: (context) =>
+                new PreviewVideo(
+                  isdownloadallowed: true,
+                  filename: message.split('-BREAK-')[1],
+                  id: null,
+                  videourl: message.split('-BREAK-')[0],
+                  aspectratio: meta!["width"] / meta["height"],
+                )));
       },
       child: Column(
         crossAxisAlignment:
-            isMe == true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        isMe == true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: [
           doc.containsKey(Dbkeys.isForward) == true
               ? doc[Dbkeys.isForward] == true
-                  ? Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Row(
-                          mainAxisAlignment: isMe == true
-                              ? MainAxisAlignment.start
-                              : MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.share,
-                              size: 12,
-                              color: fiberchatGrey.withOpacity(0.5),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(getTranslated(this.context, 'forwarded'),
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: fiberchatGrey.withOpacity(0.7),
-                                    fontStyle: FontStyle.italic,
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 13))
-                          ]))
-                  : SizedBox(height: 0, width: 0)
+              ? Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: Row(
+                  mainAxisAlignment: isMe == true
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.share,
+                      size: 12,
+                      color: fiberchatGrey.withOpacity(0.5),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(getTranslated(this.context, 'forwarded'),
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: fiberchatGrey.withOpacity(0.7),
+                            fontStyle: FontStyle.italic,
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 13))
+                  ]))
+              : SizedBox(height: 0, width: 0)
               : SizedBox(height: 0, width: 0),
           Container(
             color: Colors.blueGrey,
@@ -2354,33 +2392,35 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             child: Stack(
               children: [
                 CachedNetworkImage(
-                  placeholder: (context, url) => Container(
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.blueGrey[400]!),
-                    ),
-                    width: 197,
-                    height: 197,
-                    padding: EdgeInsets.all(80.0),
-                    decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(0.0),
+                  placeholder: (context, url) =>
+                      Container(
+                        child: CircularProgressIndicator(
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(fiberchatBlack),
+                        ),
+                        width: 197,
+                        height: 197,
+                        padding: EdgeInsets.all(80.0),
+                        decoration: BoxDecoration(
+                          color: Colors.blueGrey,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(0.0),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  errorWidget: (context, str, error) => Material(
-                    child: Image.asset(
-                      'assets/images/img_not_available.jpeg',
-                      width: 197,
-                      height: 197,
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(0.0),
-                    ),
-                    clipBehavior: Clip.hardEdge,
-                  ),
+                  errorWidget: (context, str, error) =>
+                      Material(
+                        child: Image.asset(
+                          'assets/images/img_not_available.jpeg',
+                          width: 197,
+                          height: 197,
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(0.0),
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                      ),
                   imageUrl: message.split('-BREAK-')[1],
                   width: 197,
                   height: 197,
@@ -2403,8 +2443,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget getContactMessage(
-      BuildContext context, Map<String, dynamic> doc, String message,
+  Widget getContactMessage(BuildContext context, Map<String, dynamic> doc,
+      String message,
       {bool saved = false}) {
     final bool isMe = doc[Dbkeys.from] == currentUserNo;
     return SizedBox(
@@ -2412,35 +2452,35 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
       height: 130,
       child: Column(
         crossAxisAlignment:
-            isMe == true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        isMe == true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: [
           doc.containsKey(Dbkeys.isForward) == true
               ? doc[Dbkeys.isForward] == true
-                  ? Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Row(
-                          mainAxisAlignment: isMe == true
-                              ? MainAxisAlignment.start
-                              : MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.share,
-                              size: 12,
-                              color: fiberchatGrey.withOpacity(0.5),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(getTranslated(this.context, 'forwarded'),
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: fiberchatGrey.withOpacity(0.7),
-                                    fontStyle: FontStyle.italic,
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 13))
-                          ]))
-                  : SizedBox(height: 0, width: 0)
+              ? Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: Row(
+                  mainAxisAlignment: isMe == true
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.share,
+                      size: 12,
+                      color: fiberchatGrey.withOpacity(0.5),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(getTranslated(this.context, 'forwarded'),
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: fiberchatGrey.withOpacity(0.7),
+                            fontStyle: FontStyle.italic,
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 13))
+                  ]))
+              : SizedBox(height: 0, width: 0)
               : SizedBox(height: 0, width: 0),
           ListTile(
             isThreeLine: false,
@@ -2514,15 +2554,15 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
 
                 Query<Map<String, dynamic>> query = issearchraw == true
                     ? FirebaseFirestore.instance
-                        .collection(DbPaths.collectionusers)
-                        .where(Dbkeys.phoneRaw,
-                            isEqualTo: formattedphone ?? peerphone)
-                        .limit(1)
+                    .collection(DbPaths.collectionusers)
+                    .where(Dbkeys.phoneRaw,
+                    isEqualTo: formattedphone ?? peerphone)
+                    .limit(1)
                     : FirebaseFirestore.instance
-                        .collection(DbPaths.collectionusers)
-                        .where(Dbkeys.phone,
-                            isEqualTo: formattedphone ?? peerphone)
-                        .limit(1);
+                    .collection(DbPaths.collectionusers)
+                    .where(Dbkeys.phone,
+                    isEqualTo: formattedphone ?? peerphone)
+                    .limit(1);
 
                 await query.get().then((user) {
                   setStateIfMounted(() {
@@ -2534,7 +2574,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     Navigator.pushReplacement(
                         context,
                         new MaterialPageRoute(
-                            builder: (context) => new ChatScreen(
+                            builder: (context) =>
+                            new ChatScreen(
                                 isSharingIntentForwarded: false,
                                 prefs: widget.prefs,
                                 unread: 0,
@@ -2543,25 +2584,25 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 peerNo: peer[Dbkeys.phone])));
                   } else {
                     Query<Map<String, dynamic>> queryretrywithoutzero =
-                        issearchraw == true
-                            ? FirebaseFirestore.instance
-                                .collection(DbPaths.collectionusers)
-                                .where(Dbkeys.phoneRaw,
-                                    isEqualTo: formattedphone == null
-                                        ? peerphone!
-                                            .substring(1, peerphone!.length)
-                                        : formattedphone!.substring(
-                                            1, formattedphone!.length))
-                                .limit(1)
-                            : FirebaseFirestore.instance
-                                .collection(DbPaths.collectionusers)
-                                .where(Dbkeys.phoneRaw,
-                                    isEqualTo: formattedphone == null
-                                        ? peerphone!
-                                            .substring(1, peerphone!.length)
-                                        : formattedphone!.substring(
-                                            1, formattedphone!.length))
-                                .limit(1);
+                    issearchraw == true
+                        ? FirebaseFirestore.instance
+                        .collection(DbPaths.collectionusers)
+                        .where(Dbkeys.phoneRaw,
+                        isEqualTo: formattedphone == null
+                            ? peerphone!
+                            .substring(1, peerphone!.length)
+                            : formattedphone!.substring(
+                            1, formattedphone!.length))
+                        .limit(1)
+                        : FirebaseFirestore.instance
+                        .collection(DbPaths.collectionusers)
+                        .where(Dbkeys.phoneRaw,
+                        isEqualTo: formattedphone == null
+                            ? peerphone!
+                            .substring(1, peerphone!.length)
+                            : formattedphone!.substring(
+                            1, formattedphone!.length))
+                        .limit(1);
                     queryretrywithoutzero.get().then((user) {
                       setStateIfMounted(() {
                         isLoading = false;
@@ -2573,7 +2614,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                         Navigator.pushReplacement(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) => new ChatScreen(
+                                builder: (context) =>
+                                new ChatScreen(
                                     isSharingIntentForwarded: true,
                                     prefs: widget.prefs,
                                     unread: 0,
@@ -2630,7 +2672,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     bool isContinuing;
     if (savedMsgs == null)
       isContinuing =
-          messages.isNotEmpty ? messages.last.from == doc[Dbkeys.from] : false;
+      messages.isNotEmpty ? messages.last.from == doc[Dbkeys.from] : false;
     else {
       isContinuing = savedMsgs.isNotEmpty
           ? savedMsgs.last.from == doc[Dbkeys.from]
@@ -2641,18 +2683,20 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         data: seenState,
         child: Bubble(
             isURLtext: doc[Dbkeys.messageType] == MessageType.text.index &&
-                Uri.parse(doc[Dbkeys.content]!).isAbsolute,
+                Uri
+                    .parse(doc[Dbkeys.content]!)
+                    .isAbsolute,
             mssgDoc: doc,
             is24hrsFormat: observer.is24hrsTimeformat,
             isMssgDeleted: (doc.containsKey(Dbkeys.hasRecipientDeleted) &&
-                    doc.containsKey(Dbkeys.hasSenderDeleted))
+                doc.containsKey(Dbkeys.hasSenderDeleted))
                 ? isMe
-                    ? (doc[Dbkeys.from] == widget.currentUserNo
-                        ? doc[Dbkeys.hasSenderDeleted]
-                        : false)
-                    : (doc[Dbkeys.from] != widget.currentUserNo
-                        ? doc[Dbkeys.hasRecipientDeleted]
-                        : false)
+                ? (doc[Dbkeys.from] == widget.currentUserNo
+                ? doc[Dbkeys.hasSenderDeleted]
+                : false)
+                : (doc[Dbkeys.from] != widget.currentUserNo
+                ? doc[Dbkeys.hasRecipientDeleted]
+                : false)
                 : false,
             isBroadcastMssg: doc.containsKey(Dbkeys.isbroadcast) == true
                 ? doc[Dbkeys.isbroadcast]
@@ -2660,54 +2704,54 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             messagetype: doc[Dbkeys.messageType] == MessageType.text.index
                 ? MessageType.text
                 : doc[Dbkeys.messageType] == MessageType.contact.index
-                    ? MessageType.contact
-                    : doc[Dbkeys.messageType] == MessageType.location.index
-                        ? MessageType.location
-                        : doc[Dbkeys.messageType] == MessageType.image.index
-                            ? MessageType.image
-                            : doc[Dbkeys.messageType] == MessageType.video.index
-                                ? MessageType.video
-                                : doc[Dbkeys.messageType] ==
-                                        MessageType.doc.index
-                                    ? MessageType.doc
-                                    : doc[Dbkeys.messageType] ==
-                                            MessageType.audio.index
-                                        ? MessageType.audio
-                                        : MessageType.text,
+                ? MessageType.contact
+                : doc[Dbkeys.messageType] == MessageType.location.index
+                ? MessageType.location
+                : doc[Dbkeys.messageType] == MessageType.image.index
+                ? MessageType.image
+                : doc[Dbkeys.messageType] == MessageType.video.index
+                ? MessageType.video
+                : doc[Dbkeys.messageType] ==
+                MessageType.doc.index
+                ? MessageType.doc
+                : doc[Dbkeys.messageType] ==
+                MessageType.audio.index
+                ? MessageType.audio
+                : MessageType.text,
             child: doc[Dbkeys.messageType] == MessageType.text.index
                 ? getTextMessage(isMe, doc, saved)
                 : doc[Dbkeys.messageType] == MessageType.location.index
-                    ? getLocationMessage(doc, doc[Dbkeys.content], saved: false)
-                    : doc[Dbkeys.messageType] == MessageType.doc.index
-                        ? getDocmessage(context, doc, doc[Dbkeys.content],
-                            saved: false)
-                        : doc[Dbkeys.messageType] == MessageType.audio.index
-                            ? getAudiomessage(context, doc, doc[Dbkeys.content],
-                                isMe: isMe, saved: false)
-                            : doc[Dbkeys.messageType] == MessageType.video.index
-                                ? getVideoMessage(
-                                    context, doc, doc[Dbkeys.content],
-                                    saved: false)
-                                : doc[Dbkeys.messageType] ==
-                                        MessageType.contact.index
-                                    ? getContactMessage(
-                                        context, doc, doc[Dbkeys.content],
-                                        saved: false)
-                                    : getImageMessage(
-                                        doc,
-                                        saved: saved,
-                                      ),
+                ? getLocationMessage(doc, doc[Dbkeys.content], saved: false)
+                : doc[Dbkeys.messageType] == MessageType.doc.index
+                ? getDocmessage(context, doc, doc[Dbkeys.content],
+                saved: false)
+                : doc[Dbkeys.messageType] == MessageType.audio.index
+                ? getAudiomessage(context, doc, doc[Dbkeys.content],
+                isMe: isMe, saved: false)
+                : doc[Dbkeys.messageType] == MessageType.video.index
+                ? getVideoMessage(
+                context, doc, doc[Dbkeys.content],
+                saved: false)
+                : doc[Dbkeys.messageType] ==
+                MessageType.contact.index
+                ? getContactMessage(
+                context, doc, doc[Dbkeys.content],
+                saved: false)
+                : getImageMessage(
+              doc,
+              saved: saved,
+            ),
             isMe: isMe,
             timestamp: doc[Dbkeys.timestamp],
             delivered:
-                _cachedModel.getMessageStatus(peerNo, doc[Dbkeys.timestamp]),
+            _cachedModel.getMessageStatus(peerNo, doc[Dbkeys.timestamp]),
             isContinuing: isContinuing));
   }
 
   replyAttachedWidget(BuildContext context, var doc) {
     return Flexible(
       child: Container(
-          // width: 280,
+        // width: 280,
           height: 70,
           margin: EdgeInsets.only(left: 0, right: 0),
           decoration: BoxDecoration(
@@ -2740,277 +2784,278 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     ),
                     Expanded(
                         child: Container(
-                      padding: EdgeInsetsDirectional.all(5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 30),
-                            child: Text(
-                              doc[Dbkeys.from] == currentUserNo
-                                  ? getTranslated(this.context, 'you')
-                                  : Fiberchat.getNickname(peer!)!,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: doc[Dbkeys.from] == currentUserNo
-                                      ? fiberchatgreen
-                                      : Colors.purple),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          doc[Dbkeys.messageType] == MessageType.text.index
-                              ? Text(
-                                  doc[Dbkeys.content],
+                          padding: EdgeInsetsDirectional.all(5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 30),
+                                child: Text(
+                                  doc[Dbkeys.from] == currentUserNo
+                                      ? getTranslated(this.context, 'you')
+                                      : Fiberchat.getNickname(peer!)!,
                                   overflow: TextOverflow.ellipsis,
-                                  // textAlign:  doc[Dbkeys.from] == currentUserNo? TextAlign.end: TextAlign.start,
-                                  maxLines: 2,
-                                )
-                              : doc[Dbkeys.messageType] == MessageType.doc.index
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: doc[Dbkeys.from] == currentUserNo
+                                          ? fiberchatgreen
+                                          : Colors.purple),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              doc[Dbkeys.messageType] == MessageType.text.index
+                                  ? Text(
+                                doc[Dbkeys.content],
+                                overflow: TextOverflow.ellipsis,
+                                // textAlign:  doc[Dbkeys.from] == currentUserNo? TextAlign.end: TextAlign.start,
+                                maxLines: 2,
+                              )
+                                  : doc[Dbkeys.messageType] == MessageType.doc
+                                  .index
                                   ? Container(
-                                      padding: const EdgeInsets.only(right: 70),
-                                      child: Text(
-                                        doc[Dbkeys.content].split('-BREAK-')[1],
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ),
-                                    )
+                                padding: const EdgeInsets.only(right: 70),
+                                child: Text(
+                                  doc[Dbkeys.content].split('-BREAK-')[1],
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              )
                                   : Text(
-                                      getTranslated(
-                                          this.context,
-                                          doc[Dbkeys.messageType] ==
-                                                  MessageType.image.index
-                                              ? 'nim'
-                                              : doc[Dbkeys.messageType] ==
-                                                      MessageType.video.index
-                                                  ? 'nvm'
-                                                  : doc[Dbkeys.messageType] ==
-                                                          MessageType
-                                                              .audio.index
-                                                      ? 'nam'
-                                                      : doc[Dbkeys.messageType] ==
-                                                              MessageType
-                                                                  .contact.index
-                                                          ? 'ncm'
-                                                          : doc[Dbkeys.messageType] ==
-                                                                  MessageType
-                                                                      .location
-                                                                      .index
-                                                              ? 'nlm'
-                                                              : doc[Dbkeys.messageType] ==
-                                                                      MessageType
-                                                                          .doc
-                                                                          .index
-                                                                  ? 'ndm'
-                                                                  : ''),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                        ],
-                      ),
-                    ))
+                                getTranslated(
+                                    this.context,
+                                    doc[Dbkeys.messageType] ==
+                                        MessageType.image.index
+                                        ? 'nim'
+                                        : doc[Dbkeys.messageType] ==
+                                        MessageType.video.index
+                                        ? 'nvm'
+                                        : doc[Dbkeys.messageType] ==
+                                        MessageType
+                                            .audio.index
+                                        ? 'nam'
+                                        : doc[Dbkeys.messageType] ==
+                                        MessageType
+                                            .contact.index
+                                        ? 'ncm'
+                                        : doc[Dbkeys.messageType] ==
+                                        MessageType
+                                            .location
+                                            .index
+                                        ? 'nlm'
+                                        : doc[Dbkeys.messageType] ==
+                                        MessageType
+                                            .doc
+                                            .index
+                                        ? 'ndm'
+                                        : ''),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ))
                   ])),
               doc[Dbkeys.messageType] == MessageType.text.index ||
-                      doc[Dbkeys.messageType] == MessageType.location.index
+                  doc[Dbkeys.messageType] == MessageType.location.index
                   ? SizedBox(
-                      width: 0,
-                      height: 0,
-                    )
+                width: 0,
+                height: 0,
+              )
                   : doc[Dbkeys.messageType] == MessageType.image.index
-                      ? Positioned(
-                          right: -2,
-                          top: -2,
-                          child: Container(
-                            width: 74.0,
-                            height: 74.0,
-                            padding: EdgeInsetsDirectional.all(6),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(5),
-                                  bottomRight: Radius.circular(5),
-                                  topLeft: Radius.circular(0),
-                                  bottomLeft: Radius.circular(0)),
-                              child: CachedNetworkImage(
-                                placeholder: (context, url) => Container(
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        fiberchatBlue),
-                                  ),
-                                  width: doc[Dbkeys.content].contains('giphy')
-                                      ? 60
-                                      : 60.0,
-                                  height: doc[Dbkeys.content].contains('giphy')
-                                      ? 60
-                                      : 60.0,
-                                  padding: EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blueGrey[200],
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8.0),
-                                    ),
-                                  ),
-                                ),
-                                errorWidget: (context, str, error) => Material(
-                                  child: Image.asset(
-                                    'assets/images/img_not_available.jpeg',
-                                    width: 60.0,
-                                    height: 60,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8.0),
-                                  ),
-                                  clipBehavior: Clip.hardEdge,
-                                ),
-                                imageUrl: doc[Dbkeys.messageType] ==
-                                        MessageType.video.index
-                                    ? ''
-                                    : doc[Dbkeys.content],
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover,
+                  ? Positioned(
+                right: -2,
+                top: -2,
+                child: Container(
+                  width: 74.0,
+                  height: 74.0,
+                  padding: EdgeInsetsDirectional.all(6),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(5),
+                        bottomRight: Radius.circular(5),
+                        topLeft: Radius.circular(0),
+                        bottomLeft: Radius.circular(0)),
+                    child: CachedNetworkImage(
+                      placeholder: (context, url) =>
+                          Container(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  fiberchatBlack),
+                            ),
+                            width: doc[Dbkeys.content].contains('giphy')
+                                ? 60
+                                : 60.0,
+                            height: doc[Dbkeys.content].contains('giphy')
+                                ? 60
+                                : 60.0,
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: Colors.blueGrey[200],
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
                               ),
                             ),
                           ),
-                        )
-                      : doc[Dbkeys.messageType] == MessageType.video.index
-                          ? Positioned(
-                              right: -2,
-                              top: -2,
-                              child: Container(
-                                  width: 74.0,
-                                  height: 74.0,
-                                  padding: EdgeInsetsDirectional.all(6),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(5),
-                                          bottomRight: Radius.circular(5),
-                                          topLeft: Radius.circular(0),
-                                          bottomLeft: Radius.circular(0)),
-                                      child: Container(
-                                        color: Colors.blueGrey[200],
-                                        height: 74,
-                                        width: 74,
-                                        child: Stack(
-                                          children: [
-                                            CachedNetworkImage(
-                                              placeholder: (context, url) =>
-                                                  Container(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation<
-                                                          Color>(fiberchatBlue),
-                                                ),
-                                                width: 74,
-                                                height: 74,
-                                                padding: EdgeInsets.all(8.0),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.blueGrey[200],
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(0.0),
-                                                  ),
-                                                ),
-                                              ),
-                                              errorWidget:
-                                                  (context, str, error) =>
-                                                      Material(
-                                                child: Image.asset(
-                                                  'assets/images/img_not_available.jpeg',
-                                                  width: 60,
-                                                  height: 60,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(0.0),
-                                                ),
-                                                clipBehavior: Clip.hardEdge,
-                                              ),
-                                              imageUrl: doc[Dbkeys.content]
-                                                  .split('-BREAK-')[1],
-                                              width: 74,
-                                              height: 74,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            Container(
-                                              color:
-                                                  Colors.black.withOpacity(0.4),
-                                              height: 74,
-                                              width: 74,
-                                            ),
-                                            Center(
-                                              child: Icon(
-                                                  Icons
-                                                      .play_circle_fill_outlined,
-                                                  color: Colors.white70,
-                                                  size: 25),
-                                            ),
-                                          ],
+                      errorWidget: (context, str, error) =>
+                          Material(
+                            child: Image.asset(
+                              'assets/images/img_not_available.jpeg',
+                              width: 60.0,
+                              height: 60,
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                            clipBehavior: Clip.hardEdge,
+                          ),
+                      imageUrl: doc[Dbkeys.messageType] ==
+                          MessageType.video.index
+                          ? ''
+                          : doc[Dbkeys.content],
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              )
+                  : doc[Dbkeys.messageType] == MessageType.video.index
+                  ? Positioned(
+                  right: -2,
+                  top: -2,
+                  child: Container(
+                      width: 74.0,
+                      height: 74.0,
+                      padding: EdgeInsetsDirectional.all(6),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
+                              topLeft: Radius.circular(0),
+                              bottomLeft: Radius.circular(0)),
+                          child: Container(
+                            color: Colors.blueGrey[200],
+                            height: 74,
+                            width: 74,
+                            child: Stack(
+                              children: [
+                                CachedNetworkImage(
+                                  placeholder: (context, url) =>
+                                      Container(
+                                        child:
+                                        CircularProgressIndicator(
+                                          valueColor:
+                                          AlwaysStoppedAnimation<
+                                              Color>(fiberchatBlack),
                                         ),
-                                      ))))
-                          : Positioned(
-                              right: -2,
-                              top: -2,
-                              child: Container(
-                                  width: 74.0,
-                                  height: 74.0,
-                                  padding: EdgeInsetsDirectional.all(6),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(5),
-                                          bottomRight: Radius.circular(5),
-                                          topLeft: Radius.circular(0),
-                                          bottomLeft: Radius.circular(0)),
-                                      child: Container(
-                                          color: doc[Dbkeys.messageType] ==
-                                                  MessageType.doc.index
-                                              ? Colors.yellow[800]
-                                              : doc[Dbkeys.messageType] ==
-                                                      MessageType.audio.index
-                                                  ? Colors.green[400]
-                                                  : doc[Dbkeys.messageType] ==
-                                                          MessageType
-                                                              .location.index
-                                                      ? Colors.red[700]
-                                                      : doc[Dbkeys.messageType] ==
-                                                              MessageType
-                                                                  .contact.index
-                                                          ? Colors.blue[400]
-                                                          : Colors.cyan[700],
-                                          height: 74,
-                                          width: 74,
-                                          child: Icon(
-                                            doc[Dbkeys.messageType] ==
-                                                    MessageType.doc.index
-                                                ? Icons.insert_drive_file
-                                                : doc[Dbkeys.messageType] ==
-                                                        MessageType.audio.index
-                                                    ? Icons.mic_rounded
-                                                    : doc[Dbkeys.messageType] ==
-                                                            MessageType
-                                                                .location.index
-                                                        ? Icons.location_on
-                                                        : doc[Dbkeys.messageType] ==
-                                                                MessageType
-                                                                    .contact
-                                                                    .index
-                                                            ? Icons
-                                                                .contact_page_sharp
-                                                            : Icons
-                                                                .insert_drive_file,
-                                            color: Colors.white,
-                                            size: 35,
-                                          ))))),
+                                        width: 74,
+                                        height: 74,
+                                        padding: EdgeInsets.all(8.0),
+                                        decoration: BoxDecoration(
+                                          color: Colors.blueGrey[200],
+                                          borderRadius:
+                                          BorderRadius.all(
+                                            Radius.circular(0.0),
+                                          ),
+                                        ),
+                                      ),
+                                  errorWidget:
+                                      (context, str, error) =>
+                                      Material(
+                                        child: Image.asset(
+                                          'assets/images/img_not_available.jpeg',
+                                          width: 60,
+                                          height: 60,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(0.0),
+                                        ),
+                                        clipBehavior: Clip.hardEdge,
+                                      ),
+                                  imageUrl: doc[Dbkeys.content]
+                                      .split('-BREAK-')[1],
+                                  width: 74,
+                                  height: 74,
+                                  fit: BoxFit.cover,
+                                ),
+                                Container(
+                                  color:
+                                  Colors.black.withOpacity(0.4),
+                                  height: 74,
+                                  width: 74,
+                                ),
+                                Center(
+                                  child: Icon(
+                                      Icons
+                                          .play_circle_fill_outlined,
+                                      color: Colors.white70,
+                                      size: 25),
+                                ),
+                              ],
+                            ),
+                          ))))
+                  : Positioned(
+                  right: -2,
+                  top: -2,
+                  child: Container(
+                      width: 74.0,
+                      height: 74.0,
+                      padding: EdgeInsetsDirectional.all(6),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
+                              topLeft: Radius.circular(0),
+                              bottomLeft: Radius.circular(0)),
+                          child: Container(
+                              color: doc[Dbkeys.messageType] ==
+                                  MessageType.doc.index
+                                  ? Colors.yellow[800]
+                                  : doc[Dbkeys.messageType] ==
+                                  MessageType.audio.index
+                                  ? Colors.green[400]
+                                  : doc[Dbkeys.messageType] ==
+                                  MessageType
+                                      .location.index
+                                  ? Colors.red[700]
+                                  : doc[Dbkeys.messageType] ==
+                                  MessageType
+                                      .contact.index
+                                  ? Colors.blue[400]
+                                  : Colors.cyan[700],
+                              height: 74,
+                              width: 74,
+                              child: Icon(
+                                doc[Dbkeys.messageType] ==
+                                    MessageType.doc.index
+                                    ? Icons.insert_drive_file
+                                    : doc[Dbkeys.messageType] ==
+                                    MessageType.audio.index
+                                    ? Icons.mic_rounded
+                                    : doc[Dbkeys.messageType] ==
+                                    MessageType
+                                        .location.index
+                                    ? Icons.location_on
+                                    : doc[Dbkeys.messageType] ==
+                                    MessageType
+                                        .contact
+                                        .index
+                                    ? Icons
+                                    .contact_page_sharp
+                                    : Icons
+                                    .insert_drive_file,
+                                color: Colors.white,
+                                size: 35,
+                              ))))),
             ],
           )),
     );
   }
 
-  Widget buildReplyMessageForInput(
-    BuildContext context,
-  ) {
+  Widget buildReplyMessageForInput(BuildContext context,) {
     return Flexible(
       child: Container(
           height: 80,
@@ -3045,286 +3090,292 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     ),
                     Expanded(
                         child: Container(
-                      padding: EdgeInsetsDirectional.all(5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 30),
-                            child: Text(
-                              replyDoc![Dbkeys.from] == currentUserNo
-                                  ? getTranslated(this.context, 'you')
-                                  : Fiberchat.getNickname(peer!)!,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: replyDoc![Dbkeys.from] == currentUserNo
-                                      ? fiberchatgreen
-                                      : Colors.purple),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          replyDoc![Dbkeys.messageType] ==
+                          padding: EdgeInsetsDirectional.all(5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 30),
+                                child: Text(
+                                  replyDoc![Dbkeys.from] == currentUserNo
+                                      ? getTranslated(this.context, 'you')
+                                      : Fiberchat.getNickname(peer!)!,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: replyDoc![Dbkeys.from] ==
+                                          currentUserNo
+                                          ? fiberchatgreen
+                                          : Colors.purple),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              replyDoc![Dbkeys.messageType] ==
                                   MessageType.text.index
-                              ? Text(
-                                  replyDoc![Dbkeys.content],
+                                  ? Text(
+                                replyDoc![Dbkeys.content],
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              )
+                                  : replyDoc![Dbkeys.messageType] ==
+                                  MessageType.doc.index
+                                  ? Container(
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width -
+                                    125,
+                                padding: const EdgeInsets.only(right: 55),
+                                child: Text(
+                                  replyDoc![Dbkeys.content]
+                                      .split('-BREAK-')[1],
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
-                                )
-                              : replyDoc![Dbkeys.messageType] ==
-                                      MessageType.doc.index
-                                  ? Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          125,
-                                      padding: const EdgeInsets.only(right: 55),
-                                      child: Text(
-                                        replyDoc![Dbkeys.content]
-                                            .split('-BREAK-')[1],
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                      ),
-                                    )
+                                ),
+                              )
                                   : Text(
-                                      getTranslated(
-                                          this.context,
-                                          replyDoc![Dbkeys.messageType] ==
-                                                  MessageType.image.index
-                                              ? 'nim'
-                                              : replyDoc![Dbkeys.messageType] ==
-                                                      MessageType.video.index
-                                                  ? 'nvm'
-                                                  : replyDoc![Dbkeys
-                                                              .messageType] ==
-                                                          MessageType
-                                                              .audio.index
-                                                      ? 'nam'
-                                                      : replyDoc![Dbkeys
-                                                                  .messageType] ==
-                                                              MessageType
-                                                                  .contact.index
-                                                          ? 'ncm'
-                                                          : replyDoc![Dbkeys
-                                                                      .messageType] ==
-                                                                  MessageType
-                                                                      .location
-                                                                      .index
-                                                              ? 'nlm'
-                                                              : replyDoc![Dbkeys
-                                                                          .messageType] ==
-                                                                      MessageType
-                                                                          .doc
-                                                                          .index
-                                                                  ? 'ndm'
-                                                                  : ''),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ),
-                        ],
-                      ),
-                    ))
+                                getTranslated(
+                                    this.context,
+                                    replyDoc![Dbkeys.messageType] ==
+                                        MessageType.image.index
+                                        ? 'nim'
+                                        : replyDoc![Dbkeys.messageType] ==
+                                        MessageType.video.index
+                                        ? 'nvm'
+                                        : replyDoc![Dbkeys
+                                        .messageType] ==
+                                        MessageType
+                                            .audio.index
+                                        ? 'nam'
+                                        : replyDoc![Dbkeys
+                                        .messageType] ==
+                                        MessageType
+                                            .contact.index
+                                        ? 'ncm'
+                                        : replyDoc![Dbkeys
+                                        .messageType] ==
+                                        MessageType
+                                            .location
+                                            .index
+                                        ? 'nlm'
+                                        : replyDoc![Dbkeys
+                                        .messageType] ==
+                                        MessageType
+                                            .doc
+                                            .index
+                                        ? 'ndm'
+                                        : ''),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
+                            ],
+                          ),
+                        ))
                   ])),
               replyDoc![Dbkeys.messageType] == MessageType.text.index
                   ? SizedBox(
-                      width: 0,
-                      height: 0,
-                    )
+                width: 0,
+                height: 0,
+              )
                   : replyDoc![Dbkeys.messageType] == MessageType.image.index
-                      ? Positioned(
-                          right: -2,
-                          top: -2,
-                          child: Container(
-                            width: 84.0,
-                            height: 84.0,
-                            padding: EdgeInsetsDirectional.all(6),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(5),
-                                  bottomRight: Radius.circular(5),
-                                  topLeft: Radius.circular(0),
-                                  bottomLeft: Radius.circular(0)),
-                              child: CachedNetworkImage(
-                                placeholder: (context, url) => Container(
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        fiberchatBlue),
-                                  ),
-                                  width: replyDoc![Dbkeys.content]
-                                          .contains('giphy')
-                                      ? 60
-                                      : 60.0,
-                                  height: replyDoc![Dbkeys.content]
-                                          .contains('giphy')
-                                      ? 60
-                                      : 60.0,
-                                  padding: EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blueGrey[200],
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8.0),
-                                    ),
-                                  ),
-                                ),
-                                errorWidget: (context, str, error) => Material(
-                                  child: Image.asset(
-                                    'assets/images/img_not_available.jpeg',
-                                    width: 60.0,
-                                    height: 60,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8.0),
-                                  ),
-                                  clipBehavior: Clip.hardEdge,
-                                ),
-                                imageUrl: replyDoc![Dbkeys.messageType] ==
-                                        MessageType.video.index
-                                    ? ''
-                                    : replyDoc![Dbkeys.content],
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover,
+                  ? Positioned(
+                right: -2,
+                top: -2,
+                child: Container(
+                  width: 84.0,
+                  height: 84.0,
+                  padding: EdgeInsetsDirectional.all(6),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(5),
+                        bottomRight: Radius.circular(5),
+                        topLeft: Radius.circular(0),
+                        bottomLeft: Radius.circular(0)),
+                    child: CachedNetworkImage(
+                      placeholder: (context, url) =>
+                          Container(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  fiberchatBlack),
+                            ),
+                            width: replyDoc![Dbkeys.content]
+                                .contains('giphy')
+                                ? 60
+                                : 60.0,
+                            height: replyDoc![Dbkeys.content]
+                                .contains('giphy')
+                                ? 60
+                                : 60.0,
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: Colors.blueGrey[200],
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
                               ),
                             ),
                           ),
-                        )
-                      : replyDoc![Dbkeys.messageType] == MessageType.video.index
-                          ? Positioned(
-                              right: -2,
-                              top: -2,
-                              child: Container(
-                                  width: 84.0,
-                                  height: 84.0,
-                                  padding: EdgeInsetsDirectional.all(6),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(5),
-                                          bottomRight: Radius.circular(5),
-                                          topLeft: Radius.circular(0),
-                                          bottomLeft: Radius.circular(0)),
-                                      child: Container(
-                                        color: Colors.blueGrey[200],
-                                        height: 84,
-                                        width: 84,
-                                        child: Stack(
-                                          children: [
-                                            CachedNetworkImage(
-                                              placeholder: (context, url) =>
-                                                  Container(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation<
-                                                          Color>(fiberchatBlue),
-                                                ),
-                                                width: 84,
-                                                height: 84,
-                                                padding: EdgeInsets.all(8.0),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.blueGrey[200],
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(0.0),
-                                                  ),
-                                                ),
-                                              ),
-                                              errorWidget:
-                                                  (context, str, error) =>
-                                                      Material(
-                                                child: Image.asset(
-                                                  'assets/images/img_not_available.jpeg',
-                                                  width: 60,
-                                                  height: 60,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(0.0),
-                                                ),
-                                                clipBehavior: Clip.hardEdge,
-                                              ),
-                                              imageUrl:
-                                                  replyDoc![Dbkeys.content]
-                                                      .split('-BREAK-')[1],
-                                              width: 84,
-                                              height: 84,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            Container(
-                                              color:
-                                                  Colors.black.withOpacity(0.4),
-                                              height: 84,
-                                              width: 84,
-                                            ),
-                                            Center(
-                                              child: Icon(
-                                                  Icons
-                                                      .play_circle_fill_outlined,
-                                                  color: Colors.white70,
-                                                  size: 25),
-                                            ),
-                                          ],
+                      errorWidget: (context, str, error) =>
+                          Material(
+                            child: Image.asset(
+                              'assets/images/img_not_available.jpeg',
+                              width: 60.0,
+                              height: 60,
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                            clipBehavior: Clip.hardEdge,
+                          ),
+                      imageUrl: replyDoc![Dbkeys.messageType] ==
+                          MessageType.video.index
+                          ? ''
+                          : replyDoc![Dbkeys.content],
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              )
+                  : replyDoc![Dbkeys.messageType] == MessageType.video.index
+                  ? Positioned(
+                  right: -2,
+                  top: -2,
+                  child: Container(
+                      width: 84.0,
+                      height: 84.0,
+                      padding: EdgeInsetsDirectional.all(6),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
+                              topLeft: Radius.circular(0),
+                              bottomLeft: Radius.circular(0)),
+                          child: Container(
+                            color: Colors.blueGrey[200],
+                            height: 84,
+                            width: 84,
+                            child: Stack(
+                              children: [
+                                CachedNetworkImage(
+                                  placeholder: (context, url) =>
+                                      Container(
+                                        child:
+                                        CircularProgressIndicator(
+                                          valueColor:
+                                          AlwaysStoppedAnimation<
+                                              Color>(fiberchatBlack),
                                         ),
-                                      ))))
-                          : Positioned(
-                              right: -2,
-                              top: -2,
-                              child: Container(
-                                  width: 84.0,
-                                  height: 84.0,
-                                  padding: EdgeInsetsDirectional.all(6),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(5),
-                                          bottomRight: Radius.circular(5),
-                                          topLeft: Radius.circular(0),
-                                          bottomLeft: Radius.circular(0)),
-                                      child: Container(
-                                          color: replyDoc![
-                                                      Dbkeys.messageType] ==
-                                                  MessageType.doc.index
-                                              ? Colors.yellow[800]
-                                              : replyDoc![Dbkeys.messageType] ==
-                                                      MessageType.audio.index
-                                                  ? Colors.green[400]
-                                                  : replyDoc![Dbkeys
-                                                              .messageType] ==
-                                                          MessageType
-                                                              .location.index
-                                                      ? Colors.red[700]
-                                                      : replyDoc![Dbkeys
-                                                                  .messageType] ==
-                                                              MessageType
-                                                                  .contact.index
-                                                          ? Colors.blue[400]
-                                                          : Colors.cyan[700],
-                                          height: 84,
-                                          width: 84,
-                                          child: Icon(
-                                            replyDoc![Dbkeys.messageType] ==
-                                                    MessageType.doc.index
-                                                ? Icons.insert_drive_file
-                                                : replyDoc![Dbkeys
-                                                            .messageType] ==
-                                                        MessageType.audio.index
-                                                    ? Icons.mic_rounded
-                                                    : replyDoc![Dbkeys
-                                                                .messageType] ==
-                                                            MessageType
-                                                                .location.index
-                                                        ? Icons.location_on
-                                                        : replyDoc![Dbkeys
-                                                                    .messageType] ==
-                                                                MessageType
-                                                                    .contact
-                                                                    .index
-                                                            ? Icons
-                                                                .contact_page_sharp
-                                                            : Icons
-                                                                .insert_drive_file,
-                                            color: Colors.white,
-                                            size: 35,
-                                          ))))),
+                                        width: 84,
+                                        height: 84,
+                                        padding: EdgeInsets.all(8.0),
+                                        decoration: BoxDecoration(
+                                          color: Colors.blueGrey[200],
+                                          borderRadius:
+                                          BorderRadius.all(
+                                            Radius.circular(0.0),
+                                          ),
+                                        ),
+                                      ),
+                                  errorWidget:
+                                      (context, str, error) =>
+                                      Material(
+                                        child: Image.asset(
+                                          'assets/images/img_not_available.jpeg',
+                                          width: 60,
+                                          height: 60,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(0.0),
+                                        ),
+                                        clipBehavior: Clip.hardEdge,
+                                      ),
+                                  imageUrl:
+                                  replyDoc![Dbkeys.content]
+                                      .split('-BREAK-')[1],
+                                  width: 84,
+                                  height: 84,
+                                  fit: BoxFit.cover,
+                                ),
+                                Container(
+                                  color:
+                                  Colors.black.withOpacity(0.4),
+                                  height: 84,
+                                  width: 84,
+                                ),
+                                Center(
+                                  child: Icon(
+                                      Icons
+                                          .play_circle_fill_outlined,
+                                      color: Colors.white70,
+                                      size: 25),
+                                ),
+                              ],
+                            ),
+                          ))))
+                  : Positioned(
+                  right: -2,
+                  top: -2,
+                  child: Container(
+                      width: 84.0,
+                      height: 84.0,
+                      padding: EdgeInsetsDirectional.all(6),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
+                              topLeft: Radius.circular(0),
+                              bottomLeft: Radius.circular(0)),
+                          child: Container(
+                              color: replyDoc![
+                              Dbkeys.messageType] ==
+                                  MessageType.doc.index
+                                  ? Colors.yellow[800]
+                                  : replyDoc![Dbkeys.messageType] ==
+                                  MessageType.audio.index
+                                  ? Colors.green[400]
+                                  : replyDoc![Dbkeys
+                                  .messageType] ==
+                                  MessageType
+                                      .location.index
+                                  ? Colors.red[700]
+                                  : replyDoc![Dbkeys
+                                  .messageType] ==
+                                  MessageType
+                                      .contact.index
+                                  ? Colors.blue[400]
+                                  : Colors.cyan[700],
+                              height: 84,
+                              width: 84,
+                              child: Icon(
+                                replyDoc![Dbkeys.messageType] ==
+                                    MessageType.doc.index
+                                    ? Icons.insert_drive_file
+                                    : replyDoc![Dbkeys
+                                    .messageType] ==
+                                    MessageType.audio.index
+                                    ? Icons.mic_rounded
+                                    : replyDoc![Dbkeys
+                                    .messageType] ==
+                                    MessageType
+                                        .location.index
+                                    ? Icons.location_on
+                                    : replyDoc![Dbkeys
+                                    .messageType] ==
+                                    MessageType
+                                        .contact
+                                        .index
+                                    ? Icons
+                                    .contact_page_sharp
+                                    : Icons
+                                    .insert_drive_file,
+                                color: Colors.white,
+                                size: 35,
+                              ))))),
               Positioned(
                 right: 7,
                 top: 7,
@@ -3365,43 +3416,45 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         data: seenState,
         child: Bubble(
           isURLtext: tempDoc[Dbkeys.messageType] == MessageType.text.index &&
-              Uri.parse(tempDoc[Dbkeys.content]!).isAbsolute,
+              Uri
+                  .parse(tempDoc[Dbkeys.content]!)
+                  .isAbsolute,
           mssgDoc: tempDoc,
           is24hrsFormat: observer.is24hrsTimeformat,
           isMssgDeleted: ((tempDoc.containsKey(Dbkeys.hasRecipientDeleted) &&
-                      tempDoc.containsKey(Dbkeys.hasSenderDeleted)) ==
-                  true)
+              tempDoc.containsKey(Dbkeys.hasSenderDeleted)) ==
+              true)
               ? (isMe == true
-                  ? (tempDoc[Dbkeys.from] == widget.currentUserNo
-                      ? tempDoc[Dbkeys.hasSenderDeleted]
-                      : false)
-                  : (tempDoc[Dbkeys.from] != widget.currentUserNo
-                      ? tempDoc[Dbkeys.hasRecipientDeleted]
-                      : false))
+              ? (tempDoc[Dbkeys.from] == widget.currentUserNo
+              ? tempDoc[Dbkeys.hasSenderDeleted]
+              : false)
+              : (tempDoc[Dbkeys.from] != widget.currentUserNo
+              ? tempDoc[Dbkeys.hasRecipientDeleted]
+              : false))
               : false,
           isBroadcastMssg: false,
           messagetype: type,
           child: type == MessageType.text
               ? getTempTextMessage(content, tempDoc)
               : type == MessageType.location
-                  ? getLocationMessage(tempDoc, content, saved: false)
-                  : type == MessageType.doc
-                      ? getDocmessage(context, tempDoc, content, saved: false)
-                      : type == MessageType.audio
-                          ? getAudiomessage(context, tempDoc, content,
-                              saved: false, isMe: isMe)
-                          : type == MessageType.video
-                              ? getVideoMessage(this.context, tempDoc, content,
-                                  saved: false)
-                              : type == MessageType.contact
-                                  ? getContactMessage(context, tempDoc, content,
-                                      saved: false)
-                                  : getTempImageMessage(url: content),
+              ? getLocationMessage(tempDoc, content, saved: false)
+              : type == MessageType.doc
+              ? getDocmessage(context, tempDoc, content, saved: false)
+              : type == MessageType.audio
+              ? getAudiomessage(context, tempDoc, content,
+              saved: false, isMe: isMe)
+              : type == MessageType.video
+              ? getVideoMessage(this.context, tempDoc, content,
+              saved: false)
+              : type == MessageType.contact
+              ? getContactMessage(context, tempDoc, content,
+              saved: false)
+              : getTempImageMessage(url: content),
           isMe: isMe,
           timestamp: timestamp,
           delivered: delivered,
           isContinuing:
-              messages.isNotEmpty && messages.last.from == currentUserNo,
+          messages.isNotEmpty && messages.last.from == currentUserNo,
         ));
   }
 
@@ -3409,14 +3462,14 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     return Positioned(
       child: isLoading
           ? Container(
-              child: Center(
-                child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue)),
-              ),
-              color: DESIGN_TYPE == Themetype.whatsapp
-                  ? fiberchatBlack.withOpacity(0.0)
-                  : fiberchatWhite.withOpacity(0.0),
-            )
+        child: Center(
+          child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack)),
+        ),
+        color: DESIGN_TYPE == Themetype.whatsapp
+            ? fiberchatBlack.withOpacity(0.0)
+            : fiberchatWhite.withOpacity(0.0),
+      )
           : Container(),
     );
   }
@@ -3425,14 +3478,14 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     return Positioned(
       child: isgeneratingSomethingLoader
           ? Container(
-              child: Center(
-                child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlue)),
-              ),
-              color: DESIGN_TYPE == Themetype.whatsapp
-                  ? fiberchatBlack.withOpacity(0.6)
-                  : fiberchatWhite.withOpacity(0.6),
-            )
+        child: Center(
+          child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack)),
+        ),
+        color: DESIGN_TYPE == Themetype.whatsapp
+            ? fiberchatBlack.withOpacity(0.6)
+            : fiberchatWhite.withOpacity(0.6),
+      )
           : Container(),
     );
   }
@@ -3457,7 +3510,10 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 3.27,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width / 3.27,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -3470,7 +3526,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MultiDocumentPicker(
+                                    builder: (context) =>
+                                        MultiDocumentPicker(
                                           title: getTranslated(
                                               this.context, 'pickdoc'),
                                           callback: getFileData,
@@ -3509,13 +3566,16 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style:
-                              TextStyle(color: Colors.grey[700], fontSize: 14),
+                          TextStyle(color: Colors.grey[700], fontSize: 14),
                         )
                       ],
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 3.27,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width / 3.27,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -3528,7 +3588,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HybridVideoPicker(
+                                    builder: (context) =>
+                                        HybridVideoPicker(
                                           title: getTranslated(
                                               this.context, 'pickvideo'),
                                           callback: getFileData,
@@ -3571,13 +3632,16 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style:
-                              TextStyle(color: Colors.grey[700], fontSize: 14),
+                          TextStyle(color: Colors.grey[700], fontSize: 14),
                         )
                       ],
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 3.27,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width / 3.27,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -3590,7 +3654,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MultiImagePicker(
+                                    builder: (context) =>
+                                        MultiImagePicker(
                                           title: getTranslated(
                                               this.context, 'pickimage'),
                                           callback: getFileData,
@@ -3622,7 +3687,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style:
-                              TextStyle(color: Colors.grey[700], fontSize: 14),
+                          TextStyle(color: Colors.grey[700], fontSize: 14),
                         )
                       ],
                     ),
@@ -3637,7 +3702,10 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 3.27,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width / 3.27,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -3651,7 +3719,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AudioRecord(
+                                    builder: (context) =>
+                                        AudioRecord(
                                           title: getTranslated(
                                               this.context, 'record'),
                                           callback: getFileData,
@@ -3691,7 +3760,10 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 3.27,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width / 3.27,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -3702,14 +3774,17 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                             hidekeyboard(context);
                             Navigator.of(context).pop();
                             await _determinePosition().then(
-                              (location) async {
+                                  (location) async {
                                 var locationstring =
-                                    'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
+                                    'https://www.google.com/maps/search/?api=1&query=${location
+                                    .latitude},${location.longitude}';
                                 onSendMessage(
                                     context,
                                     locationstring,
                                     MessageType.location,
-                                    DateTime.now().millisecondsSinceEpoch);
+                                    DateTime
+                                        .now()
+                                        .millisecondsSinceEpoch);
                                 setStateIfMounted(() {});
                                 Fiberchat.toast(
                                   getTranslated(this.context, 'sent'),
@@ -3741,7 +3816,10 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 3.27,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width / 3.27,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -3754,19 +3832,21 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                             await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ContactsSelect(
-                                        currentUserNo: widget.currentUserNo,
-                                        model: widget.model,
-                                        biometricEnabled: false,
-                                        prefs: widget.prefs,
-                                        onSelect: (name, phone) {
-                                          onSendMessage(
-                                              context,
-                                              '$name-BREAK-$phone',
-                                              MessageType.contact,
-                                              DateTime.now()
-                                                  .millisecondsSinceEpoch);
-                                        })));
+                                    builder: (context) =>
+                                        ContactsSelect(
+                                            currentUserNo: widget.currentUserNo,
+                                            model: widget.model,
+                                            biometricEnabled: false,
+                                            prefs: widget.prefs,
+                                            onSelect: (name, phone) {
+                                              onSendMessage(
+                                                  context,
+                                                  '$name-BREAK-$phone',
+                                                  MessageType.contact,
+                                                  DateTime
+                                                      .now()
+                                                      .millisecondsSinceEpoch);
+                                            })));
                           },
                           elevation: .5,
                           fillColor: Colors.blue[800],
@@ -3799,6 +3879,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   }
 
   FocusNode keyboardFocusNode = new FocusNode();
+
   Widget buildInputAndroid(BuildContext context, bool isemojiShowing,
       Function refreshThisInput, bool keyboardVisible) {
     final observer = Provider.of<Observer>(context, listen: true);
@@ -3839,8 +3920,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         children: [
           isReplyKeyboard == true
               ? buildReplyMessageForInput(
-                  context,
-                )
+            context,
+          )
               : SizedBox(),
           Container(
             margin: EdgeInsets.only(bottom: Platform.isIOS == true ? 20 : 0),
@@ -3852,7 +3933,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                       left: 10,
                     ),
                     decoration: BoxDecoration(
-                        color: fiberchatWhite,
+                        color: Colors.blue[50],
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                     child: Row(
                       children: [
@@ -3872,8 +3953,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                         Flexible(
                           child: TextField(
                             onTap: () {
-                              if (isemojiShowing == true) {
-                              } else {
+                              if (isemojiShowing == true) {} else {
                                 keyboardFocusNode.requestFocus();
                                 setStateIfMounted(() {});
                               }
@@ -3891,7 +3971,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                             maxLines: null,
                             textCapitalization: TextCapitalization.sentences,
                             style: TextStyle(
-                                fontSize: 16.0, color: fiberchatBlack),
+                                fontSize: 16.0, color: Colors.black),
                             controller: textEditingController,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
@@ -3910,11 +3990,11 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(1),
                                   borderSide:
-                                      BorderSide(color: Colors.transparent)),
+                                  BorderSide(color: Colors.transparent)),
                               contentPadding: EdgeInsets.fromLTRB(10, 4, 7, 4),
                               hintText: getTranslated(this.context, 'msg'),
                               hintStyle:
-                                  TextStyle(color: Colors.grey, fontSize: 15),
+                              TextStyle(color: Colors.grey, fontSize: 15),
                             ),
                           ),
                         ),
@@ -3924,146 +4004,152 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 ? 10
                                 : 120,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 textEditingController.text.isNotEmpty
                                     ? SizedBox()
                                     : SizedBox(
-                                        width: 30,
-                                        child: IconButton(
-                                          icon: new Icon(
-                                            Icons.attachment_outlined,
-                                            color: fiberchatGrey,
-                                          ),
-                                          padding: EdgeInsets.all(0.0),
-                                          onPressed: observer
-                                                      .ismediamessagingallowed ==
-                                                  false
-                                              ? () {
-                                                  Fiberchat.showRationale(
-                                                      getTranslated(
-                                                          this.context,
-                                                          'mediamssgnotallowed'));
-                                                }
-                                              : chatStatus ==
-                                                      ChatStatus.blocked.index
-                                                  ? () {
-                                                      Fiberchat.toast(
-                                                          getTranslated(
-                                                              this.context,
-                                                              'unlck'));
-                                                    }
-                                                  : () {
-                                                      hidekeyboard(context);
-                                                      shareMedia(context);
-                                                    },
-                                          color: fiberchatWhite,
-                                        ),
-                                      ),
+                                  width: 30,
+                                  child: IconButton(
+                                    icon: new Icon(
+                                      Icons.attachment_outlined,
+                                      color: fiberchatGrey,
+                                    ),
+                                    padding: EdgeInsets.all(0.0),
+                                    onPressed: observer
+                                        .ismediamessagingallowed ==
+                                        false
+                                        ? () {
+                                      Fiberchat.showRationale(
+                                          getTranslated(
+                                              this.context,
+                                              'mediamssgnotallowed'));
+                                    }
+                                        : chatStatus ==
+                                        ChatStatus.blocked.index
+                                        ? () {
+                                      Fiberchat.toast(
+                                          getTranslated(
+                                              this.context,
+                                              'unlck'));
+                                    }
+                                        : () {
+                                      hidekeyboard(context);
+                                      shareMedia(context);
+                                    },
+                                    color: fiberchatWhite,
+                                  ),
+                                ),
                                 textEditingController.text.isNotEmpty
                                     ? SizedBox()
                                     : SizedBox(
-                                        width: 30,
-                                        child: IconButton(
-                                          icon: new Icon(
-                                            Icons.camera_alt_rounded,
-                                            size: 20,
-                                            color: fiberchatGrey,
-                                          ),
-                                          padding: EdgeInsets.all(0.0),
-                                          onPressed:
-                                              observer.ismediamessagingallowed ==
-                                                      false
-                                                  ? () {
-                                                      Fiberchat.showRationale(
-                                                          getTranslated(
-                                                              this.context,
-                                                              'mediamssgnotallowed'));
-                                                    }
-                                                  : chatStatus ==
-                                                          ChatStatus
-                                                              .blocked.index
-                                                      ? () {
-                                                          Fiberchat.toast(
-                                                              getTranslated(
-                                                                  this.context,
-                                                                  'unlck'));
-                                                        }
-                                                      : () {
-                                                          hidekeyboard(context);
+                                  width: 30,
+                                  child: IconButton(
+                                    icon: new Icon(
+                                      Icons.camera_alt_rounded,
+                                      size: 20,
+                                      color: fiberchatGrey,
+                                    ),
+                                    padding: EdgeInsets.all(0.0),
+                                    onPressed:
+                                    observer.ismediamessagingallowed ==
+                                        false
+                                        ? () {
+                                      Fiberchat.showRationale(
+                                          getTranslated(
+                                              this.context,
+                                              'mediamssgnotallowed'));
+                                    }
+                                        : chatStatus ==
+                                        ChatStatus
+                                            .blocked.index
+                                        ? () {
+                                      Fiberchat.toast(
+                                          getTranslated(
+                                              this.context,
+                                              'unlck'));
+                                    }
+                                        : () {
+                                      hidekeyboard(context);
 
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          MultiImagePicker(
-                                                                            title:
-                                                                                getTranslated(this.context, 'pickimage'),
-                                                                            callback:
-                                                                                getFileData,
-                                                                            writeMessage:
-                                                                                (String? url, int time) async {
-                                                                              if (url != null) {
-                                                                                onSendMessage(this.context, url, MessageType.image, time);
-                                                                              }
-                                                                            },
-                                                                          )));
-                                                        },
-                                          color: fiberchatWhite,
-                                        ),
-                                      ),
-                                textEditingController.text.length != 0
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder:
+                                                  (context) =>
+                                                  MultiImagePicker(
+                                                    title:
+                                                    getTranslated(this.context,
+                                                        'pickimage'),
+                                                    callback:
+                                                    getFileData,
+                                                    writeMessage:
+                                                        (String? url,
+                                                        int time) async {
+                                                      if (url != null) {
+                                                        onSendMessage(
+                                                            this.context, url,
+                                                            MessageType.image,
+                                                            time);
+                                                      }
+                                                    },
+                                                  )));
+                                    },
+                                    color: fiberchatWhite,
+                                  ),
+                                ),
+                                /*textEditingController.text.length != 0
                                     ? SizedBox(
-                                        width: 0,
-                                      )
+                                  width: 0,
+                                )
                                     : Container(
-                                        margin: EdgeInsets.only(bottom: 5),
-                                        height: 35,
-                                        alignment: Alignment.topLeft,
-                                        width: 40,
-                                        child: IconButton(
-                                            color: fiberchatWhite,
-                                            padding: EdgeInsets.all(0.0),
-                                            icon: Icon(
-                                              Icons.gif_rounded,
-                                              size: 40,
-                                              color: fiberchatGrey,
-                                            ),
-                                            onPressed: observer
-                                                        .ismediamessagingallowed ==
-                                                    false
-                                                ? () {
-                                                    Fiberchat.showRationale(
-                                                        getTranslated(
-                                                            this.context,
-                                                            'mediamssgnotallowed'));
-                                                  }
-                                                : () async {
-                                                    GiphyGif? gif =
-                                                        await GiphyGet.getGif(
-                                                      tabColor: fiberchatgreen,
-
-                                                      context: context,
-                                                      apiKey:
-                                                          GiphyAPIKey, //YOUR API KEY HERE
-                                                      lang:
-                                                          GiphyLanguage.english,
-                                                    );
-                                                    if (gif != null &&
-                                                        mounted) {
-                                                      onSendMessage(
-                                                          context,
-                                                          gif.images!.original!
-                                                              .url,
-                                                          MessageType.image,
-                                                          DateTime.now()
-                                                              .millisecondsSinceEpoch);
-                                                      hidekeyboard(context);
-                                                      setStateIfMounted(() {});
-                                                    }
-                                                  }),
+                                  margin: EdgeInsets.only(bottom: 5),
+                                  height: 35,
+                                  alignment: Alignment.topLeft,
+                                  width: 40,
+                                  child: IconButton(
+                                      color: fiberchatWhite,
+                                      padding: EdgeInsets.all(0.0),
+                                      icon: Icon(
+                                        Icons.gif_rounded,
+                                        size: 40,
+                                        color: fiberchatGrey,
                                       ),
+                                      onPressed: observer
+                                          .ismediamessagingallowed ==
+                                          false
+                                          ? () {
+                                        Fiberchat.showRationale(
+                                            getTranslated(
+                                                this.context,
+                                                'mediamssgnotallowed'));
+                                      }
+                                          : () async {
+                                        GiphyGif? gif =
+                                        await GiphyGet.getGif(
+                                          tabColor: fiberchatgreen,
+
+                                          context: context,
+                                          apiKey:
+                                          GiphyAPIKey, //YOUR API KEY HERE
+                                          lang:
+                                          GiphyLanguage.english,
+                                        );
+                                        if (gif != null &&
+                                            mounted) {
+                                          onSendMessage(
+                                              context,
+                                              gif.images!.original!
+                                                  .url,
+                                              MessageType.image,
+                                              DateTime
+                                                  .now()
+                                                  .millisecondsSinceEpoch);
+                                          hidekeyboard(context);
+                                          setStateIfMounted(() {});
+                                        }
+                                      }),
+                                ),*/
                               ],
                             ))
                       ],
@@ -4089,52 +4175,56 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                     child: IconButton(
                       icon: new Icon(
                         textEditingController.text.length == 0 ||
-                                isMessageLoading == true
+                            isMessageLoading == true
                             ? Icons.mic
                             : Icons.send,
                         color: fiberchatWhite.withOpacity(0.99),
                       ),
                       onPressed: observer.ismediamessagingallowed == true
                           ? textEditingController.text.length == 0 ||
-                                  isMessageLoading == true
-                              ? () {
-                                  hidekeyboard(context);
+                          isMessageLoading == true
+                          ? () {
+                        hidekeyboard(context);
 
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AudioRecord(
-                                                title: getTranslated(
-                                                    this.context, 'record'),
-                                                callback: getFileData,
-                                              ))).then((url) {
-                                    if (url != null) {
-                                      onSendMessage(
-                                          context,
-                                          url +
-                                              '-BREAK-' +
-                                              uploadTimestamp.toString(),
-                                          MessageType.audio,
-                                          uploadTimestamp);
-                                    } else {}
-                                  });
-                                }
-                              : observer.istextmessagingallowed == false
-                                  ? () {
-                                      Fiberchat.showRationale(getTranslated(
-                                          this.context, 'textmssgnotallowed'));
-                                    }
-                                  : chatStatus == ChatStatus.blocked.index
-                                      ? null
-                                      : () => onSendMessage(
-                                          context,
-                                          textEditingController.text,
-                                          MessageType.text,
-                                          DateTime.now().millisecondsSinceEpoch)
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    AudioRecord(
+                                      title: getTranslated(
+                                          this.context, 'record'),
+                                      callback: getFileData,
+                                    ))).then((url) {
+                          if (url != null) {
+                            onSendMessage(
+                                context,
+                                url +
+                                    '-BREAK-' +
+                                    uploadTimestamp.toString(),
+                                MessageType.audio,
+                                uploadTimestamp);
+                          } else {}
+                        });
+                      }
+                          : observer.istextmessagingallowed == false
+                          ? () {
+                        Fiberchat.showRationale(getTranslated(
+                            this.context, 'textmssgnotallowed'));
+                      }
+                          : chatStatus == ChatStatus.blocked.index
+                          ? null
+                          : () =>
+                          onSendMessage(
+                              context,
+                              textEditingController.text,
+                              MessageType.text,
+                              DateTime
+                                  .now()
+                                  .millisecondsSinceEpoch)
                           : () {
-                              Fiberchat.showRationale(getTranslated(
-                                  this.context, 'mediamssgnotallowed'));
-                            },
+                        Fiberchat.showRationale(getTranslated(
+                            this.context, 'mediamssgnotallowed'));
+                      },
                       color: fiberchatWhite,
                     ),
                   ),
@@ -4150,36 +4240,36 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
           ),
           isemojiShowing == true && keyboardVisible == false
               ? Offstage(
-                  offstage: !isemojiShowing,
-                  child: SizedBox(
-                    height: 300,
-                    child: EmojiPicker(
-                        onEmojiSelected:
-                            (emojipic.Category category, Emoji emoji) {
-                          _onEmojiSelected(emoji);
-                        },
-                        onBackspacePressed: _onBackspacePressed,
-                        config: Config(
-                            columns: 7,
-                            emojiSizeMax: 32.0,
-                            verticalSpacing: 0,
-                            horizontalSpacing: 0,
-                            initCategory: emojipic.Category.RECENT,
-                            bgColor: Color(0xFFF2F2F2),
-                            indicatorColor: fiberchatgreen,
-                            iconColor: Colors.grey,
-                            iconColorSelected: fiberchatgreen,
-                            progressIndicatorColor: Colors.blue,
-                            backspaceColor: fiberchatgreen,
-                            showRecentsTab: true,
-                            recentsLimit: 28,
-                            noRecentsText: 'No Recents',
-                            noRecentsStyle:
-                                TextStyle(fontSize: 20, color: Colors.black26),
-                            categoryIcons: CategoryIcons(),
-                            buttonMode: ButtonMode.MATERIAL)),
-                  ),
-                )
+            offstage: !isemojiShowing,
+            child: SizedBox(
+              height: 300,
+              child: EmojiPicker(
+                  onEmojiSelected:
+                      (emojipic.Category category, Emoji emoji) {
+                    _onEmojiSelected(emoji);
+                  },
+                  onBackspacePressed: _onBackspacePressed,
+                  config: Config(
+                      columns: 7,
+                      emojiSizeMax: 32.0,
+                      verticalSpacing: 0,
+                      horizontalSpacing: 0,
+                      initCategory: emojipic.Category.RECENT,
+                      bgColor: Color(0xFFF2F2F2),
+                      indicatorColor: fiberchatgreen,
+                      iconColor: Colors.grey,
+                      iconColorSelected: fiberchatgreen,
+                      progressIndicatorColor: Colors.blue,
+                      backspaceColor: fiberchatgreen,
+                      showRecentsTab: true,
+                      recentsLimit: 28,
+                      noRecentsText: 'No Recents',
+                      noRecentsStyle:
+                      TextStyle(fontSize: 20, color: Colors.black26),
+                      categoryIcons: CategoryIcons(),
+                      buttonMode: ButtonMode.MATERIAL)),
+            ),
+          )
               : SizedBox(),
         ]);
   }
@@ -4427,48 +4517,51 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
           _doc[Dbkeys.content] = decryptWithCRC(_doc[Dbkeys.content]);
           messages.add(Message(buildMessage(this.context, _doc),
               onDismiss:
-                  _doc[Dbkeys.content] == '' || _doc[Dbkeys.content] == null
-                      ? () {}
-                      : () {
-                          setStateIfMounted(() {
-                            isReplyKeyboard = true;
-                            replyDoc = _doc;
-                          });
-                          HapticFeedback.heavyImpact();
-                          keyboardFocusNode.requestFocus();
-                        },
+              _doc[Dbkeys.content] == '' || _doc[Dbkeys.content] == null
+                  ? () {}
+                  : () {
+                setStateIfMounted(() {
+                  isReplyKeyboard = true;
+                  replyDoc = _doc;
+                });
+                HapticFeedback.heavyImpact();
+                keyboardFocusNode.requestFocus();
+              },
               onTap: (_doc[Dbkeys.from] == widget.currentUserNo &&
-                          _doc[Dbkeys.hasSenderDeleted] == true) ==
-                      true
+                  _doc[Dbkeys.hasSenderDeleted] == true) ==
+                  true
                   ? () {}
                   : _doc[Dbkeys.messageType] == MessageType.image.index
-                      ? () {
-                          Navigator.push(
-                              this.context,
-                              MaterialPageRoute(
-                                builder: (context) => PhotoViewWrapper(
-                                  message: _doc[Dbkeys.content],
-                                  tag: ts.toString(),
-                                  imageProvider: CachedNetworkImageProvider(
-                                      _doc[Dbkeys.content]),
-                                ),
-                              ));
-                        }
-                      : null,
+                  ? () {
+                Navigator.push(
+                    this.context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          PhotoViewWrapper(
+                            message: _doc[Dbkeys.content],
+                            tag: ts.toString(),
+                            imageProvider: CachedNetworkImageProvider(
+                                _doc[Dbkeys.content]),
+                          ),
+                    ));
+              }
+                  : null,
               onDoubleTap: _doc.containsKey(Dbkeys.broadcastID) ? () {} : () {},
               onLongPress: () {
-            if (_doc.containsKey(Dbkeys.hasRecipientDeleted) &&
-                _doc.containsKey(Dbkeys.hasSenderDeleted)) {
-              if ((_doc[Dbkeys.from] == widget.currentUserNo &&
+                if (_doc.containsKey(Dbkeys.hasRecipientDeleted) &&
+                    _doc.containsKey(Dbkeys.hasSenderDeleted)) {
+                  if ((_doc[Dbkeys.from] == widget.currentUserNo &&
                       _doc[Dbkeys.hasSenderDeleted] == true) ==
-                  false) {
-                //--Show Menu only if message is not deleted by current user already
-                contextMenuNew(this.context, _doc, false);
-              }
-            } else {
-              contextMenuOld(this.context, _doc);
-            }
-          }, from: _doc[Dbkeys.from], timestamp: ts));
+                      false) {
+                    //--Show Menu only if message is not deleted by current user already
+                    contextMenuNew(this.context, _doc, false);
+                  }
+                } else {
+                  contextMenuOld(this.context, _doc);
+                }
+              },
+              from: _doc[Dbkeys.from],
+              timestamp: ts));
 
           if (doc.data()[Dbkeys.timestamp] ==
               docs.docs.last.data()[Dbkeys.timestamp]) {
@@ -4513,21 +4606,21 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             messages.add(Message(
               buildMessage(this.context, _doc),
               onDismiss:
-                  _doc[Dbkeys.content] == '' || _doc[Dbkeys.content] == null
-                      ? () {}
-                      : () {
-                          setStateIfMounted(() {
-                            isReplyKeyboard = true;
-                            replyDoc = _doc;
-                          });
-                          HapticFeedback.heavyImpact();
-                          keyboardFocusNode.requestFocus();
-                        },
+              _doc[Dbkeys.content] == '' || _doc[Dbkeys.content] == null
+                  ? () {}
+                  : () {
+                setStateIfMounted(() {
+                  isReplyKeyboard = true;
+                  replyDoc = _doc;
+                });
+                HapticFeedback.heavyImpact();
+                keyboardFocusNode.requestFocus();
+              },
               onLongPress: () {
                 if (_doc.containsKey(Dbkeys.hasRecipientDeleted) &&
                     _doc.containsKey(Dbkeys.hasSenderDeleted)) {
                   if ((_doc[Dbkeys.from] == widget.currentUserNo &&
-                          _doc[Dbkeys.hasSenderDeleted] == true) ==
+                      _doc[Dbkeys.hasSenderDeleted] == true) ==
                       false) {
                     //--Show Menu only if message is not deleted by current user already
                     contextMenuNew(this.context, _doc, false);
@@ -4537,28 +4630,29 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 }
               },
               onTap: (_doc[Dbkeys.from] == widget.currentUserNo &&
-                          _doc[Dbkeys.hasSenderDeleted] == true) ==
-                      true
+                  _doc[Dbkeys.hasSenderDeleted] == true) ==
+                  true
                   ? () {}
                   : _doc[Dbkeys.messageType] == MessageType.image.index
-                      ? () {
-                          Navigator.push(
-                              this.context,
-                              MaterialPageRoute(
-                                builder: (context) => PhotoViewWrapper(
-                                  message: _doc[Dbkeys.content],
-                                  tag: ts.toString(),
-                                  imageProvider: CachedNetworkImageProvider(
-                                      _doc[Dbkeys.content]),
-                                ),
-                              ));
-                        }
-                      : null,
+                  ? () {
+                Navigator.push(
+                    this.context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          PhotoViewWrapper(
+                            message: _doc[Dbkeys.content],
+                            tag: ts.toString(),
+                            imageProvider: CachedNetworkImageProvider(
+                                _doc[Dbkeys.content]),
+                          ),
+                    ));
+              }
+                  : null,
               onDoubleTap: _doc.containsKey(Dbkeys.broadcastID)
                   ? () {}
                   : () {
-                      // save(_doc);
-                    },
+                // save(_doc);
+              },
               from: _doc[Dbkeys.from],
               timestamp: ts,
             ));
@@ -4570,11 +4664,11 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             Map<String, dynamic> _doc = Map.from(change.doc.data()!);
 
             int i = messages.indexWhere(
-                (element) => element.timestamp == _doc[Dbkeys.timestamp]);
+                    (element) => element.timestamp == _doc[Dbkeys.timestamp]);
             if (i >= 0) messages.removeAt(i);
             Save.deleteMessage(peerNo, _doc);
             _savedMessageDocs.removeWhere(
-                (msg) => msg[Dbkeys.timestamp] == _doc[Dbkeys.timestamp]);
+                    (msg) => msg[Dbkeys.timestamp] == _doc[Dbkeys.timestamp]);
             setStateIfMounted(() {
               _savedMessageDocs = List.from(_savedMessageDocs);
             });
@@ -4585,7 +4679,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             Map<String, dynamic> _doc = Map.from(change.doc.data()!);
 
             int i = messages.indexWhere(
-                (element) => element.timestamp == _doc[Dbkeys.timestamp]);
+                    (element) => element.timestamp == _doc[Dbkeys.timestamp]);
             if (i >= 0) {
               messages.removeAt(i);
               setStateIfMounted(() {});
@@ -4599,7 +4693,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                       if (_doc.containsKey(Dbkeys.hasRecipientDeleted) &&
                           _doc.containsKey(Dbkeys.hasSenderDeleted)) {
                         if ((_doc[Dbkeys.from] == widget.currentUserNo &&
-                                _doc[Dbkeys.hasSenderDeleted] == true) ==
+                            _doc[Dbkeys.hasSenderDeleted] == true) ==
                             false) {
                           //--Show Menu only if message is not deleted by current user already
                           contextMenuNew(this.context, _doc, false);
@@ -4609,42 +4703,43 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                       }
                     },
                     onTap: (_doc[Dbkeys.from] == widget.currentUserNo &&
-                                _doc[Dbkeys.hasSenderDeleted] == true) ==
-                            true
+                        _doc[Dbkeys.hasSenderDeleted] == true) ==
+                        true
                         ? () {}
                         : _doc[Dbkeys.messageType] == MessageType.image.index
-                            ? () {
-                                Navigator.push(
-                                    this.context,
-                                    MaterialPageRoute(
-                                      builder: (context) => PhotoViewWrapper(
-                                        message: _doc[Dbkeys.content],
-                                        tag: ts.toString(),
-                                        imageProvider:
-                                            CachedNetworkImageProvider(
-                                                _doc[Dbkeys.content]),
-                                      ),
-                                    ));
-                              }
-                            : null,
+                        ? () {
+                      Navigator.push(
+                          this.context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                PhotoViewWrapper(
+                                  message: _doc[Dbkeys.content],
+                                  tag: ts.toString(),
+                                  imageProvider:
+                                  CachedNetworkImageProvider(
+                                      _doc[Dbkeys.content]),
+                                ),
+                          ));
+                    }
+                        : null,
                     onDoubleTap: _doc.containsKey(Dbkeys.broadcastID)
                         ? () {}
                         : () {
-                            // save(_doc);
-                          },
+                      // save(_doc);
+                    },
                     from: _doc[Dbkeys.from],
                     timestamp: ts,
                     onDismiss: _doc[Dbkeys.content] == '' ||
-                            _doc[Dbkeys.content] == null
+                        _doc[Dbkeys.content] == null
                         ? () {}
                         : () {
-                            setStateIfMounted(() {
-                              isReplyKeyboard = true;
-                              replyDoc = _doc;
-                            });
-                            HapticFeedback.heavyImpact();
-                            keyboardFocusNode.requestFocus();
-                          },
+                      setStateIfMounted(() {
+                        isReplyKeyboard = true;
+                        replyDoc = _doc;
+                      });
+                      HapticFeedback.heavyImpact();
+                      keyboardFocusNode.requestFocus();
+                    },
                   ));
             }
           });
@@ -4661,7 +4756,9 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
       if (widget.isSharingIntentForwarded == true) {
         if (widget.sharedText != null) {
           onSendMessage(this.context, widget.sharedText!, MessageType.text,
-              DateTime.now().millisecondsSinceEpoch);
+              DateTime
+                  .now()
+                  .millisecondsSinceEpoch);
         } else if (widget.sharedFiles != null) {
           setStateIfMounted(() {
             isgeneratingSomethingLoader = true;
@@ -4673,11 +4770,12 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   }
 
   int currentUploadingIndex = 0;
-  uploadEach(
-    int index,
-  ) async {
+
+  uploadEach(int index,) async {
     File file = new File(widget.sharedFiles![index].path);
-    String fileName = file.path.split('/').last;
+    String fileName = file.path
+        .split('/')
+        .last;
 
     print(fileName);
     if (index > widget.sharedFiles!.length) {
@@ -4685,25 +4783,27 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         isgeneratingSomethingLoader = false;
       });
     } else {
-      int messagetime = DateTime.now().millisecondsSinceEpoch;
+      int messagetime = DateTime
+          .now()
+          .millisecondsSinceEpoch;
       setState(() {
         currentUploadingIndex = index;
       });
       await getFileData(File(widget.sharedFiles![index].path),
-              timestamp: messagetime, totalFiles: widget.sharedFiles!.length)
+          timestamp: messagetime, totalFiles: widget.sharedFiles!.length)
           .then((imageUrl) async {
         if (imageUrl != null) {
           MessageType type = fileName.contains('.png') ||
-                  fileName.contains('.gif') ||
-                  fileName.contains('.jpg') ||
-                  fileName.contains('.jpeg') ||
-                  fileName.contains('giphy')
+              fileName.contains('.gif') ||
+              fileName.contains('.jpg') ||
+              fileName.contains('.jpeg') ||
+              fileName.contains('giphy')
               ? MessageType.image
               : fileName.contains('.mp4')
-                  ? MessageType.video
-                  : fileName.contains('.mp3') || fileName.contains('.aac')
-                      ? MessageType.audio
-                      : MessageType.doc;
+              ? MessageType.video
+              : fileName.contains('.mp3') || fileName.contains('.aac')
+              ? MessageType.audio
+              : MessageType.doc;
           String? thumbnailurl;
           if (type == MessageType.video) {
             thumbnailurl = await getThumbnail(imageUrl);
@@ -4712,22 +4812,22 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
           }
 
           String finalUrl = fileName.contains('.png') ||
-                  fileName.contains('.gif') ||
-                  fileName.contains('.jpg') ||
-                  fileName.contains('.jpeg') ||
-                  fileName.contains('giphy')
+              fileName.contains('.gif') ||
+              fileName.contains('.jpg') ||
+              fileName.contains('.jpeg') ||
+              fileName.contains('giphy')
               ? imageUrl
               : fileName.contains('.mp4')
-                  ? imageUrl +
-                      '-BREAK-' +
-                      thumbnailurl +
-                      '-BREAK-' +
-                      videometadata
-                  : fileName.contains('.mp3') || fileName.contains('.aac')
-                      ? imageUrl + '-BREAK-' + uploadTimestamp.toString()
-                      : imageUrl +
-                          '-BREAK-' +
-                          basename(pickedFile!.path).toString();
+              ? imageUrl +
+              '-BREAK-' +
+              thumbnailurl +
+              '-BREAK-' +
+              videometadata
+              : fileName.contains('.mp3') || fileName.contains('.aac')
+              ? imageUrl + '-BREAK-' + uploadTimestamp.toString()
+              : imageUrl +
+              '-BREAK-' +
+              basename(pickedFile!.path).toString();
           onSendMessage(this.context, finalUrl, type, messagetime);
         }
       }).then((value) {
@@ -4755,8 +4855,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     }
   }
 
-  List<Widget> sortAndGroupSavedMessages(
-      BuildContext context, List<Map<String, dynamic>> _msgs) {
+  List<Widget> sortAndGroupSavedMessages(BuildContext context,
+      List<Map<String, dynamic>> _msgs) {
     _msgs.sort((a, b) => a[Dbkeys.timestamp] - b[Dbkeys.timestamp]);
     List<Message> _savedMessages = new List.from(<Message>[]);
     List<Widget> _groupedSavedMessages = new List.from(<Widget>[]);
@@ -4765,34 +4865,37 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
           buildMessage(context, msg, saved: true, savedMsgs: _savedMessages),
           saved: true,
           from: msg[Dbkeys.from],
-          onDoubleTap: () {}, onLongPress: () {
-        contextMenuForSavedMessage(context, msg);
-      },
+          onDoubleTap: () {},
+          onLongPress: () {
+            contextMenuForSavedMessage(context, msg);
+          },
           onDismiss: null,
           onTap: (msg[Dbkeys.from] == widget.currentUserNo &&
-                      msg[Dbkeys.hasSenderDeleted] == true) ==
-                  true
+              msg[Dbkeys.hasSenderDeleted] == true) ==
+              true
               ? () {}
               : msg[Dbkeys.messageType] == MessageType.image.index
-                  ? () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PhotoViewWrapper(
-                              tag: "saved_" + msg[Dbkeys.timestamp].toString(),
-                              imageProvider: msg[Dbkeys.content]
-                                      .toString()
-                                      .startsWith(
-                                          'http') // See if it is an online or saved
-                                  ? CachedNetworkImageProvider(
-                                      msg[Dbkeys.content])
-                                  : Save.getImageFromBase64(msg[Dbkeys.content])
-                                      .image,
-                              message: msg[Dbkeys.content],
-                            ),
-                          ));
-                    }
-                  : null,
+              ? () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      PhotoViewWrapper(
+                        tag: "saved_" + msg[Dbkeys.timestamp].toString(),
+                        imageProvider: msg[Dbkeys.content]
+                            .toString()
+                            .startsWith(
+                            'http') // See if it is an online or saved
+                            ? CachedNetworkImageProvider(
+                            msg[Dbkeys.content])
+                            : Save
+                            .getImageFromBase64(msg[Dbkeys.content])
+                            .image,
+                        message: msg[Dbkeys.content],
+                      ),
+                ));
+          }
+              : null,
           timestamp: msg[Dbkeys.timestamp]));
     });
 
@@ -4806,19 +4909,23 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     }).forEach((when, _actualMessages) {
       _groupedSavedMessages.add(Center(
           child: Chip(
-        labelStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
-        label: Text(
-          when,
-          style: TextStyle(
-              color: Colors.black54, fontSize: 14, fontWeight: FontWeight.w400),
-        ),
-      )));
+            labelStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
+            label: Text(
+              when,
+              style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
+            ),
+          )));
       _actualMessages.forEach((msg) {
         _groupedSavedMessages.add(msg.child);
       });
     });
     return _groupedSavedMessages;
   }
+
+  int? diffInHours;
 
 //-- GROUP BY DATE ---
   List<Widget> getGroupedMessages() {
@@ -4859,83 +4966,92 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     groupBy<Message, String>(messages, (msg) {
       return getWhen(DateTime.fromMillisecondsSinceEpoch(msg.timestamp!));
     }).forEach((when, _actualMessages) {
+      // if (when == "today" || when == "Today") { }
+
+      DateTime dt1 = DateTime.fromMillisecondsSinceEpoch(_actualMessages[0].timestamp!);
+      DateTime dt2 = DateTime.now();
+
+      Duration diff = dt2.difference(dt1);
+      diffInHours = diff.inHours;
+
+      if (diffInHours! <= int.parse(_selectedDuration)) {
+
       _groupedMessages.add(Center(
           child: Chip(
-        labelStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
-        backgroundColor: Colors.blue[50],
-        label: Text(
-          when,
-          style: TextStyle(
-              color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 14),
-        ),
-      )));
+            labelStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
+            backgroundColor: Colors.blue[50],
+            label: Text(
+              when,
+              style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14),
+            ),
+          )));
       _actualMessages.forEach((msg) {
         count++;
         if (unread != 0 && (messages.length - count) == unread! - 1) {
           _groupedMessages.add(Center(
               child: Chip(
-            backgroundColor: Colors.blueGrey[50],
-            label: Text('$unread' + getTranslated(this.context, 'unread')),
-          )));
+                backgroundColor: Colors.blueGrey[50],
+                label: Text('$unread' + getTranslated(this.context, 'unread')),
+              )));
           unread = 0; // reset
         }
         _groupedMessages.add(msg.child);
       });
+    }
     });
     return _groupedMessages.reversed.toList();
   }
 
-  Widget buildSavedMessages(
-    BuildContext context,
-  ) {
+  Widget buildSavedMessages(BuildContext context,) {
     return Flexible(
         child: ListView(
-      padding: EdgeInsets.all(10.0),
-      children: _savedMessageDocs.isEmpty
-          ? [
-              Padding(
-                  padding: EdgeInsets.only(top: 200.0),
-                  child: Text(getTranslated(this.context, 'nosave'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.blueGrey, fontSize: 18)))
-            ]
-          : sortAndGroupSavedMessages(context, _savedMessageDocs),
-      controller: saved,
-    ));
+          padding: EdgeInsets.all(10.0),
+          children: _savedMessageDocs.isEmpty
+              ? [
+            Padding(
+                padding: EdgeInsets.only(top: 200.0),
+                child: Text(getTranslated(this.context, 'nosave'),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.blueGrey, fontSize: 18)))
+          ]
+              : sortAndGroupSavedMessages(context, _savedMessageDocs),
+          controller: saved,
+        ));
   }
 
-  Widget buildMessages(
-    BuildContext context,
-  ) {
+  Widget buildMessages(BuildContext context,) {
     return Flexible(
         child: chatId == '' || messages.isEmpty || sharedSecret == null
             ? ListView(
-                children: <Widget>[
-                  Card(),
-                  Padding(
-                      padding: EdgeInsets.only(top: 200.0),
-                      child: sharedSecret == null || isMessageLoading == true
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      fiberchatLightGreen)),
-                            )
-                          : Text(getTranslated(this.context, 'sayhi'),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: DESIGN_TYPE == Themetype.whatsapp
-                                      ? fiberchatWhite
-                                      : fiberchatGrey,
-                                  fontSize: 18))),
-                ],
-                controller: realtime,
-              )
+          children: <Widget>[
+            Card(),
+            Padding(
+                padding: EdgeInsets.only(top: 200.0),
+                child: sharedSecret == null || isMessageLoading == true
+                    ? Center(
+                  child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          fiberchatBlack)),
+                )
+                    : Text(getTranslated(this.context, 'sayhi'),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: DESIGN_TYPE == Themetype.whatsapp
+                            ? fiberchatWhite
+                            : fiberchatGrey,
+                        fontSize: 18))),
+          ],
+          controller: realtime,
+        )
             : ListView(
-                padding: EdgeInsets.all(10.0),
-                children: getGroupedMessages(),
-                controller: realtime,
-                reverse: true,
-              ));
+          padding: EdgeInsets.all(10.0),
+          children: getGroupedMessages(),
+          controller: realtime,
+          reverse: true,
+        ));
   }
 
   getWhen(date) {
@@ -4943,13 +5059,15 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     String when;
     if (date.day == now.day)
       when = getTranslated(this.context, 'today');
-    else if (date.day == now.subtract(Duration(days: 1)).day)
+    else if (date.day == now
+        .subtract(Duration(days: 1))
+        .day)
       when = getTranslated(this.context, 'yesterday');
     else
       when = IsShowNativeTimDate == true
           ? getTranslated(this.context, DateFormat.MMMM().format(date)) +
-              ' ' +
-              DateFormat.d().format(date)
+          ' ' +
+          DateFormat.d().format(date)
           : when = DateFormat.MMMd().format(date);
     return when;
   }
@@ -4961,8 +5079,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     } else if (val is int) {
       DateTime date = DateTime.fromMillisecondsSinceEpoch(val);
       String at = observer.is24hrsTimeformat == false
-              ? DateFormat.jm().format(date)
-              : DateFormat('HH:mm').format(date),
+          ? DateFormat.jm().format(date)
+          : DateFormat('HH:mm').format(date),
           when = getWhen(date);
       return getTranslated(this.context, 'lastseen') + ' $when, $at';
     } else if (val is String) {
@@ -4994,6 +5112,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   }
 
   bool isemojiShowing = false;
+
   refreshInput() {
     setStateIfMounted(() {
       if (isemojiShowing == false) {
@@ -5016,783 +5135,992 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         builder: (BuildContext context) {
           // return your layout
           return Consumer<Observer>(
-              builder: (context, observer, _child) => Container(
-                  padding: EdgeInsets.all(12),
-                  height: 130,
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        InkWell(
-                          onTap: observer.iscallsallowed == false
-                              ? () {
+              builder: (context, observer, _child) =>
+                  Container(
+                      padding: EdgeInsets.all(12),
+                      height: 130,
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: observer.iscallsallowed == false
+                                  ? () {
+                                Navigator.of(this.context).pop();
+                                Fiberchat.showRationale(getTranslated(
+                                    this.context, 'callnotallowed'));
+                              }
+                                  : hasPeerBlockedMe == true
+                                  ? () {
+                                Navigator.of(this.context).pop();
+                                Fiberchat.toast(
+                                  getTranslated(
+                                      context, 'userhasblocked'),
+                                );
+                              }
+                                  : () async {
+                                final observer = Provider.of<Observer>(
+                                    this.context,
+                                    listen: false);
+                                if (IsInterstitialAdShow == true &&
+                                    observer.isadmobshow == true) {}
+
+                                await Permissions
+                                    .cameraAndMicrophonePermissionsGranted()
+                                    .then((isgranted) {
+                                  if (isgranted == true) {
+                                    Navigator.of(this.context).pop();
+                                    call(this.context, false);
+                                  } else {
+                                    Navigator.of(this.context).pop();
+                                    Fiberchat.showRationale(getTranslated(
+                                        this.context, 'pmc'));
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (context) =>
+                                                OpenSettings()));
+                                  }
+                                }).catchError((onError) {
+                                  Fiberchat.showRationale(
+                                      getTranslated(this.context, 'pmc'));
+                                  Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) =>
+                                              OpenSettings()));
+                                });
+                              },
+                              child: SizedBox(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 13),
+                                    Icon(
+                                      Icons.local_phone,
+                                      size: 35,
+                                      color: fiberchatLightGreen,
+                                    ),
+                                    SizedBox(height: 13),
+                                    Text(
+                                      getTranslated(context, 'audiocall'),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14,
+                                          color: fiberchatBlack),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            /*InkWell(
+                                onTap: observer.iscallsallowed == false
+                                    ? () {
                                   Navigator.of(this.context).pop();
                                   Fiberchat.showRationale(getTranslated(
                                       this.context, 'callnotallowed'));
                                 }
-                              : hasPeerBlockedMe == true
-                                  ? () {
-                                      Navigator.of(this.context).pop();
-                                      Fiberchat.toast(
-                                        getTranslated(
-                                            context, 'userhasblocked'),
-                                      );
-                                    }
-                                  : () async {
-                                      final observer = Provider.of<Observer>(
-                                          this.context,
-                                          listen: false);
-                                      if (IsInterstitialAdShow == true &&
-                                          observer.isadmobshow == true) {}
-
-                                      await Permissions
-                                              .cameraAndMicrophonePermissionsGranted()
-                                          .then((isgranted) {
-                                        if (isgranted == true) {
-                                          Navigator.of(this.context).pop();
-                                          call(this.context, false);
-                                        } else {
-                                          Navigator.of(this.context).pop();
-                                          Fiberchat.showRationale(getTranslated(
-                                              this.context, 'pmc'));
-                                          Navigator.push(
-                                              context,
-                                              new MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      OpenSettings()));
-                                        }
-                                      }).catchError((onError) {
-                                        Fiberchat.showRationale(
-                                            getTranslated(this.context, 'pmc'));
-                                        Navigator.push(
-                                            context,
-                                            new MaterialPageRoute(
-                                                builder: (context) =>
-                                                    OpenSettings()));
-                                      });
-                                    },
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width / 4,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(height: 13),
-                                Icon(
-                                  Icons.local_phone,
-                                  size: 35,
-                                  color: fiberchatLightGreen,
-                                ),
-                                SizedBox(height: 13),
-                                Text(
-                                  getTranslated(context, 'audiocall'),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 14,
-                                      color: fiberchatBlack),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                            onTap: observer.iscallsallowed == false
-                                ? () {
-                                    Navigator.of(this.context).pop();
-                                    Fiberchat.showRationale(getTranslated(
-                                        this.context, 'callnotallowed'));
-                                  }
-                                : hasPeerBlockedMe == true
+                                    : hasPeerBlockedMe == true
                                     ? () {
-                                        Navigator.of(this.context).pop();
-                                        Fiberchat.toast(
-                                          getTranslated(
-                                              context, 'userhasblocked'),
-                                        );
-                                      }
+                                  Navigator.of(this.context).pop();
+                                  Fiberchat.toast(
+                                    getTranslated(
+                                        context, 'userhasblocked'),
+                                  );
+                                }
                                     : () async {
-                                        final observer = Provider.of<Observer>(
-                                            this.context,
-                                            listen: false);
+                                  final observer = Provider.of<Observer>(
+                                      this.context,
+                                      listen: false);
 
-                                        if (IsInterstitialAdShow == true &&
-                                            observer.isadmobshow == true) {}
+                                  if (IsInterstitialAdShow == true &&
+                                      observer.isadmobshow == true) {}
 
-                                        await Permissions
-                                                .cameraAndMicrophonePermissionsGranted()
-                                            .then((isgranted) {
-                                          if (isgranted == true) {
-                                            Navigator.of(this.context).pop();
-                                            call(this.context, true);
-                                          } else {
-                                            Navigator.of(this.context).pop();
-                                            Fiberchat.showRationale(
-                                                getTranslated(
-                                                    this.context, 'pmc'));
-                                            Navigator.push(
-                                                context,
-                                                new MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        OpenSettings()));
-                                          }
-                                        }).catchError((onError) {
-                                          Fiberchat.showRationale(getTranslated(
+                                  await Permissions
+                                      .cameraAndMicrophonePermissionsGranted()
+                                      .then((isgranted) {
+                                    if (isgranted == true) {
+                                      Navigator.of(this.context).pop();
+                                      call(this.context, true);
+                                    } else {
+                                      Navigator.of(this.context).pop();
+                                      Fiberchat.showRationale(
+                                          getTranslated(
                                               this.context, 'pmc'));
-                                          Navigator.push(
-                                              context,
-                                              new MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      OpenSettings()));
-                                        });
-                                      },
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width / 4,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 13),
-                                  Icon(
-                                    Icons.videocam,
-                                    size: 39,
-                                    color: fiberchatLightGreen,
+                                      Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                              builder: (context) =>
+                                                  OpenSettings()));
+                                    }
+                                  }).catchError((onError) {
+                                    Fiberchat.showRationale(getTranslated(
+                                        this.context, 'pmc'));
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (context) =>
+                                                OpenSettings()));
+                                  });
+                                },
+                                child: SizedBox(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 4,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .center,
+                                    children: [
+                                      SizedBox(height: 13),
+                                      Icon(
+                                        Icons.videocam,
+                                        size: 39,
+                                        color: fiberchatLightGreen,
+                                      ),
+                                      SizedBox(height: 13),
+                                      Text(
+                                        getTranslated(context, 'videocall'),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 14,
+                                            color: fiberchatBlack),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(height: 13),
-                                  Text(
-                                    getTranslated(context, 'videocall'),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        color: fiberchatBlack),
-                                  ),
-                                ],
-                              ),
-                            ))
-                      ])));
+                                ))*/
+                          ])));
         });
   }
+
+  String _selectedDuration = "24";
 
   @override
   Widget build(BuildContext context) {
     final observer = Provider.of<Observer>(context, listen: true);
-    var _keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
+    var _keyboardVisible = MediaQuery
+        .of(context)
+        .viewInsets
+        .bottom != 0;
 
     return PickupLayout(
       scaffold: Fiberchat.getNTPWrappedWidget(WillPopScope(
           onWillPop: isgeneratingSomethingLoader == true
               ? () async {
-                  return Future.value(false);
-                }
+            return Future.value(false);
+          }
               : isemojiShowing == true
-                  ? () {
-                      setState(() {
-                        isemojiShowing = false;
-                        keyboardFocusNode.unfocus();
-                      });
-                      return Future.value(false);
-                    }
-                  : () async {
-                      setLastSeen();
-                      WidgetsBinding.instance!
-                          .addPostFrameCallback((timeStamp) async {
-                        var currentpeer = Provider.of<CurrentChatPeer>(
-                            this.context,
-                            listen: false);
-                        currentpeer.setpeer(newpeerid: '');
-                        if (lastSeen == peerNo)
-                          await FirebaseFirestore.instance
-                              .collection(DbPaths.collectionusers)
-                              .doc(currentUserNo)
-                              .update(
-                            {Dbkeys.lastSeen: true},
-                          );
-                      });
+              ? () {
+            setState(() {
+              isemojiShowing = false;
+              keyboardFocusNode.unfocus();
+            });
+            return Future.value(false);
+          }
+              : () async {
+            setLastSeen();
+            WidgetsBinding.instance!
+                .addPostFrameCallback((timeStamp) async {
+              var currentpeer = Provider.of<CurrentChatPeer>(
+                  this.context,
+                  listen: false);
+              currentpeer.setpeer(newpeerid: '');
+              if (lastSeen == peerNo)
+                await FirebaseFirestore.instance
+                    .collection(DbPaths.collectionusers)
+                    .doc(currentUserNo)
+                    .update(
+                  {Dbkeys.lastSeen: true},
+                );
+            });
 
-                      return Future.value(true);
-                    },
+            return Future.value(true);
+          },
           child: ScopedModel<DataModel>(
               model: _cachedModel,
               child: ScopedModelDescendant<DataModel>(
                   builder: (context, child, _model) {
-                _cachedModel = _model;
-                updateLocalUserData(_model);
-                return peer != null
-                    ? Stack(
-                        children: [
-                          Scaffold(
-                              key: _scaffold,
-                              appBar: AppBar(
-                                elevation: DESIGN_TYPE == Themetype.messenger
-                                    ? 0.4
-                                    : 1,
-                                titleSpacing: -14,
-                                leading: Container(
-                                  margin: EdgeInsets.only(right: 0),
-                                  width: 10,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_back_ios,
-                                      size: 20,
-                                      color: DESIGN_TYPE == Themetype.whatsapp
-                                          ? fiberchatWhite
-                                          : fiberchatBlack,
-                                    ),
-                                    onPressed: () {
-                                      if (isDeletedDoc == true) {
-                                        Navigator.of(context)
-                                            .pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                FiberchatWrapper(),
-                                          ),
-                                          (Route route) => false,
-                                        );
-                                      } else {
-                                        Navigator.pop(context);
-                                      }
-                                    },
+                    _cachedModel = _model;
+                    updateLocalUserData(_model);
+                    return peer != null
+                        ? Stack(
+                      children: [
+                        Scaffold(
+                            key: _scaffold,
+                            appBar: AppBar(
+                              elevation: DESIGN_TYPE == Themetype.messenger
+                                  ? 0.4
+                                  : 1,
+                              titleSpacing: -14,
+                              leading: Container(
+                                margin: EdgeInsets.only(right: 0),
+                                width: 10,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_back_ios,
+                                    size: 20,
+                                    color: DESIGN_TYPE == Themetype.whatsapp
+                                        ? fiberchatWhite
+                                        : fiberchatBlack,
                                   ),
-                                ),
-                                backgroundColor:
-                                    DESIGN_TYPE == Themetype.whatsapp
-                                        ? fiberchatDeepGreen
-                                        : fiberchatWhite,
-                                title: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        PageRouteBuilder(
-                                            opaque: false,
-                                            pageBuilder: (context, a1, a2) =>
-                                                ProfileView(
-                                                    peer!,
-                                                    widget.currentUserNo,
-                                                    _cachedModel,
-                                                    widget.prefs)));
+                                  onPressed: () {
+                                    if (isDeletedDoc == true) {
+                                      Navigator.of(context)
+                                          .pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              FiberchatWrapper(),
+                                        ),
+                                            (Route route) => false,
+                                      );
+                                    } else {
+                                      Navigator.pop(context);
+                                    }
                                   },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 7, 0, 7),
-                                        child:
-                                            Fiberchat.avatar(peer, radius: 20),
-                                      ),
-                                      SizedBox(
-                                        width: 7,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: MediaQuery.of(this.context)
-                                                    .size
-                                                    .width /
-                                                2.3,
-                                            child: Text(
-                                              Fiberchat.getNickname(peer!)!,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  color: DESIGN_TYPE ==
-                                                          Themetype.whatsapp
-                                                      ? fiberchatWhite
-                                                      : fiberchatBlack,
-                                                  fontSize: 17.0,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 4,
-                                          ),
-                                          chatId != null
-                                              ? Text(
-                                                  getPeerStatus(
-                                                      peer![Dbkeys.lastSeen]),
-                                                  style: TextStyle(
-                                                      color: DESIGN_TYPE ==
-                                                              Themetype.whatsapp
-                                                          ? fiberchatWhite
-                                                          : fiberchatGrey,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                )
-                                              : Text(
-                                                  getTranslated(
-                                                      this.context, 'loading'),
-                                                  style: TextStyle(
-                                                      color: DESIGN_TYPE ==
-                                                              Themetype.whatsapp
-                                                          ? fiberchatWhite
-                                                          : fiberchatGrey,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
                                 ),
-                                actions: [
-                                  observer.isCallFeatureTotallyHide == true
-                                      ? SizedBox()
-                                      : SizedBox(
-                                          width: 55,
-                                          child: IconButton(
-                                              icon: Icon(
-                                                Icons.add_call,
+                              ),
+                              backgroundColor:
+                              DESIGN_TYPE == Themetype.whatsapp
+                                  ? fiberchatDeepGreen
+                                  : fiberchatWhite,
+                              title: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                          opaque: false,
+                                          pageBuilder: (context, a1, a2) =>
+                                              ProfileView(
+                                                  peer!,
+                                                  widget.currentUserNo,
+                                                  _cachedModel,
+                                                  widget.prefs)));
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 7, 0, 7),
+                                      child:
+                                      Fiberchat.avatar(peer, radius: 20),
+                                    ),
+                                    SizedBox(
+                                      width: 7,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery
+                                              .of(this.context)
+                                              .size
+                                              .width /
+                                              2.3,
+                                          child: Text(
+                                            Fiberchat.getNickname(peer!)!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
                                                 color: DESIGN_TYPE ==
-                                                        Themetype.whatsapp
-                                                    ? fiberchatWhite
-                                                    : fiberchatgreen,
-                                              ),
-                                              onPressed:
-                                                  observer.iscallsallowed ==
-                                                          false
-                                                      ? () {
-                                                          Fiberchat.showRationale(
-                                                              getTranslated(
-                                                                  this.context,
-                                                                  'callnotallowed'));
-                                                        }
-                                                      : hasPeerBlockedMe == true
-                                                          ? () {
-                                                              Fiberchat.toast(
-                                                                getTranslated(
-                                                                    context,
-                                                                    'userhasblocked'),
-                                                              );
-                                                            }
-                                                          : () async {
-                                                              showDialOptions(
-                                                                  this.context);
-                                                            }),
-                                        ),
-                                  SizedBox(
-                                    width: observer.isCallFeatureTotallyHide ==
-                                            true
-                                        ? 45
-                                        : 25,
-                                    child: PopupMenuButton(
-                                        padding: EdgeInsets.all(0),
-                                        icon: Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 0),
-                                          child: Icon(
-                                            Icons.more_vert_outlined,
-                                            color: DESIGN_TYPE ==
                                                     Themetype.whatsapp
-                                                ? fiberchatWhite
-                                                : fiberchatBlack,
+                                                    ? fiberchatWhite
+                                                    : fiberchatBlack,
+                                                fontSize: 17.0,
+                                                fontWeight: FontWeight.w500),
                                           ),
                                         ),
-                                        color: fiberchatWhite,
-                                        onSelected: (dynamic val) {
-                                          switch (val) {
-                                            case 'report':
-                                              showModalBottomSheet(
-                                                  isScrollControlled: true,
-                                                  context: context,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.vertical(
-                                                            top:
-                                                                Radius.circular(
-                                                                    25.0)),
-                                                  ),
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    // return your layout
-                                                    var w =
-                                                        MediaQuery.of(context)
+                                        SizedBox(
+                                          height: 4,
+                                        ),
+                                        chatId != null
+                                            ? Text(
+                                          getPeerStatus(
+                                              peer![Dbkeys.lastSeen]),
+                                          style: TextStyle(
+                                              color: DESIGN_TYPE ==
+                                                  Themetype.whatsapp
+                                                  ? fiberchatWhite
+                                                  : fiberchatGrey,
+                                              fontSize: 12,
+                                              fontWeight:
+                                              FontWeight.w400),
+                                        )
+                                            : Text(
+                                          getTranslated(
+                                              this.context, 'loading'),
+                                          style: TextStyle(
+                                              color: DESIGN_TYPE ==
+                                                  Themetype.whatsapp
+                                                  ? fiberchatWhite
+                                                  : fiberchatGrey,
+                                              fontSize: 12,
+                                              fontWeight:
+                                              FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actions: [
+                                observer.isCallFeatureTotallyHide == true
+                                    ? SizedBox()
+                                    : SizedBox(
+                                  width: 55,
+                                  child: IconButton(
+                                      icon: Icon(
+                                        Icons.add_call,
+                                        color: DESIGN_TYPE ==
+                                            Themetype.whatsapp
+                                            ? fiberchatWhite
+                                            : fiberchatgreen,
+                                      ),
+                                      onPressed:
+                                      observer.iscallsallowed ==
+                                          false
+                                          ? () {
+                                        Fiberchat.showRationale(
+                                            getTranslated(
+                                                this.context,
+                                                'callnotallowed'));
+                                      }
+                                          : hasPeerBlockedMe == true
+                                          ? () {
+                                        Fiberchat.toast(
+                                          getTranslated(
+                                              context,
+                                              'userhasblocked'),
+                                        );
+                                      }
+                                          : () async {
+                                        showDialOptions(this.context);
+                                      }),
+                                ),
+                                SizedBox(
+                                  width: observer.isCallFeatureTotallyHide ==
+                                      true
+                                      ? 45
+                                      : 25,
+                                  child: PopupMenuButton(
+                                      padding: EdgeInsets.all(0),
+                                      icon: Padding(
+                                        padding:
+                                        const EdgeInsets.only(right: 0),
+                                        child: Icon(
+                                          Icons.more_vert_outlined,
+                                          color: DESIGN_TYPE ==
+                                              Themetype.whatsapp
+                                              ? fiberchatWhite
+                                              : fiberchatBlack,
+                                        ),
+                                      ),
+                                      color: fiberchatWhite,
+                                      onSelected: (dynamic val) {
+                                        switch (val) {
+                                          case 'report':
+                                            showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                context: context,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top:
+                                                      Radius.circular(
+                                                          25.0)),
+                                                ),
+                                                builder:
+                                                    (BuildContext context) {
+                                                  // return your layout
+                                                  var w =
+                                                      MediaQuery
+                                                          .of(context)
+                                                          .size
+                                                          .width;
+                                                  return Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: MediaQuery
+                                                            .of(
+                                                            context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                    child: Container(
+                                                        padding:
+                                                        EdgeInsets.all(
+                                                            16),
+                                                        height: MediaQuery
+                                                            .of(
+                                                            context)
                                                             .size
-                                                            .width;
-                                                    return Padding(
-                                                      padding: EdgeInsets.only(
-                                                          bottom: MediaQuery.of(
-                                                                  context)
-                                                              .viewInsets
-                                                              .bottom),
-                                                      child: Container(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  16),
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height /
-                                                              2.6,
-                                                          child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .stretch,
-                                                              children: [
-                                                                SizedBox(
-                                                                  height: 12,
+                                                            .height /
+                                                            2.6,
+                                                        child: Column(
+                                                            mainAxisSize:
+                                                            MainAxisSize
+                                                                .min,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .stretch,
+                                                            children: [
+                                                              SizedBox(
+                                                                height: 12,
+                                                              ),
+                                                              SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets
+                                                                    .only(
+                                                                    left: 7),
+                                                                child: Text(
+                                                                  getTranslated(
+                                                                      this
+                                                                          .context,
+                                                                      'reportshort'),
+                                                                  textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                      fontSize:
+                                                                      16.5),
                                                                 ),
-                                                                SizedBox(
-                                                                  height: 3,
-                                                                ),
-                                                                Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      left: 7),
-                                                                  child: Text(
-                                                                    getTranslated(
-                                                                        this.context,
-                                                                        'reportshort'),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .left,
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                        fontSize:
-                                                                            16.5),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Container(
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                    top:
+                                                                    10),
+                                                                padding: EdgeInsets
+                                                                    .fromLTRB(
+                                                                    0,
+                                                                    0,
+                                                                    0,
+                                                                    0),
+                                                                // height: 63,
+                                                                height: 63,
+                                                                width:
+                                                                w / 1.24,
+                                                                child:
+                                                                InpuTextBox(
+                                                                  controller:
+                                                                  reportEditingController,
+                                                                  leftrightmargin:
+                                                                  0,
+                                                                  showIconboundary:
+                                                                  false,
+                                                                  boxcornerradius:
+                                                                  5.5,
+                                                                  boxheight:
+                                                                  50,
+                                                                  hinttext: getTranslated(
+                                                                      this
+                                                                          .context,
+                                                                      'reportdesc'),
+                                                                  prefixIconbutton:
+                                                                  Icon(
+                                                                    Icons
+                                                                        .message,
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .withOpacity(
+                                                                        0.5),
                                                                   ),
                                                                 ),
-                                                                SizedBox(
-                                                                  height: 10,
-                                                                ),
-                                                                Container(
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                          top:
-                                                                              10),
-                                                                  padding: EdgeInsets
-                                                                      .fromLTRB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          0),
-                                                                  // height: 63,
-                                                                  height: 63,
-                                                                  width:
-                                                                      w / 1.24,
+                                                              ),
+                                                              SizedBox(
+                                                                height:
+                                                                w / 10,
+                                                              ),
+                                                              myElevatedButton(
+                                                                  color:
+                                                                  fiberchatLightGreen,
                                                                   child:
-                                                                      InpuTextBox(
-                                                                    controller:
-                                                                        reportEditingController,
-                                                                    leftrightmargin:
-                                                                        0,
-                                                                    showIconboundary:
-                                                                        false,
-                                                                    boxcornerradius:
-                                                                        5.5,
-                                                                    boxheight:
-                                                                        50,
-                                                                    hinttext: getTranslated(
-                                                                        this.context,
-                                                                        'reportdesc'),
-                                                                    prefixIconbutton:
-                                                                        Icon(
-                                                                      Icons
-                                                                          .message,
-                                                                      color: Colors
-                                                                          .grey
-                                                                          .withOpacity(
-                                                                              0.5),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        10,
+                                                                        15,
+                                                                        10,
+                                                                        15),
+                                                                    child:
+                                                                    Text(
+                                                                      getTranslated(
+                                                                          context,
+                                                                          'report'),
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                          Colors
+                                                                              .white,
+                                                                          fontSize: 18),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height:
-                                                                      w / 10,
-                                                                ),
-                                                                myElevatedButton(
-                                                                    color:
-                                                                        fiberchatLightGreen,
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: const EdgeInsets
-                                                                              .fromLTRB(
-                                                                          10,
-                                                                          15,
-                                                                          10,
-                                                                          15),
-                                                                      child:
-                                                                          Text(
-                                                                        getTranslated(
-                                                                            context,
-                                                                            'report'),
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize: 18),
-                                                                      ),
-                                                                    ),
-                                                                    onPressed:
-                                                                        () async {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
+                                                                  onPressed:
+                                                                      () async {
+                                                                    Navigator
+                                                                        .of(
+                                                                        context)
+                                                                        .pop();
 
-                                                                      DateTime
-                                                                          time =
-                                                                          DateTime
-                                                                              .now();
+                                                                    DateTime
+                                                                    time =
+                                                                    DateTime
+                                                                        .now();
 
-                                                                      Map<String,
-                                                                              dynamic>
-                                                                          mapdata =
-                                                                          {
-                                                                        'title':
-                                                                            'New report by User',
-                                                                        'desc':
-                                                                            '${reportEditingController.text}',
-                                                                        'phone':
-                                                                            '${widget.currentUserNo}',
-                                                                        'type':
-                                                                            'Individual Chat',
-                                                                        'time':
-                                                                            time.millisecondsSinceEpoch,
-                                                                        'id': Fiberchat.getChatId(
-                                                                            currentUserNo,
-                                                                            peerNo),
-                                                                      };
+                                                                    Map<
+                                                                        String,
+                                                                        dynamic>
+                                                                    mapdata =
+                                                                    {
+                                                                      'title':
+                                                                      'New report by User',
+                                                                      'desc':
+                                                                      '${reportEditingController
+                                                                          .text}',
+                                                                      'phone':
+                                                                      '${widget
+                                                                          .currentUserNo}',
+                                                                      'type':
+                                                                      'Individual Chat',
+                                                                      'time':
+                                                                      time
+                                                                          .millisecondsSinceEpoch,
+                                                                      'id': Fiberchat
+                                                                          .getChatId(
+                                                                          currentUserNo,
+                                                                          peerNo),
+                                                                    };
 
-                                                                      await FirebaseFirestore
-                                                                          .instance
-                                                                          .collection(
-                                                                              'reports')
-                                                                          .doc(time
-                                                                              .millisecondsSinceEpoch
-                                                                              .toString())
-                                                                          .set(
-                                                                              mapdata)
-                                                                          .then(
-                                                                              (value) async {
-                                                                        showModalBottomSheet(
-                                                                            isScrollControlled:
-                                                                                true,
-                                                                            context:
-                                                                                context,
-                                                                            shape:
-                                                                                RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-                                                                            ),
-                                                                            builder:
-                                                                                (BuildContext context) {
-                                                                              return Container(
-                                                                                height: 220,
-                                                                                child: Padding(
-                                                                                  padding: const EdgeInsets.all(28.0),
-                                                                                  child: Column(
-                                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                                    children: [
-                                                                                      Icon(Icons.check, color: Colors.green[400], size: 40),
-                                                                                      SizedBox(
-                                                                                        height: 30,
-                                                                                      ),
-                                                                                      Text(
-                                                                                        getTranslated(context, 'reportsuccess'),
-                                                                                        textAlign: TextAlign.center,
-                                                                                      )
-                                                                                    ],
+                                                                    await FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                        'reports')
+                                                                        .doc(
+                                                                        time
+                                                                            .millisecondsSinceEpoch
+                                                                            .toString())
+                                                                        .set(
+                                                                        mapdata)
+                                                                        .then(
+                                                                            (
+                                                                            value) async {
+                                                                          showModalBottomSheet(
+                                                                              isScrollControlled:
+                                                                              true,
+                                                                              context:
+                                                                              context,
+                                                                              shape:
+                                                                              RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius
+                                                                                    .vertical(
+                                                                                    top: Radius
+                                                                                        .circular(
+                                                                                        25.0)),
+                                                                              ),
+                                                                              builder:
+                                                                                  (
+                                                                                  BuildContext context) {
+                                                                                return Container(
+                                                                                  height: 220,
+                                                                                  child: Padding(
+                                                                                    padding: const EdgeInsets
+                                                                                        .all(
+                                                                                        28.0),
+                                                                                    child: Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment
+                                                                                          .center,
+                                                                                      children: [
+                                                                                        Icon(
+                                                                                            Icons
+                                                                                                .check,
+                                                                                            color: Colors
+                                                                                                .green[400],
+                                                                                            size: 40),
+                                                                                        SizedBox(
+                                                                                          height: 30,
+                                                                                        ),
+                                                                                        Text(
+                                                                                          getTranslated(
+                                                                                              context,
+                                                                                              'reportsuccess'),
+                                                                                          textAlign: TextAlign
+                                                                                              .center,
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
                                                                                   ),
-                                                                                ),
-                                                                              );
-                                                                            });
+                                                                                );
+                                                                              });
 
-                                                                        //----
-                                                                      }).catchError(
-                                                                              (err) {
-                                                                        showModalBottomSheet(
-                                                                            isScrollControlled:
-                                                                                true,
-                                                                            context: this
-                                                                                .context,
-                                                                            shape:
-                                                                                RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-                                                                            ),
-                                                                            builder:
-                                                                                (BuildContext context) {
-                                                                              return Container(
-                                                                                height: 220,
-                                                                                child: Padding(
-                                                                                  padding: const EdgeInsets.all(28.0),
-                                                                                  child: Column(
-                                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                                    children: [
-                                                                                      Icon(Icons.check, color: Colors.green[400], size: 40),
-                                                                                      SizedBox(
-                                                                                        height: 30,
-                                                                                      ),
-                                                                                      Text(
-                                                                                        getTranslated(context, 'reportsuccess'),
-                                                                                        textAlign: TextAlign.center,
-                                                                                      )
-                                                                                    ],
+                                                                          //----
+                                                                        })
+                                                                        .catchError(
+                                                                            (
+                                                                            err) {
+                                                                          showModalBottomSheet(
+                                                                              isScrollControlled:
+                                                                              true,
+                                                                              context: this
+                                                                                  .context,
+                                                                              shape:
+                                                                              RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius
+                                                                                    .vertical(
+                                                                                    top: Radius
+                                                                                        .circular(
+                                                                                        25.0)),
+                                                                              ),
+                                                                              builder:
+                                                                                  (
+                                                                                  BuildContext context) {
+                                                                                return Container(
+                                                                                  height: 220,
+                                                                                  child: Padding(
+                                                                                    padding: const EdgeInsets
+                                                                                        .all(
+                                                                                        28.0),
+                                                                                    child: Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment
+                                                                                          .center,
+                                                                                      children: [
+                                                                                        Icon(
+                                                                                            Icons
+                                                                                                .check,
+                                                                                            color: Colors
+                                                                                                .green[400],
+                                                                                            size: 40),
+                                                                                        SizedBox(
+                                                                                          height: 30,
+                                                                                        ),
+                                                                                        Text(
+                                                                                          getTranslated(
+                                                                                              context,
+                                                                                              'reportsuccess'),
+                                                                                          textAlign: TextAlign
+                                                                                              .center,
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
                                                                                   ),
-                                                                                ),
-                                                                              );
-                                                                            });
-                                                                      });
-                                                                    }),
-                                                              ])),
-                                                    );
-                                                  });
-                                              break;
-                                            case 'hide':
-                                              ChatController.hideChat(
-                                                  currentUserNo, peerNo);
-                                              break;
-                                            case 'unhide':
-                                              ChatController.unhideChat(
-                                                  currentUserNo, peerNo);
-                                              break;
-                                            case 'lock':
-                                              if (widget.prefs.getString(Dbkeys
-                                                          .isPINsetDone) !=
-                                                      currentUserNo ||
-                                                  widget.prefs.getString(Dbkeys
-                                                          .isPINsetDone) ==
-                                                      null) {
-                                                unawaited(Navigator.push(
-                                                    this.context,
-                                                    MaterialPageRoute(
-                                                        builder:
-                                                            (context) =>
-                                                                Security(
-                                                                  currentUserNo,
-                                                                  prefs: widget
-                                                                      .prefs,
-                                                                  setPasscode:
-                                                                      true,
-                                                                  onSuccess:
-                                                                      (newContext) async {
-                                                                    ChatController.lockChat(
-                                                                        currentUserNo,
-                                                                        peerNo);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  title: getTranslated(
-                                                                      this.context,
-                                                                      'authh'),
-                                                                ))));
-                                              } else {
-                                                ChatController.lockChat(
-                                                    currentUserNo, peerNo);
-                                                Navigator.pop(context);
-                                              }
-                                              break;
-                                            case 'unlock':
-                                              ChatController.unlockChat(
-                                                  currentUserNo, peerNo);
-                                              break;
-                                            case 'block':
-                                              // if (hasPeerBlockedMe == true) {
-                                              //   Fiberchat.toast(
-                                              //     getTranslated(context,
-                                              //         'userhasblocked'),
-                                              //   );
-                                              // } else {
-                                              ChatController.block(
-                                                  currentUserNo, peerNo);
-                                              // }
-                                              break;
-                                            case 'unblock':
-                                              // if (hasPeerBlockedMe == true) {
-                                              //   Fiberchat.toast(
-                                              //     getTranslated(context,
-                                              //         'userhasblocked'),
-                                              //   );
-                                              // } else {
-                                              ChatController.accept(
-                                                  currentUserNo, peerNo);
-                                              Fiberchat.toast(getTranslated(
-                                                  this.context, 'unblocked'));
-                                              // }
-
-                                              break;
-                                            case 'tutorial':
-                                              Fiberchat.toast(getTranslated(
-                                                  this.context, 'vsmsg'));
-
-                                              break;
-                                            case 'remove_wallpaper':
-                                              _cachedModel
-                                                  .removeWallpaper(peerNo!);
-                                              // Fiberchat.toast('Wallpaper removed.');
-                                              break;
-                                            case 'set_wallpaper':
-                                              Navigator.push(
-                                                  context,
+                                                                                );
+                                                                              });
+                                                                        });
+                                                                  }),
+                                                            ])),
+                                                  );
+                                                });
+                                            break;
+                                          case 'hide':
+                                            ChatController.hideChat(
+                                                currentUserNo, peerNo);
+                                            break;
+                                          case 'unhide':
+                                            ChatController.unhideChat(
+                                                currentUserNo, peerNo);
+                                            break;
+                                          case 'lock':
+                                            if (widget.prefs.getString(Dbkeys
+                                                .isPINsetDone) !=
+                                                currentUserNo ||
+                                                widget.prefs.getString(Dbkeys
+                                                    .isPINsetDone) ==
+                                                    null) {
+                                              unawaited(Navigator.push(
+                                                  this.context,
                                                   MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          SingleImagePicker(
+                                                      builder:
+                                                          (context) =>
+                                                          Security(
+                                                            currentUserNo,
+                                                            prefs: widget
+                                                                .prefs,
+                                                            setPasscode:
+                                                            true,
+                                                            onSuccess:
+                                                                (
+                                                                newContext) async {
+                                                              ChatController
+                                                                  .lockChat(
+                                                                  currentUserNo,
+                                                                  peerNo);
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
                                                             title: getTranslated(
                                                                 this.context,
-                                                                'pickimage'),
-                                                            callback:
-                                                                getWallpaper,
-                                                          )));
-                                              break;
-                                          }
-                                        },
-                                        itemBuilder: ((context) =>
-                                            <PopupMenuItem<String>>[
-                                              PopupMenuItem<String>(
-                                                value:
-                                                    hidden ? 'unhide' : 'hide',
-                                                child: Text(
-                                                  '${hidden ? getTranslated(this.context, 'unhidechat') : getTranslated(this.context, 'hidechat')}',
+                                                                'authh'),
+                                                          ))));
+                                            } else {
+                                              ChatController.lockChat(
+                                                  currentUserNo, peerNo);
+                                              Navigator.pop(context);
+                                            }
+                                            break;
+                                          case 'unlock':
+                                            ChatController.unlockChat(
+                                                currentUserNo, peerNo);
+                                            break;
+                                          case 'block':
+                                          // if (hasPeerBlockedMe == true) {
+                                          //   Fiberchat.toast(
+                                          //     getTranslated(context,
+                                          //         'userhasblocked'),
+                                          //   );
+                                          // } else {
+                                            ChatController.block(
+                                                currentUserNo, peerNo);
+                                            // }
+                                            break;
+                                          case 'unblock':
+                                          // if (hasPeerBlockedMe == true) {
+                                          //   Fiberchat.toast(
+                                          //     getTranslated(context,
+                                          //         'userhasblocked'),
+                                          //   );
+                                          // } else {
+                                            ChatController.accept(
+                                                currentUserNo, peerNo);
+                                            Fiberchat.toast(getTranslated(
+                                                this.context, 'unblocked'));
+                                            // }
+
+                                            break;
+                                          case 'tutorial':
+                                            Fiberchat.toast(getTranslated(
+                                                this.context, 'vsmsg'));
+
+                                            break;
+                                          case 'remove_wallpaper':
+                                            _cachedModel
+                                                .removeWallpaper(peerNo!);
+                                            // Fiberchat.toast('Wallpaper removed.');
+                                            break;
+                                          case 'set_wallpaper':
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SingleImagePicker(
+                                                          title: getTranslated(
+                                                              this.context,
+                                                              'pickimage'),
+                                                          callback:
+                                                          getWallpaper,
+                                                        )));
+                                            break;
+                                          case 'duration':
+                                            showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                context: context,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top:
+                                                      Radius.circular(
+                                                          25.0)),
                                                 ),
+                                                builder:
+                                                    (BuildContext context) {
+                                                  // return your layout
+                                                  var w =
+                                                      MediaQuery
+                                                          .of(context)
+                                                          .size
+                                                          .width;
+                                                  return Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: MediaQuery
+                                                            .of(
+                                                            context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                    child: Container(
+                                                        padding:
+                                                        EdgeInsets.all(
+                                                            16),
+                                                        height: MediaQuery
+                                                            .of(
+                                                            context)
+                                                            .size
+                                                            .height /
+                                                            2.6,
+                                                        child: Column(
+                                                            mainAxisSize:
+                                                            MainAxisSize
+                                                                .min,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .stretch,
+                                                            children: [
+                                                              SizedBox(
+                                                                height: 12,
+                                                              ),
+                                                              SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets
+                                                                    .only(
+                                                                    left: 7),
+                                                                child: Text(
+                                                                  getTranslated(
+                                                                      this
+                                                                          .context,
+                                                                      'selectduration'),
+                                                                  textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                      fontSize:
+                                                                      16.5),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Column(
+                                                                children: <Widget>[
+                                                                  ListTile(
+                                                                    title: const Text('24 hours'),
+                                                                    leading: Radio(
+                                                                      value: "24",
+                                                                      groupValue: _selectedDuration,
+                                                                      onChanged: (String? value) {
+                                                                        setState(() {
+                                                                          _selectedDuration = value!;
+                                                                          Navigator.pop(context);
+                                                                          getGroupedMessages();
+                                                                        });
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    title: const Text('12 hours'),
+                                                                    leading: Radio(
+                                                                      value: "12",
+                                                                      groupValue: _selectedDuration,
+                                                                      onChanged: (String? value) {
+                                                                        setState(() {
+                                                                          _selectedDuration = value!;
+                                                                          Navigator.pop(context);
+                                                                          getGroupedMessages();
+                                                                        });
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                  ListTile(
+                                                                    title: const Text('8 hours'),
+                                                                    leading: Radio(
+                                                                      value: "8",
+                                                                      groupValue: _selectedDuration,
+                                                                      onChanged: (String? value) {
+                                                                        setState(() {
+                                                                          _selectedDuration = value!;
+                                                                          Navigator.pop(context);
+                                                                          getGroupedMessages();
+                                                                        });
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              SizedBox(
+                                                                height: 12,
+                                                              ),
+                                                            ])),
+                                                  );
+                                                });
+                                            break;
+                                        }
+                                      },
+                                      itemBuilder: ((context) =>
+                                          <PopupMenuItem<String>>[
+                                            PopupMenuItem<String>(
+                                              value:
+                                              hidden ? 'unhide' : 'hide',
+                                              child: Text(
+                                                '${hidden
+                                                    ? getTranslated(
+                                                    this.context, 'unhidechat')
+                                                    : getTranslated(
+                                                    this.context, 'hidechat')}',
                                               ),
-                                              PopupMenuItem<String>(
-                                                value:
-                                                    locked ? 'unlock' : 'lock',
-                                                child: Text(
-                                                    '${locked ? getTranslated(this.context, 'unlockchat') : getTranslated(this.context, 'lockchat')}'),
+                                            ),
+                                            PopupMenuItem<String>(
+                                              value:
+                                              locked ? 'unlock' : 'lock',
+                                              child: Text(
+                                                  '${locked
+                                                      ? getTranslated(
+                                                      this.context,
+                                                      'unlockchat')
+                                                      : getTranslated(
+                                                      this.context,
+                                                      'lockchat')}'),
+                                            ),
+                                            PopupMenuItem<String>(
+                                              value: isBlocked()
+                                                  ? 'unblock'
+                                                  : 'block',
+                                              child: Text(
+                                                  '${isBlocked()
+                                                      ? getTranslated(
+                                                      this.context,
+                                                      'unblockchat')
+                                                      : getTranslated(
+                                                      this.context,
+                                                      'blockchat')}'),
+                                            ),
+                                            peer![Dbkeys.wallpaper] != null
+                                                ? PopupMenuItem<String>(
+                                                value: 'remove_wallpaper',
+                                                child: Text(getTranslated(
+                                                    this.context,
+                                                    'removewall')))
+                                                : PopupMenuItem<String>(
+                                                value: 'set_wallpaper',
+                                                child: Text(getTranslated(
+                                                    this.context,
+                                                    'setwall'))),
+                                            PopupMenuItem<String>(
+                                              value: 'report',
+                                              child: Text(
+                                                '${getTranslated(
+                                                    this.context, 'report')}',
                                               ),
-                                              PopupMenuItem<String>(
-                                                value: isBlocked()
-                                                    ? 'unblock'
-                                                    : 'block',
-                                                child: Text(
-                                                    '${isBlocked() ? getTranslated(this.context, 'unblockchat') : getTranslated(this.context, 'blockchat')}'),
+                                            ),
+                                            PopupMenuItem<String>(
+                                              value: 'duration',
+                                              child: Text(
+                                                '${getTranslated(
+                                                    this.context, 'duration')}',
                                               ),
-                                              peer![Dbkeys.wallpaper] != null
-                                                  ? PopupMenuItem<String>(
-                                                      value: 'remove_wallpaper',
-                                                      child: Text(getTranslated(
-                                                          this.context,
-                                                          'removewall')))
-                                                  : PopupMenuItem<String>(
-                                                      value: 'set_wallpaper',
-                                                      child: Text(getTranslated(
-                                                          this.context,
-                                                          'setwall'))),
-                                              PopupMenuItem<String>(
-                                                value: 'report',
-                                                child: Text(
-                                                  '${getTranslated(this.context, 'report')}',
-                                                ),
-                                              ),
-                                              // ignore: unnecessary_null_comparison
-                                            ].toList())),
-                                  ),
-                                ],
-                              ),
-                              body: Stack(
-                                children: <Widget>[
-                                  new Container(
-                                    decoration: new BoxDecoration(
-                                      color: DESIGN_TYPE == Themetype.whatsapp
-                                          ? fiberchatBlack
-                                          : fiberchatWhite,
-                                      /*image: new DecorationImage(
+                                            ),
+                                            // ignore: unnecessary_null_comparison
+                                          ].toList())),
+                                ),
+                              ],
+                            ),
+                            body: Stack(
+                              children: <Widget>[
+                                new Container(
+                                  decoration: new BoxDecoration(
+                                    color: DESIGN_TYPE == Themetype.whatsapp
+                                        ? fiberchatWhite
+                                        : fiberchatWhite,
+                                    /*image: new DecorationImage(
                                           image: peer![Dbkeys.wallpaper] == null
                                               ? AssetImage(
                                                   "assets/images/background.png")
@@ -5800,147 +6128,148 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                                       peer![Dbkeys.wallpaper]))
                                                   .image,
                                           fit: BoxFit.cover),*/
-                                    ),
                                   ),
-                                  PageView(
-                                    children: <Widget>[
-                                      isDeletedDoc == true
-                                          ? Center(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        15, 60, 15, 15),
-                                                child: Text(
-                                                    getTranslated(this.context,
-                                                        'chatdeleted'),
-                                                    style: TextStyle(
-                                                        color: fiberchatGrey)),
-                                              ),
-                                            )
-                                          : Column(
-                                              children: [
-                                                // List of messages
+                                ),
+                                PageView(
+                                  children: <Widget>[
+                                    isDeletedDoc == true
+                                        ? Center(
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.fromLTRB(
+                                            15, 60, 15, 15),
+                                        child: Text(
+                                            getTranslated(this.context,
+                                                'chatdeleted'),
+                                            style: TextStyle(
+                                                color: fiberchatGrey)),
+                                      ),
+                                    )
+                                        : Column(
+                                      children: [
+                                        // List of messages
 
-                                                buildMessages(context),
-                                                // Input content
-                                                isBlocked()
-                                                    ? AlertDialog(
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        elevation: 10.0,
-                                                        title: Text(
-                                                          getTranslated(
-                                                                  this.context,
-                                                                  'unblock') +
-                                                              ' ${peer![Dbkeys.nickname]}?',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  fiberchatBlack),
-                                                        ),
-                                                        actions: <Widget>[
-                                                          myElevatedButton(
-                                                              color:
-                                                                  fiberchatWhite,
-                                                              child: Text(
-                                                                getTranslated(
-                                                                    this.context,
-                                                                    'cancel'),
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        fiberchatBlack),
-                                                              ),
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              }),
-                                                          myElevatedButton(
-                                                              color:
-                                                                  fiberchatLightGreen,
-                                                              child: Text(
-                                                                getTranslated(
-                                                                    this.context,
-                                                                    'unblock'),
-                                                                style: TextStyle(
-                                                                    color:
-                                                                        fiberchatWhite),
-                                                              ),
-                                                              onPressed: () {
-                                                                ChatController
-                                                                    .accept(
-                                                                        currentUserNo,
-                                                                        peerNo);
-                                                                setStateIfMounted(
-                                                                    () {
-                                                                  chatStatus =
-                                                                      ChatStatus
-                                                                          .accepted
-                                                                          .index;
-                                                                });
-                                                              })
-                                                        ],
-                                                      )
-                                                    : hasPeerBlockedMe == true
-                                                        ? Container(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            padding: EdgeInsets
-                                                                .fromLTRB(14, 7,
-                                                                    14, 7),
-                                                            color: Colors.white
-                                                                .withOpacity(
-                                                                    0.3),
-                                                            height: 50,
-                                                            width:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Icon(
-                                                                    Icons
-                                                                        .error_outline_rounded,
-                                                                    color: Colors
-                                                                        .red),
-                                                                SizedBox(
-                                                                    width: 10),
-                                                                Text(
-                                                                  getTranslated(
-                                                                      context,
-                                                                      'userhasblocked'),
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style: TextStyle(
-                                                                      height:
-                                                                          1.3),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          )
-                                                        : buildInputAndroid(
-                                                            context,
-                                                            isemojiShowing,
-                                                            refreshInput,
-                                                            _keyboardVisible)
-                                              ],
-                                            ),
-                                    ],
-                                  ),
-                                  buildLoading()
-                                ],
-                              )),
-                          buildLoadingThumbnail(),
-                        ],
-                      )
-                    : Container();
-              })))),
+                                        buildMessages(context),
+                                        // Input content
+                                        isBlocked()
+                                            ? AlertDialog(
+                                          backgroundColor:
+                                          Colors.white,
+                                          elevation: 10.0,
+                                          title: Text(
+                                            getTranslated(
+                                                this.context,
+                                                'unblock') +
+                                                ' ${peer![Dbkeys.nickname]}?',
+                                            style: TextStyle(
+                                                color:
+                                                fiberchatBlack),
+                                          ),
+                                          actions: <Widget>[
+                                            myElevatedButton(
+                                                color:
+                                                fiberchatWhite,
+                                                child: Text(
+                                                  getTranslated(
+                                                      this.context,
+                                                      'cancel'),
+                                                  style: TextStyle(
+                                                      color:
+                                                      fiberchatBlack),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(
+                                                      context);
+                                                }),
+                                            myElevatedButton(
+                                                color:
+                                                fiberchatLightGreen,
+                                                child: Text(
+                                                  getTranslated(
+                                                      this.context,
+                                                      'unblock'),
+                                                  style: TextStyle(
+                                                      color:
+                                                      fiberchatWhite),
+                                                ),
+                                                onPressed: () {
+                                                  ChatController
+                                                      .accept(
+                                                      currentUserNo,
+                                                      peerNo);
+                                                  setStateIfMounted(
+                                                          () {
+                                                        chatStatus =
+                                                            ChatStatus
+                                                                .accepted
+                                                                .index;
+                                                      });
+                                                })
+                                          ],
+                                        )
+                                            : hasPeerBlockedMe == true
+                                            ? Container(
+                                          alignment: Alignment
+                                              .center,
+                                          padding: EdgeInsets
+                                              .fromLTRB(14, 7,
+                                              14, 7),
+                                          color: Colors.white
+                                              .withOpacity(
+                                              0.3),
+                                          height: 50,
+                                          width:
+                                          MediaQuery
+                                              .of(
+                                              context)
+                                              .size
+                                              .width,
+                                          child: Row(
+                                            mainAxisSize:
+                                            MainAxisSize
+                                                .min,
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .center,
+                                            children: [
+                                              Icon(
+                                                  Icons
+                                                      .error_outline_rounded,
+                                                  color: Colors
+                                                      .red),
+                                              SizedBox(
+                                                  width: 10),
+                                              Text(
+                                                getTranslated(
+                                                    context,
+                                                    'userhasblocked'),
+                                                textAlign:
+                                                TextAlign
+                                                    .center,
+                                                style: TextStyle(
+                                                    height:
+                                                    1.3),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                            : buildInputAndroid(
+                                            context,
+                                            isemojiShowing,
+                                            refreshInput,
+                                            _keyboardVisible)
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                buildLoading()
+                              ],
+                            )),
+                        buildLoadingThumbnail(),
+                      ],
+                    )
+                        : Container();
+                  })))),
     );
   }
 }

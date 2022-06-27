@@ -371,7 +371,7 @@ class _MultiImagePickerState extends State<MultiImagePicker> {
                         child: Center(
                           child: CircularProgressIndicator(
                               valueColor:
-                                  AlwaysStoppedAnimation<Color>(fiberchatBlue)),
+                                  AlwaysStoppedAnimation<Color>(fiberchatBlack)),
                         ),
                         color: DESIGN_TYPE == Themetype.whatsapp
                             ? fiberchatBlack.withOpacity(0.8)

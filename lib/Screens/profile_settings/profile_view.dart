@@ -246,7 +246,7 @@ class _ProfileViewState extends State<ProfileView> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       fontWeight: FontWeight.normal,
-                      color: fiberchatBlack,
+                      color: Colors.black,
                       fontSize: 15.9),
                 ),
                 SizedBox(
@@ -301,7 +301,7 @@ class _ProfileViewState extends State<ProfileView> {
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color: fiberchatBlack,
+                          color: Colors.black,
                           fontSize: 15.3),
                     ),
                     Container(
@@ -353,7 +353,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     Icons.phone,
                                     color: fiberchatgreen,
                                   )),
-                          observer.isCallFeatureTotallyHide == true
+                          observer.isVideoCallFeatureTotallyHide == true
                               ? SizedBox()
                               : IconButton(
                                   onPressed: observer.iscallsallowed == false
