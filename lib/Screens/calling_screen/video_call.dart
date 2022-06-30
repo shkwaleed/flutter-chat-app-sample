@@ -314,7 +314,7 @@ class _VideoCallState extends State<VideoCall> {
     if (widget.role == ClientRole.Broadcaster) {
       list.add(RtcLocalView.SurfaceView());
     }
-    _users.forEach((int uid) => list.add(RtcRemoteView.SurfaceView(uid: uid)));
+    _users.forEach((int uid) => list.add(RtcRemoteView.SurfaceView(uid: uid, channelId: widget.channelName!)));
     return list;
   }
 

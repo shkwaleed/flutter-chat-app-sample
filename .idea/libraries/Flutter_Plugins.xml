@@ -64,7 +64,7 @@
       <root url="file://$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.1" />
       <root url="file://$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/video_player-2.2.8" />
       <root url="file://$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/wakelock_macos-0.4.0" />
-      <root url="file://$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/agora_rtc_engine-4.0.7" />
+      <root url="file://$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/agora_rtc_engine-4.2.2" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -9,7 +9,7 @@
     },
     {
       "name": "agora_rtc_engine",
-      "rootUri": "file:///D:/flutter/.pub-cache/hosted/pub.dartlang.org/agora_rtc_engine-4.0.7",
+      "rootUri": "file:///D:/flutter/.pub-cache/hosted/pub.dartlang.org/agora_rtc_engine-4.2.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -1508,7 +1508,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-06-26T20:27:23.157822Z",
+  "generated": "2022-06-28T22:25:14.500415Z",
   "generator": "pub",
   "generatorVersion": "2.16.2"
 }
