@@ -6047,7 +6047,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                       },
                                       itemBuilder: ((context) =>
                                           <PopupMenuItem<String>>[
-                                            PopupMenuItem<String>(
+                                            /*PopupMenuItem<String>(
                                               value:
                                               hidden ? 'unhide' : 'hide',
                                               child: Text(
@@ -6093,7 +6093,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                                 value: 'set_wallpaper',
                                                 child: Text(getTranslated(
                                                     this.context,
-                                                    'setwall'))),
+                                                    'setwall'))),*/
                                             PopupMenuItem<String>(
                                               value: 'report',
                                               child: Text(

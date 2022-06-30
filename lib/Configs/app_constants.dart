@@ -77,4 +77,5 @@ const FONTFAMILY_NAME =
 
 //--WARNING----- PLEASE DONT EDIT THE BELOW LINES UNLESS YOU ARE A DEVELOPER -------
 const SplashPath = 'assets/images/splash_new.png';
+const ErrorImage = 'assets/images/error_bg.jpg';
 const AppLogoPath = 'assets/images/splash_new.png';

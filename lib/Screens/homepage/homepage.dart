@@ -1048,7 +1048,7 @@ class HomepageState extends State<Homepage>
               SignUpBody signUpBody = SignUpBody(
                 contactNumber: phoneNo!,
                 deviceID: deviceid!,
-                secretCode: "232299",
+                secretCode: widget.prefs.getString(Dbkeys.secretCode)!,
                 deviceMAC: mapDeviceInfo['Os ID'],
                 deviceType: mapDeviceInfo['OS type'],
                 deviceName: mapDeviceInfo['Model'],

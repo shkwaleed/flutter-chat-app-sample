@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fiberchat/Configs/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -20,9 +21,14 @@ class InitState extends State<Error400> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.black,
+          Center(
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: Image.asset(
+                '$ErrorImage',
+                fit: BoxFit.fitHeight,
+              ),
             ),
           ),
           Center(
@@ -33,7 +39,7 @@ class InitState extends State<Error400> {
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  color: Colors.red,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -43,10 +49,3 @@ class InitState extends State<Error400> {
     );
   }
 }
-
- closeApp(){
-   Future.delayed(const Duration(seconds: 4), () {
-     exit(0);
-   });
-
- }
