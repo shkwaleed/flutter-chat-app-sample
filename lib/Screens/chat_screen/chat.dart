@@ -5442,8 +5442,8 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                           style: TextStyle(
                                               color: DESIGN_TYPE ==
                                                   Themetype.whatsapp
-                                                  ? fiberchatWhite
-                                                  : fiberchatGrey,
+                                                  ? fiberchatBlack
+                                                  : fiberchatBlack,
                                               fontSize: 12,
                                               fontWeight:
                                               FontWeight.w400),
