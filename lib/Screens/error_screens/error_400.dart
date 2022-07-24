@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:fiberchat/Configs/app_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Error400 extends StatefulWidget {
   const Error400({Key? key}) : super(key: key);

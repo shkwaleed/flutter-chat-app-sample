@@ -96,6 +96,11 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin flutter_image_compress, com.example.flutterimagecompress.FlutterImageCompressPlugin", e);
     }
     try {
+      flutterEngine.getPlugins().add(new appmire.be.flutterjailbreakdetection.FlutterJailbreakDetectionPlugin());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin flutter_jailbreak_detection, appmire.be.flutterjailbreakdetection.FlutterJailbreakDetectionPlugin", e);
+    }
+    try {
       flutterEngine.getPlugins().add(new com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin flutter_local_notifications, com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin", e);

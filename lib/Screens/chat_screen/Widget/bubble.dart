@@ -51,7 +51,7 @@ class Bubble extends StatelessWidget {
         ? (seen ? Icons.done_all : Icons.done)
         : Icons.access_time;
     final color = isMe ? fiberchatWhite : Colors.black;
-    icon = Icon(icon, size: 14.0, color: seen ? color : color);
+    icon = Icon(icon, size: 14.0, color: seen ? Colors.yellow : color);
     if (delivered is Future) {
       icon = FutureBuilder(
           future: delivered,
@@ -59,7 +59,7 @@ class Bubble extends StatelessWidget {
             switch (res.connectionState) {
               case ConnectionState.done:
                 return Icon((seen ? Icons.done_all : Icons.done),
-                    size: 13.0, color: seen ? color : color);
+                    size: 13.0, color: seen ? Colors.yellow : color);
               case ConnectionState.none:
               case ConnectionState.active:
               case ConnectionState.waiting:
