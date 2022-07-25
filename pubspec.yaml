@@ -79,7 +79,7 @@ dependencies:
   video_thumbnail: ^0.4.3
   chewie: ^1.2.2
   media_info: ^0.8.0
-  firebase_core: ^1.10.0
+  firebase_core: ^1.20.0
   flutter_jailbreak_detection: ^1.8.0
   shared_preferences: ^2.0.8
   permission_handler: ^8.1.6
