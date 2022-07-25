@@ -5408,7 +5408,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                       Fiberchat.avatar(peer, radius: 20),
                                     ),
                                     SizedBox(
-                                      width: 7,
+                                      width: 10,
                                     ),
                                     Column(
                                       crossAxisAlignment:
@@ -5431,34 +5431,6 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                                 fontSize: 17.0,
                                                 fontWeight: FontWeight.w500),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          height: 4,
-                                        ),
-                                        chatId != null
-                                            ? Text(
-                                          getPeerStatus(
-                                              peer![Dbkeys.lastSeen]),
-                                          style: TextStyle(
-                                              color: DESIGN_TYPE ==
-                                                  Themetype.whatsapp
-                                                  ? fiberchatBlack
-                                                  : fiberchatBlack,
-                                              fontSize: 12,
-                                              fontWeight:
-                                              FontWeight.w400),
-                                        )
-                                            : Text(
-                                          getTranslated(
-                                              this.context, 'loading'),
-                                          style: TextStyle(
-                                              color: DESIGN_TYPE ==
-                                                  Themetype.whatsapp
-                                                  ? fiberchatWhite
-                                                  : fiberchatGrey,
-                                              fontSize: 12,
-                                              fontWeight:
-                                              FontWeight.w400),
                                         ),
                                       ],
                                     ),
