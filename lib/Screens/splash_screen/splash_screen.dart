@@ -11,30 +11,46 @@ class Splashscreen extends StatelessWidget {
             backgroundColor: SplashBackgroundSolidColor,
             body: Center(
               child: CircularProgressIndicator(
-                  valueColor:
-                      AlwaysStoppedAnimation<Color>(fiberchatBlack)),
+                  valueColor: AlwaysStoppedAnimation<Color>(fiberchatBlack)),
             ))
         : Scaffold(
             backgroundColor: SplashBackgroundSolidColor,
-            body: Center(
-                child: Row(
+            body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  '$SplashPath',
+                SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      '$SplashPath',
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 5),
+                      child: Text(
+                        "SecureChat",
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 5),
-                  child: Text(
-                    "SecureChat",
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
+                SizedBox(height: 40),
+                Text(
+                  "Scanning your device..",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal),
+                ),
+                SizedBox(height: 14),
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(fiberchatWhite),
                 ),
               ],
-            )),
+            ),
           );
   }
 }
