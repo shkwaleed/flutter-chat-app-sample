@@ -82,7 +82,7 @@ class _AudioCallState extends State<AudioCall> {
   AudioCache audioCache = AudioCache();
 
   Future<Null> _playCallingTone() async {
-    player = await audioCache.loop('sounds/callingtone.mp3', volume: 6);
+    player = (await audioCache.load('sounds/callingtone.mp3')) as AudioPlayer;
 
     setState(() {});
   }

@@ -1777,7 +1777,7 @@ Future _showNotificationWithDefaultSound(String? title, String? message,
   var androidPlatformChannelSpecifics =
       title == 'Missed Call' || title == 'Call Ended'
           ? local.AndroidNotificationDetails(
-              'channel_id', 'channel_name', 'channel_description',
+              'channel_id', 'channel_name',
               importance: local.Importance.max,
               priority: local.Priority.high,
               sound: RawResourceAndroidNotificationSound('whistle2'),
@@ -1786,7 +1786,7 @@ Future _showNotificationWithDefaultSound(String? title, String? message,
               visibility: NotificationVisibility.public,
               timeoutAfter: 28000)
           : local.AndroidNotificationDetails(
-              'channel_id', 'channel_name', 'channel_description',
+              'channel_id', 'channel_name',
               sound: RawResourceAndroidNotificationSound('ringtone'),
               playSound: true,
               ongoing: true,

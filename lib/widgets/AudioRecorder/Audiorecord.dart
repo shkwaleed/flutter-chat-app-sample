@@ -44,7 +44,7 @@ class _AudioRecordState extends State<AudioRecord> {
 
   @override
   void initState() {
-    _mPlayer!.openAudioSession().then((value) {
+    _mPlayer!.openPlayer().then((value) {
       setStateIfMounted(() {
         _mPlayerIsInited = true;
       });
@@ -64,10 +64,10 @@ class _AudioRecordState extends State<AudioRecord> {
 
   @override
   void dispose() {
-    _mPlayer!.closeAudioSession();
+    _mPlayer!.closePlayer();
     _mPlayer = null;
 
-    _mRecorder!.closeAudioSession();
+    _mRecorder!.closeRecorder();
     _mRecorder = null;
     stopWatchStream();
     super.dispose();
@@ -83,7 +83,7 @@ class _AudioRecordState extends State<AudioRecord> {
         Navigator.push(context,
             new MaterialPageRoute(builder: (context) => OpenSettings()));
       } else {
-        await _mRecorder!.openAudioSession();
+        await _mRecorder!.openRecorder();
         _mRecorderIsInited = true;
       }
     }

@@ -854,7 +854,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
 
   void _createRewardedAd() {
     RewardedAd.load(
-        adUnitId: RewardedAd.testAdUnitId,
+        adUnitId: "RewardedAd.testAdUnitId",
         request: AdRequest(
           nonPersonalizedAds: true,
         ),
@@ -896,7 +896,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
     );
 
     _rewardedAd!.setImmersiveMode(true);
-    _rewardedAd!.show(onUserEarnedReward: (RewardedAd ad, RewardItem reward) {
+    _rewardedAd!.show(onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
       print('$ad with reward $RewardItem(${reward.amount}, ${reward.type}');
     });
     _rewardedAd = null;
@@ -1230,9 +1230,9 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
                             backspaceColor: fiberchatgreen,
                             showRecentsTab: true,
                             recentsLimit: 28,
-                            noRecentsText: 'No Recents',
-                            noRecentsStyle:
-                                TextStyle(fontSize: 20, color: Colors.black26),
+                            noRecents: Text("No Recents"),
+                            /*noRecentsStyle:
+                      TextStyle(fontSize: 20, color: Colors.black26),*/
                             categoryIcons: CategoryIcons(),
                             buttonMode: ButtonMode.MATERIAL)),
                   ),
