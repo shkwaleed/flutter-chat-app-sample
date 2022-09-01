@@ -2160,7 +2160,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // ignore: deprecated_member_use
-              FlatButton(
+              TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -2179,7 +2179,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                           fontWeight: FontWeight.w700,
                           color: Colors.blue[400]))),
               // ignore: deprecated_member_use
-              FlatButton(
+              TextButton(
                   onPressed: Platform.isIOS || Platform.isAndroid
                       ? () {
                     launch(message.split('-BREAK-')[0]);
@@ -2200,7 +2200,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             ],
           )
           //ignore: deprecated_member_use
-              : FlatButton(
+              : TextButton(
               onPressed: Platform.isIOS || Platform.isAndroid
                   ? () {
                 launch(message.split('-BREAK-')[0]);
@@ -2509,7 +2509,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             height: 7,
           ),
           // ignore: deprecated_member_use
-          FlatButton(
+          TextButton(
               onPressed: () async {
                 String peer = message.split('-BREAK-')[1];
                 String? peerphone;
@@ -3893,7 +3893,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         ),
         actions: <Widget>[
           // ignore: deprecated_member_use
-          FlatButton(
+          TextButton(
               child: Text(getTranslated(this.context, 'rjt')),
               onPressed: () {
                 ChatController.block(currentUserNo, peerNo);
@@ -3902,7 +3902,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                 });
               }),
           // ignore: deprecated_member_use
-          FlatButton(
+          TextButton(
               child: Text(getTranslated(this.context, 'acpt'),
                   style: TextStyle(color: fiberchatgreen)),
               onPressed: () {
@@ -4288,7 +4288,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   //       ),
   //       actions: <Widget>[
   //         // ignore: deprecated_member_use
-  //         FlatButton(
+  //         TextButton(
   //             child: Text(getTranslated(this.context, 'rjt')),
   //             onPressed: () {
   //               ChatController.block(currentUserNo, peerNo);
@@ -4297,7 +4297,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   //               });
   //             }),
   //         // ignore: deprecated_member_use
-  //         FlatButton(
+  //         TextButton(
   //             child: Text(getTranslated(this.context, 'acpt'),
   //                 style: TextStyle(color: fiberchatgreen)),
   //             onPressed: () {

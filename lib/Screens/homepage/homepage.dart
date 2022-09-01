@@ -1029,7 +1029,7 @@ class HomepageState extends State<Homepage>
                       content: Text(message),
                       actions: <Widget>[
                         // ignore: deprecated_member_use
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             btnLabel,
                             style: TextStyle(color: fiberchatLightGreen),

@@ -1689,7 +1689,7 @@ class _StatusState extends State<Status> with AutomaticKeepAliveClientMixin {
                                                     this.context, 'dltstatus')),
                                                 actions: [
                                                   // ignore: deprecated_member_use
-                                                  FlatButton(
+                                                  TextButton(
                                                     child: Text(
                                                       getTranslated(
                                                           context, 'cancel'),
@@ -1703,7 +1703,7 @@ class _StatusState extends State<Status> with AutomaticKeepAliveClientMixin {
                                                     },
                                                   ),
                                                   // ignore: deprecated_member_use
-                                                  FlatButton(
+                                                  TextButton(
                                                     child: Text(
                                                       getTranslated(
                                                           context, 'delete'),

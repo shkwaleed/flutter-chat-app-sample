@@ -2518,7 +2518,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -2536,7 +2536,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
                                 fontWeight: FontWeight.w700,
                                 color: Colors.blue[400]))),
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                         onPressed: Platform.isIOS || Platform.isAndroid
                             ? () {
                                 launch(message.split('-BREAK-')[0]);
@@ -2557,7 +2557,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
                   ],
                 )
               //ignore: deprecated_member_use
-              : FlatButton(
+              : TextButton(
                   onPressed: Platform.isIOS || Platform.isAndroid
                       ? () {
                           launch(message.split('-BREAK-')[0]);
@@ -2860,7 +2860,7 @@ class _LazyLoadingChatState extends State<LazyLoadingChat>
             height: 7,
           ),
           // ignore: deprecated_member_use
-          FlatButton(
+          TextButton(
               onPressed: () async {
                 String peer = message.split('-BREAK-')[1];
                 String? peerphone;

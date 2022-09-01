@@ -1209,7 +1209,7 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: c92b700eef937a9a9ad7962b991dcaac5aefe042
   FirebaseStorage: 160ba975dd3452d9c59a3bf5ea9bf70ff96bd3c2
   FirebaseStorageInternal: 4f8a9e27391a99ac0692adbbd072fe0e5c4125fe
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_image_compress: 5a5e9aee05b6553048b8df1c3bc456d0afaac433
   flutter_jailbreak_detection: f6c01e4bc73641c6b69c5112e50301240601abb4
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
@@ -1262,6 +1262,6 @@ SPEC CHECKSUMS:
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
 
-PODFILE CHECKSUM: 0ab880f87a451043f1191c4ae27544aeec5156c4
+PODFILE CHECKSUM: fb57a23f96e23712007b1c4a8fc58a51ad5666e7
 
 COCOAPODS: 1.11.3

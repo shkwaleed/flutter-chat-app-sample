@@ -320,13 +320,17 @@ class _AudioRecordState extends State<AudioRecord> {
                       ? _mPlayer!.isPlaying
                           ? SizedBox()
                           // ignore: deprecated_member_use
-                          : RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  side: BorderSide(color: fiberchatLightGreen)),
-                              elevation: 0.2,
-                              color: fiberchatLightGreen,
-                              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          : ElevatedButton(
+
+                      style: ElevatedButton.styleFrom(
+                        shape: new RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0),
+                            side: BorderSide(color: fiberchatLightGreen)),
+                        backgroundColor: DESIGN_TYPE == Themetype.whatsapp
+                            ? fiberchatDeepGreen
+                            : fiberchatgreen,elevation: 0.2,
+                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10)
+                      ),
+
                               onPressed: () {
                                 final observer = Provider.of<Observer>(
                                     this.context,

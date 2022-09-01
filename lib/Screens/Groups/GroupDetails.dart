@@ -131,7 +131,7 @@ class _GroupDetailsState extends State<GroupDetails> {
             ),
             actions: [
               // ignore: deprecated_member_use
-              FlatButton(
+              TextButton(
                   child: Text(
                     getTranslated(context, 'cancel'),
                     style: TextStyle(color: fiberchatgreen, fontSize: 18),
@@ -140,7 +140,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                     Navigator.of(context).pop();
                   }),
               // ignore: deprecated_member_use
-              FlatButton(
+              TextButton(
                 child: Text(
                   getTranslated(context, 'confirm'),
                   style: TextStyle(color: Colors.red, fontSize: 18),
@@ -202,7 +202,7 @@ class _GroupDetailsState extends State<GroupDetails> {
             ),
             actions: [
               // ignore: deprecated_member_use
-              FlatButton(
+              TextButton(
                   child: Text(
                     getTranslated(context, 'cancel'),
                     style: TextStyle(color: fiberchatgreen, fontSize: 18),
@@ -211,7 +211,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                     Navigator.of(context).pop();
                   }),
               // ignore: deprecated_member_use
-              FlatButton(
+              TextButton(
                 child: Text(
                   getTranslated(context, 'confirm'),
                   style: TextStyle(color: Colors.red, fontSize: 18),
@@ -272,7 +272,7 @@ class _GroupDetailsState extends State<GroupDetails> {
             ),
             actions: [
               // ignore: deprecated_member_use
-              FlatButton(
+              TextButton(
                   child: Text(
                     getTranslated(context, 'cancel'),
                     style: TextStyle(color: fiberchatgreen, fontSize: 18),
@@ -281,7 +281,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                     Navigator.of(context).pop();
                   }),
               // ignore: deprecated_member_use
-              FlatButton(
+              TextButton(
                 child: Text(
                   getTranslated(context, 'remove'),
                   style: TextStyle(color: Colors.red, fontSize: 18),
@@ -1023,7 +1023,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                               context, 'deletegroup')),
                                           actions: [
                                             // ignore: deprecated_member_use
-                                            FlatButton(
+                                            TextButton(
                                               child: Text(
                                                 getTranslated(
                                                     context, 'cancel'),
@@ -1036,7 +1036,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                               },
                                             ),
                                             // ignore: deprecated_member_use
-                                            FlatButton(
+                                            TextButton(
                                               child: Text(
                                                 getTranslated(
                                                     context, 'delete'),
@@ -1108,7 +1108,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                               context, 'leavegroup')),
                                           actions: [
                                             // ignore: deprecated_member_use
-                                            FlatButton(
+                                            TextButton(
                                               child: Text(
                                                 getTranslated(
                                                     context, 'cancel'),
@@ -1121,7 +1121,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                               },
                                             ),
                                             // ignore: deprecated_member_use
-                                            FlatButton(
+                                            TextButton(
                                               child: Text(
                                                 getTranslated(context, 'leave'),
                                                 style: TextStyle(

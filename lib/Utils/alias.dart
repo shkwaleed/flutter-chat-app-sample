@@ -42,7 +42,7 @@ class _AliasFormState extends State<AliasForm> {
     return AlertDialog(
       actions: <Widget>[
         // ignore: deprecated_member_use
-        FlatButton(
+        TextButton(
             child: Text(
               getTranslated(context, 'removealias'),
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -55,7 +55,7 @@ class _AliasFormState extends State<AliasForm> {
                   }
                 : null),
         // ignore: deprecated_member_use
-        FlatButton(
+        TextButton(
             child: Text(
               getTranslated(context, 'setalias'),
               style: TextStyle(fontWeight: FontWeight.bold),
