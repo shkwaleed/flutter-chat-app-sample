@@ -246,10 +246,10 @@ class _StatusImageEditorState extends State<StatusImageEditor> {
           child: Icon(icon, size: 30.0),
           style: ElevatedButton.styleFrom(
             shape: new RoundedRectangleBorder(),
-            backgroundColor: DESIGN_TYPE == Themetype.whatsapp
+            primary: DESIGN_TYPE == Themetype.whatsapp
                 ? fiberchatDeepGreen
                 : fiberchatgreen,
-            foregroundColor:  fiberchatWhite,
+            onPrimary:  fiberchatWhite,
           ),
           onPressed: onPressed as void Function()?),
     );
