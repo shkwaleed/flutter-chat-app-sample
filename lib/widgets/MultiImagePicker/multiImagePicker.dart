@@ -494,14 +494,16 @@ class _MultiImagePickerState extends State<MultiImagePicker> {
   Widget _buildActionButton(Key key, IconData icon, Function onPressed) {
     return new Expanded(
       // ignore: deprecated_member_use
-      child: new RaisedButton(
+      child: new ElevatedButton(
           key: key,
           child: Icon(icon, size: 30.0),
-          shape: new RoundedRectangleBorder(),
-          color: DESIGN_TYPE == Themetype.whatsapp
-              ? fiberchatDeepGreen
-              : fiberchatgreen,
-          textColor: fiberchatWhite,
+          style: ElevatedButton.styleFrom(
+            shape: new RoundedRectangleBorder(),
+            primary: DESIGN_TYPE == Themetype.whatsapp
+                ? fiberchatDeepGreen
+                : fiberchatgreen,
+            onPrimary:  fiberchatWhite,
+          ),
           onPressed: onPressed as void Function()?),
     );
   }

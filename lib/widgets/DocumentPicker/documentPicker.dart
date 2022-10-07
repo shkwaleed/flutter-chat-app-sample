@@ -214,14 +214,16 @@ class _HybridDocumentPickerState extends State<HybridDocumentPicker> {
   Widget _buildActionButton(Key key, IconData icon, Function onPressed) {
     return new Expanded(
       // ignore: deprecated_member_use
-      child: new RaisedButton(
+      child: new ElevatedButton(
           key: key,
           child: Icon(icon, size: 30.0),
+          style: ElevatedButton.styleFrom(
           shape: new RoundedRectangleBorder(),
-          color: DESIGN_TYPE == Themetype.whatsapp
-              ? fiberchatDeepGreen
-              : fiberchatgreen,
-          textColor: fiberchatWhite,
+              primary: DESIGN_TYPE == Themetype.whatsapp
+            ? fiberchatDeepGreen
+            : fiberchatgreen,
+            onPrimary:  fiberchatWhite,
+          ),
           onPressed: onPressed as void Function()?),
     );
   }

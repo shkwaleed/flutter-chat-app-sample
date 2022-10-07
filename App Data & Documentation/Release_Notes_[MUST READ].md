@@ -28,6 +28,6 @@ KINDLY CAREFULLY FOLLOW THE INSTALLATION GUIDE, AND DON'T FORGET TO FILL INFORMA
 
 ##
 
-## Thank you for using Fiberchat. We perform thorough testing of the App to detect bugs and fix them before every update. For any app related queries and issue reporting, please write us at contact@tctech.in.
+## Thank you for using Fiberchat. We perform thorough testing of the App to detect bugs and fix them before every update. For any app related queries and issue reporting, please write us at contact@waleed.in.
 
-https://tctech.in/blog/agora-setup
+https://waleed.in/blog/agora-setup

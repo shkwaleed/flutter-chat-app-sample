@@ -83,7 +83,7 @@ class _VideoCallState extends State<VideoCall> {
   late audioPlayers.AudioPlayer player;
   AudioCache audioCache = AudioCache();
   Future<Null> _playCallingTone() async {
-    player = await audioCache.loop('sounds/callingtone.mp3', volume: 3);
+    player = (await audioCache.load('sounds/callingtone.mp3')) as AudioPlayer;
 
     setState(() {});
   }

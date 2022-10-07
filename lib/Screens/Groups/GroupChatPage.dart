@@ -729,7 +729,7 @@ class _GroupChatPageState extends State<GroupChatPage>
 
   void _createRewardedAd() {
     RewardedAd.load(
-        adUnitId: RewardedAd.testAdUnitId,
+        adUnitId: "RewardedAd.testAdUnitId",
         request: AdRequest(
           nonPersonalizedAds: true,
         ),
@@ -771,7 +771,7 @@ class _GroupChatPageState extends State<GroupChatPage>
     );
 
     _rewardedAd!.setImmersiveMode(true);
-    _rewardedAd!.show(onUserEarnedReward: (RewardedAd ad, RewardItem reward) {
+    _rewardedAd!.show(onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
       print('$ad with reward $RewardItem(${reward.amount}, ${reward.type}');
     });
     _rewardedAd = null;
@@ -1137,9 +1137,9 @@ class _GroupChatPageState extends State<GroupChatPage>
                             backspaceColor: fiberchatgreen,
                             showRecentsTab: true,
                             recentsLimit: 28,
-                            noRecentsText: 'No Recents',
-                            noRecentsStyle:
-                                TextStyle(fontSize: 20, color: Colors.black26),
+                            noRecents: Text("No Recents"),
+                           /* noRecentsStyle:
+                                TextStyle(fontSize: 20, color: Colors.black26),*/
                             categoryIcons: CategoryIcons(),
                             buttonMode: ButtonMode.MATERIAL)),
                   ),
@@ -2973,7 +2973,7 @@ class _GroupChatPageState extends State<GroupChatPage>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -2991,7 +2991,7 @@ class _GroupChatPageState extends State<GroupChatPage>
                                 fontWeight: FontWeight.w700,
                                 color: Colors.blue[400]))),
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                         onPressed: Platform.isIOS || Platform.isAndroid
                             ? () {
                                 launch(message.split('-BREAK-')[0]);
@@ -3012,7 +3012,7 @@ class _GroupChatPageState extends State<GroupChatPage>
                   ],
                 )
               // ignore: deprecated_member_use
-              : FlatButton(
+              : TextButton(
                   onPressed: Platform.isIOS || Platform.isAndroid
                       ? () {
                           launch(message.split('-BREAK-')[0]);

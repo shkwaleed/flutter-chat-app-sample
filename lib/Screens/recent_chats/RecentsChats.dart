@@ -145,7 +145,7 @@ class RecentChatsState extends State<RecentChats> {
                   content: new Text(getTranslated(context, 'suredelete')),
                   actions: [
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                       child: Text(
                         getTranslated(context, 'cancel'),
                         style: TextStyle(color: fiberchatgreen, fontSize: 18),
@@ -155,7 +155,7 @@ class RecentChatsState extends State<RecentChats> {
                       },
                     ),
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                       child: Text(
                         getTranslated(context, 'delete'),
                         style: TextStyle(color: Colors.red, fontSize: 18),
@@ -252,7 +252,7 @@ class RecentChatsState extends State<RecentChats> {
                 title: new Text(getTranslated(context, 'deletebroadcast')),
                 actions: [
                   // ignore: deprecated_member_use
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       getTranslated(context, 'cancel'),
                       style: TextStyle(color: fiberchatgreen, fontSize: 18),
@@ -262,7 +262,7 @@ class RecentChatsState extends State<RecentChats> {
                     },
                   ),
                   // ignore: deprecated_member_use
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       getTranslated(context, 'delete'),
                       style: TextStyle(color: Colors.red, fontSize: 18),
@@ -316,7 +316,7 @@ class RecentChatsState extends State<RecentChats> {
                   title: new Text(getTranslated(context, 'deletegroup')),
                   actions: [
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                       child: Text(
                         getTranslated(context, 'cancel'),
                         style: TextStyle(color: fiberchatgreen, fontSize: 18),
@@ -326,7 +326,7 @@ class RecentChatsState extends State<RecentChats> {
                       },
                     ),
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                       child: Text(
                         getTranslated(context, 'delete'),
                         style: TextStyle(color: Colors.red, fontSize: 18),
@@ -375,7 +375,7 @@ class RecentChatsState extends State<RecentChats> {
                   title: new Text(getTranslated(context, 'leavegroup')),
                   actions: [
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                       child: Text(
                         getTranslated(context, 'cancel'),
                         style: TextStyle(color: fiberchatgreen, fontSize: 18),
@@ -385,7 +385,7 @@ class RecentChatsState extends State<RecentChats> {
                       },
                     ),
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                       child: Text(
                         getTranslated(context, 'leave'),
                         style: TextStyle(color: Colors.red, fontSize: 18),

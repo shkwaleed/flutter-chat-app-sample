@@ -41,7 +41,7 @@ class _MultiPlaybackState extends State<MultiPlayback> {
     super.initState();
     initializeDateFormatting();
 
-    _mPlayer1!.openAudioSession().then((value) {
+    _mPlayer1!.openPlayer().then((value) {
       setState(() {
         _mPlayer1IsInited = true;
       });
@@ -52,7 +52,7 @@ class _MultiPlaybackState extends State<MultiPlayback> {
   void dispose() {
     // Be careful : you must `close` the audio session when you have finished with it.
     cancelPlayerSubscriptions1();
-    _mPlayer1!.closeAudioSession();
+    _mPlayer1!.closePlayer();
     _mPlayer1 = null;
 
     super.dispose();

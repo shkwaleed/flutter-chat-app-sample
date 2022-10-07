@@ -135,9 +135,9 @@ class _AuthenticateState extends State<Authenticate> {
   _biometricAuthentication() {
     LocalAuthentication()
         .authenticate(
-            biometricOnly: true,
-            localizedReason: widget.caption!,
-            useErrorDialogs: true)
+            //biometricOnly: true,
+            localizedReason: widget.caption!)//,
+           // useErrorDialogs: true)
         .then((res) {
       if (res == true) {
         if (widget.shouldPop) widget.state.pop();

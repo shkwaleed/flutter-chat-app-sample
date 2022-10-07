@@ -131,7 +131,7 @@ class _BroadcastDetailsState extends State<BroadcastDetails> {
             ),
             actions: [
               // ignore: deprecated_member_use
-              FlatButton(
+              TextButton(
                   child: Text(
                     getTranslated(context, 'cancel'),
                     style: TextStyle(color: fiberchatgreen, fontSize: 18),
@@ -140,7 +140,7 @@ class _BroadcastDetailsState extends State<BroadcastDetails> {
                     Navigator.of(context).pop();
                   }),
               // ignore: deprecated_member_use
-              FlatButton(
+              TextButton(
                 child: Text(
                   getTranslated(context, 'remove'),
                   style: TextStyle(color: Colors.red, fontSize: 18),
@@ -716,7 +716,7 @@ class _BroadcastDetailsState extends State<BroadcastDetails> {
                                           ),
                                           actions: [
                                             // ignore: deprecated_member_use
-                                            FlatButton(
+                                            TextButton(
                                               child: Text(
                                                 getTranslated(
                                                     context, 'cancel'),
@@ -729,7 +729,7 @@ class _BroadcastDetailsState extends State<BroadcastDetails> {
                                               },
                                             ),
                                             // ignore: deprecated_member_use
-                                            FlatButton(
+                                            TextButton(
                                               child: Text(
                                                 getTranslated(
                                                     context, 'delete'),

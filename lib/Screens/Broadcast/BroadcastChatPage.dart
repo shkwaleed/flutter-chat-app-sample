@@ -567,7 +567,7 @@ class _BroadcastChatPageState extends State<BroadcastChatPage>
 
   void _createRewardedAd() {
     RewardedAd.load(
-        adUnitId: RewardedAd.testAdUnitId,
+        adUnitId: "",//RewardedAd.testAdUnitId,
         request: AdRequest(
           nonPersonalizedAds: true,
         ),
@@ -609,7 +609,7 @@ class _BroadcastChatPageState extends State<BroadcastChatPage>
     );
 
     _rewardedAd!.setImmersiveMode(true);
-    _rewardedAd!.show(onUserEarnedReward: (RewardedAd ad, RewardItem reward) {
+    _rewardedAd!.show(onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
       print('$ad with reward $RewardItem(${reward.amount}, ${reward.type}');
     });
     _rewardedAd = null;
@@ -1001,9 +1001,9 @@ class _BroadcastChatPageState extends State<BroadcastChatPage>
                             backspaceColor: fiberchatgreen,
                             showRecentsTab: true,
                             recentsLimit: 28,
-                            noRecentsText: 'No Recents',
-                            noRecentsStyle:
-                                TextStyle(fontSize: 20, color: Colors.black26),
+                            noRecents: Text("No Recents"),
+                            /*noRecentsStyle:
+                                TextStyle(fontSize: 20, color: Colors.black26),*/
                             categoryIcons: CategoryIcons(),
                             buttonMode: ButtonMode.MATERIAL)),
                   ),
@@ -1466,7 +1466,7 @@ class _BroadcastChatPageState extends State<BroadcastChatPage>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -1484,7 +1484,7 @@ class _BroadcastChatPageState extends State<BroadcastChatPage>
                                 fontWeight: FontWeight.w700,
                                 color: Colors.blue[400]))),
                     // ignore: deprecated_member_use
-                    FlatButton(
+                    TextButton(
                         onPressed: Platform.isIOS || Platform.isAndroid
                             ? () {
                                 launch(message.split('-BREAK-')[0]);
@@ -1505,7 +1505,7 @@ class _BroadcastChatPageState extends State<BroadcastChatPage>
                   ],
                 )
               // ignore: deprecated_member_use
-              : FlatButton(
+              : TextButton(
                   onPressed: Platform.isIOS || Platform.isAndroid
                       ? () {
                           launch(message.split('-BREAK-')[0]);

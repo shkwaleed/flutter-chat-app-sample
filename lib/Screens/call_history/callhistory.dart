@@ -127,7 +127,7 @@ class _CallHistoryState extends State<CallHistory> {
                                 getTranslated(context, 'clearloglong')),
                             actions: [
                               // ignore: deprecated_member_use
-                              FlatButton(
+                              TextButton(
                                 child: Text(
                                   getTranslated(context, 'cancel'),
                                   style: TextStyle(
@@ -138,7 +138,7 @@ class _CallHistoryState extends State<CallHistory> {
                                 },
                               ),
                               // ignore: deprecated_member_use
-                              FlatButton(
+                              TextButton(
                                 child: Text(
                                   getTranslated(context, 'delete'),
                                   style: TextStyle(
