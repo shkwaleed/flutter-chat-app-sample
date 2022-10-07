@@ -325,7 +325,7 @@ class _AudioRecordState extends State<AudioRecord> {
                       style: ElevatedButton.styleFrom(
                         shape: new RoundedRectangleBorder( borderRadius: BorderRadius.circular(20.0),
                             side: BorderSide(color: fiberchatLightGreen)),
-                        backgroundColor: DESIGN_TYPE == Themetype.whatsapp
+                        primary: DESIGN_TYPE == Themetype.whatsapp
                             ? fiberchatDeepGreen
                             : fiberchatgreen,elevation: 0.2,
                         padding: EdgeInsets.fromLTRB(20, 10, 20, 10)

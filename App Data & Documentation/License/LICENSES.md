@@ -62,4 +62,4 @@ EXTENDED LICENSE
 2. The purchased product can be used either to serve your own purpose or you can purchase it on behalf of your clients & deliver the End Product to up to 10 clients only. You are not permitted to resell the Original Source Code.
 3. Advanced Support is offered along with the Basic Support. Dedicated Support chat is provided to assist with the queries, resolve the issues & bugs found in the process or installing & operating the App.
 4. Services under our Standard Installation package will be rendered for FREE.
-   Purchasers can connect via CodeCanyon Items comment page, leave us request by tapping on the Quick Support page or directly email us at contact@tctech.in.
+   Purchasers can connect via CodeCanyon Items comment page, leave us request by tapping on the Quick Support page or directly email us at contact@waleed.in.
