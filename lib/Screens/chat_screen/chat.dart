@@ -70,6 +70,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:link_preview_generator/link_preview_generator.dart';
 import 'package:media_info/media_info.dart';
+import 'package:ntp/ntp.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -4965,11 +4966,11 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     int count = 0;
     groupBy<Message, String>(messages, (msg) {
       return getWhen(DateTime.fromMillisecondsSinceEpoch(msg.timestamp!));
-    }).forEach((when, _actualMessages) {
+    }).forEach((when, _actualMessages) async {
       // if (when == "today" || when == "Today") { }
 
       DateTime dt1 = DateTime.fromMillisecondsSinceEpoch(_actualMessages[0].timestamp!);
-      DateTime dt2 = DateTime.now();
+      DateTime dt2 = await NTP.now();
 
       Duration diff = dt2.difference(dt1);
       diffInHours = diff.inHours;
